@@ -1,0 +1,78 @@
+@import url('https://rsms.me/inter/inter.css');
+
+.Field{
+    padding: 8%;
+    width: 100%;
+    text-align: center;
+    background: #212529;
+    color: white;
+    --size-bezel: .3rem;
+    --size-radius: 4px;
+    line-height: 1.4;
+    font-family: 'Inter', sans-serif;
+    font-size: calc(.6rem + .4vw);
+}
+  .input {
+    position: relative;
+    width: 25%;
+    min-width: 300px;
+    &__label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * .8);
+      margin: calc(var(--size-bezel) * 0.75 + 1px) calc(var(--size-bezel) * .8);
+      white-space: nowrap;
+      transform: translate(0, 0);
+      transform-origin: 0 0;
+      background: var(--color-background);
+      transition: transform 200ms ease-in;
+    }
+    &__field {
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      border: 2px solid currentColor;
+      padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
+      color: currentColor;
+      background: transparent;
+      border-radius: var(--size-radius);
+      
+      &:focus,
+      &:not(:placeholder-shown) {
+        & + .input__label {
+          transform: translate(.25rem, -95%) scale(.8);
+          color: var(--color-accent);
+        }
+      }
+    }
+  }
+  
+  
+  .button-group {
+      padding: 1%;
+      margin-top: calc(var(--size-bezel) * 2.5);
+  }
+  
+  button {
+      min-width: 120px;
+      width: 10%;
+      color: currentColor;
+      padding: var(--size-bezel) calc(var(--size-bezel) * 2);
+      background: var(--color-accent);
+      border-radius: var(--size-radius);
+      font-weight: 400;
+      border: none;
+      font-size: 24px;
+  }
+  button:hover{
+      transition: 200ms ease-in;
+      color: #212529;
+      font-weight: 600;
+      background: #ffffffee;
+  }
+  .hidden {
+    display: none;
+  }
+  
+  
