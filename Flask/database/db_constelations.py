@@ -1,5 +1,5 @@
 from .db import DB
-from orm import Constellations
+from models.orm import Constellations
 
 
 class DBConstellations(DB):

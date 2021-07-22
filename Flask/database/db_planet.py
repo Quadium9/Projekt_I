@@ -1,5 +1,5 @@
 from .db import DB
-from orm import Planet
+from models.orm import Planet
 
 
 class DBPlanet(DB):
@@ -21,7 +21,7 @@ class DBPlanet(DB):
     def add_entity(self):
         try:
             self.util.get_session().add(self.planet)
-            self.util.get_session().comit()
+            self.util.get_session().commit()
             return True
         except Exception:
             self.util.session_rollback()

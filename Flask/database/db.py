@@ -1,4 +1,4 @@
-from .util import SQLUtil
+from orm.connection import SQLUtil
 from abc import ABC, abstractmethod
 
 

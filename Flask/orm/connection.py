@@ -16,7 +16,7 @@ class SQLUtil:
 
     #Create engine for orm
     def _create_engine(self):
-        string = "localhost:3306/stardatabase"
+        string = "mysql+pymysql://root:root@localhost:3306/starsdb"
         self._engine = create_engine(string)
 
     #Return current engine for orm
@@ -26,7 +26,11 @@ class SQLUtil:
     def _open_session(self):
         session = sessionmaker()
         session.configure(bind=self._engine)
-        self._session = session()
+        if not self.get_session().is_active:
+            self._session = session()
+        else:
+            self.get_session().close_all()
+            self._session = session()
 
     def get_session(self):
         return self._session

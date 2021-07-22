@@ -1,5 +1,5 @@
 from .db import DB
-from orm import Stars
+from models.orm import Stars
 
 
 class DBStars(DB):
@@ -21,7 +21,7 @@ class DBStars(DB):
     def add_entity(self):
         try:
             self.util.get_session().add(self.stars)
-            self.util.get_session().comit()
+            self.util.get_session().commit()
             return True
         except Exception:
             self.util.session_rollback()
