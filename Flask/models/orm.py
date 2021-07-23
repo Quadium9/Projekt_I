@@ -30,10 +30,10 @@ class Stars(Base):
     discaverer = relationship('User', lazy='subquery')
 
     def __repr__(self):
-        return self.id + ', ' + self.name + ', ' + self.rectascension + ', ' + self.declination + ', ' + self.radial_speed + ', ' + \
-            self.distance + ', ' + self.brightness + ', ' + self.star_type + ', ' + self.mass + ', ' + \
-              self.greek_symbol + ', ' + self.drawing_star + ', ' + self.constellation.name + ', ' + self.discaverer.name + ', ' + \
-                self.discaverer.surname + ', ' + self.drawing_star.connected_Star
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.rectascension) + ', ' + str(self.declination)\
+               + ', ' + str(self.radial_speed) + ', ' + str(self.distance) + ', ' + str(self.brightness) + ', ' + str(self.star_type) + ', ' + str(self.mass) + ', ' + \
+                    str(self.greek_symbol) + ', ' + str(self.drawing_star) + ', ' + str(self.constellation.name) + ', '\
+                        + str(self.discaverer.name) + ', ' + str(self.discaverer.surname) + str(self.drawing.connected_Star)
 
 
 class Constellations(Base):
@@ -81,5 +81,7 @@ class DrawingConstellation(Base):
     connected_Star = Column("connected_star", Integer)
 
     def __repr__(self):
-        return self.id + ', ' + self.connected_Star
+        return str(self.connected_Star)
+
+
 
