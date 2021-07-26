@@ -22,7 +22,11 @@ class DBConstellations(DB):
         pass
 
     def get(self, id_sel):
-        pass
+        try:
+            return self.util.get_session().query(Constellations).get(id_sel)
+        except Exception:
+            self.util.session_rollback()
+            raise Exception
 
     def update_entity(self, ids):
         pass

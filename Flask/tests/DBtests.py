@@ -65,9 +65,32 @@ def insertdata():
 class TestMetthods(unittest.TestCase):
     def testgetdatastar(self):
         dbstars = DBStars()
-        self.assertIsNotNone(dbstars.get(1))
+        self.assertIsNotNone(dbstars.get_all())
 
     def testlistofstar(self):
         drawing = DbDrawingConstellation()
-        self.assertIsNotNone(drawing.returnlist(1))
+        self.assertIsNotNone(drawing.returnlist(10))
 
+    def testconstelationsget(self):
+        constellation = DBConstellations()
+        self.assertIsNotNone(constellation.get_all())
+
+    def testgetdataplanet(self):
+        planet = DBPlanet()
+        self.assertIsNotNone(planet.get_all())
+
+    def testgetdatauser(self):
+        user = DbUser()
+        self.assertIsNotNone(user.get_all())
+
+    def testupdatenameuser(self):
+        user = DbUser()
+        self.assertTrue(user.update_name_surname_email(20, "adminT", "adminT", "admin@test.com"))
+
+    def testupdateuserpassword(self):
+        user = DbUser()
+        self.assertTrue(user.update_password(20, "test1234"))
+
+    def testdeleteuser(self):
+        user = DbUser()
+        self.assertTrue(user.delete_id(1))
