@@ -22,16 +22,18 @@ class DbUser(DB):
 
     def add_entity(self):
         try:
-            if cv.email_validation(self.user.email) and cv.email_validation(self.user.password):
+            if cv.email_validation(self.user.email) and cv.password_validation(self.user.password):
                 self.util.get_session().add(self.user)
                 self.util.get_session().commit()
-            return True
+                return self.user.id
+            return None
         except Response:
             self.util.session_rollback()
             return Response('message', 200, mimetype='application/json')
 
     def get(self, id_sel):
         try:
+            print(self.util.get_session().query(User).get(id_sel))
             return self.util.get_session().query(User).get(id_sel)
         except Response:
             self.util.session_rollback()
@@ -63,9 +65,9 @@ class DbUser(DB):
             self.util.session_rollback()
             return Response('message', 200, mimetype='application/json')
 
-    def delete_id(self, id):
+    def delete_id(self, ide):
         try:
-            self.util.get_session().query(User).filter(User.id == id).delete()
+            self.util.get_session().query(User).filter(User.id == ide).delete()
             self.util.get_session().commit()
             return True
         except Response:

@@ -1,5 +1,6 @@
 import re
 
+
 def validate_text(value):
     return not str(value).isalpha()
 
@@ -22,3 +23,9 @@ def email_validation(value):
         return True
     return False
 
+
+def validationNone(value):
+    for v in value:
+        if v is None:
+            return False
+    return True

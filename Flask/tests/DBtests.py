@@ -4,8 +4,10 @@ from database.db_planet import DBPlanet
 from database.db_stars import DBStars
 from database.db_user import DbUser
 from database.db_constelations import DBConstellations
+from common import cardinal_direction, stars_type
 
 import unittest
+
 
 def insertdata():
     cons = Constellations()
@@ -14,13 +16,6 @@ def insertdata():
     cons.symbolism = 'constellationsymbolism'
     cons.sky_side = 'sky_side'
     cons.area = 1.2
-
-    user = User()
-    user.name = 'admin'
-    user.surname = 'admin'
-    user.login = 'admin'
-    user.password = 'admin'
-    user.email = 'admin'
 
     draw = DrawingConstellation()
     draw.connected_Star = 1
@@ -40,7 +35,7 @@ def insertdata():
     stars.drawing_star = 1
     stars.constellation = cons
     stars.drawing = draw
-    stars.discaverer = user
+    #stars.discaverer = user
 
     planet = Planet()
     planet.name = 'planet'
@@ -48,9 +43,6 @@ def insertdata():
 
     dbCons = DBConstellations(cons)
     dbCons.add_entity()
-
-    users = DbUser(user)
-    users.add_entity()
 
     drawings = DbDrawingConstellation(draw)
     drawings.add_entity()
@@ -62,35 +54,71 @@ def insertdata():
     dbPlan.add_entity()
 
 
-class TestMetthods(unittest.TestCase):
-    def testgetdatastar(self):
-        dbstars = DBStars()
-        self.assertIsNotNone(dbstars.get_all())
+class TestUser(unittest.TestCase):
 
-    def testlistofstar(self):
-        drawing = DbDrawingConstellation()
-        self.assertIsNotNone(drawing.returnlist(10))
-
-    def testconstelationsget(self):
-        constellation = DBConstellations()
-        self.assertIsNotNone(constellation.get_all())
-
-    def testgetdataplanet(self):
-        planet = DBPlanet()
-        self.assertIsNotNone(planet.get_all())
-
-    def testgetdatauser(self):
-        user = DbUser()
-        self.assertIsNotNone(user.get_all())
+    def testadduser(self):
+        user = User()
+        user.name = 'admin'
+        user.surname = 'admin'
+        user.login = 'admin'
+        user.password = 'adminadmin'
+        user.email = 'admin@admin.admin'
+        dbuser = DbUser(user)
+        global identyfikator
+        identyfikator = dbuser.add_entity()
+        self.assertIsNotNone(identyfikator)
 
     def testupdatenameuser(self):
         user = DbUser()
-        self.assertTrue(user.update_name_surname_email(20, "adminT", "adminT", "admin@test.com"))
+        self.assertTrue(user.update_name_surname_email(identyfikator, "adminT", "adminT", "admin@test.com"))
 
     def testupdateuserpassword(self):
         user = DbUser()
-        self.assertTrue(user.update_password(20, "test1234"))
+        self.assertTrue(user.update_password(identyfikator, "test1234"))
 
-    def testdeleteuser(self):
+    def testgetdatauseranddelete(self):
         user = DbUser()
-        self.assertTrue(user.delete_id(1))
+        self.assertTrue(user.delete_id(identyfikator))
+
+
+class TestConstellation(unittest.TestCase):
+
+    def testaddconstellation(self):
+        constellation = Constellations()
+        constellation.name = 'test'
+        constellation.declination = '-10:20:30.0'
+        constellation.symbolism = 'test'
+        constellation.sky_side = cardinal_direction.CardinalDirection.North
+        constellation.area = 123.4
+        dbconstellation = DBConstellations(constellation)
+        global identyfikator
+        identyfikator = dbconstellation.add_entity()
+        self.assertIsNotNone(identyfikator)
+
+    def testconstellationdelete(self):
+        dbconstellation = DBConstellations()
+        self.assertTrue(dbconstellation.delete_id(identyfikator))
+
+
+class TestStar(unittest.TestCase):
+
+    def teststaradd(self):
+        stars = Stars()
+        stars.name = 'test'
+        stars.rectascension = '10:20:30.1'
+        stars.declination = '10:20:30.1'
+        stars.radial_speed = '10'
+        stars.distance = '100'
+        stars.brightness = '1000'
+        stars.star_type = stars_type.StarsType.dwarf
+        stars.mass = '10000'
+        stars.greek_symbol = 'Ω'
+        stars.constelation_id = 21
+        stars.discaverer_id = 62
+        dbstar = DBStars(stars)
+        self.assertIsNotNone(dbstar.add_entity())
+
+class TestPlanet(unittest.TestCase):
+    planet = Planet()
+    planet.name = 'test'
+

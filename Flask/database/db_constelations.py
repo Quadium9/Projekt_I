@@ -1,6 +1,7 @@
 from .db import DB
 from models.orm import Constellations
-
+from flask import Response
+from common import validation as cv
 
 class DBConstellations(DB):
 
@@ -19,17 +20,31 @@ class DBConstellations(DB):
         pass
 
     def add_entity(self):
-        pass
+        try:
+            if self.constellations.name is not None:
+                self.util.get_session().add(self.constellations)
+                self.util.get_session().commit()
+                return self.constellations.id
+            return False
+        except Response:
+            self.util.session_rollback()
+            return Response('message', 200, mimetype='application/json')
 
     def get(self, id_sel):
         try:
             return self.util.get_session().query(Constellations).get(id_sel)
-        except Exception:
+        except Response:
             self.util.session_rollback()
-            raise Exception
+            return Response('message', 200, mimetype='application/json')
 
     def update_entity(self, ids):
         pass
 
     def delete_id(self, e_id):
-        pass
+        try:
+            self.util.get_session().query(Constellations).filter(Constellations.id == e_id).delete()
+            self.util.get_session().commit()
+            return True
+        except Response:
+            self.util.session_rollback()
+            raise Response('message', 200, mimetype='application/json')

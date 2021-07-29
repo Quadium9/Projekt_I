@@ -1,5 +1,8 @@
 from .db import DB
 from models.orm import Stars
+from flask import Response
+from common import validation
+from Exceptions import Exceptions
 
 
 class DBStars(DB):
@@ -20,22 +23,43 @@ class DBStars(DB):
 
     def add_entity(self):
         try:
-            self.util.get_session().add(self.stars)
-            self.util.get_session().commit()
-            return True
-        except Exception:
+            if validation.validationNone([self.stars.name, self.stars.rectascension, self.stars.declination]):
+                if validation.validate_text(self.stars.mass) and validation.validate_text(self.stars.brightness)\
+                        and validation.validate_text(self.stars.distance) and validation.validate_text(self.stars.radial_speed):
+
+                    self.util.get_session().add(self.stars)
+                    self.util.get_session().commit()
+                    return self.stars.id
+
+                raise Exceptions.ExceptionNotNumber
+            raise Exceptions.ExceptionNone
+        except Response:
             self.util.session_rollback()
-            raise Exception
+            raise Response('message', 200, mimetype='application/json')
 
     def get(self, id_sel):
         try:
             return self.util.get_session().query(Stars).get(id_sel)
-        except Exception:
+        except Response:
             self.util.session_rollback()
-            raise Exception
+            raise Response('message', 200, mimetype='application/json')
 
     def update_entity(self, ids):
-        pass
+        try:
+            if validation.validationNone(([self.stars.name, self.stars.rectascension, self.stars.declination])):
+                self.util.get_session().add(self.stars)
+                self.util.get_session().commit()
+                return True
+            return False
+        except Response:
+            self.util.session_rollback()
+            raise Response('message', 200, mimetype='application/json')
 
     def delete_id(self, e_id):
-        pass
+        try:
+            self.util.get_session().query(Stars).filter(Stars.id == e_id).delete()
+            self.util.get_session().commit()
+            return True
+        except Response:
+            self.util.session_rollback()
+            raise Response('message', 200, mimetype='application/json')

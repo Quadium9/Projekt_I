@@ -71,7 +71,7 @@ class User(Base):
     email = Column('email', String(100), nullable=False)
 
     def __repr__(self):
-        return self.id + ', ' + self.name + ', ' + self.surname + ', ' + self.login + ', ' + self.password + ', ' \
+        return str(self.id) + ', ' + self.name + ', ' + self.surname + ', ' + self.login + ', ' + self.password + ', ' \
                 + self.email
 
 
