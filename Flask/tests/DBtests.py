@@ -9,51 +9,6 @@ from common import cardinal_direction, stars_type
 import unittest
 
 
-def insertdata():
-    cons = Constellations()
-    cons.name = 'constellationsname'
-    cons.declination = 'constellationdeclination'
-    cons.symbolism = 'constellationsymbolism'
-    cons.sky_side = 'sky_side'
-    cons.area = 1.2
-
-    draw = DrawingConstellation()
-    draw.connected_Star = 1
-
-    stars = Stars()
-    stars.name = 'test'
-    stars.rectascension = 'test'
-    stars.declination = 'test'
-    stars.radial_speed = 'test'
-    stars.distance = 'test'
-    stars.brightness = 'test'
-    stars.star_type = 'test'
-    stars.mass = 'test'
-    stars.greek_symbol = 't'
-    stars.constelation_id = 1
-    stars.discaverer_id = 1
-    stars.drawing_star = 1
-    stars.constellation = cons
-    stars.drawing = draw
-    #stars.discaverer = user
-
-    planet = Planet()
-    planet.name = 'planet'
-    planet.id_star = 1
-
-    dbCons = DBConstellations(cons)
-    dbCons.add_entity()
-
-    drawings = DbDrawingConstellation(draw)
-    drawings.add_entity()
-
-    dbStars = DBStars(stars)
-    dbStars.add_entity()
-
-    dbPlan = DBPlanet(planet)
-    dbPlan.add_entity()
-
-
 class TestUser(unittest.TestCase):
 
     def testadduser(self):
@@ -116,9 +71,58 @@ class TestStar(unittest.TestCase):
         stars.constelation_id = 21
         stars.discaverer_id = 62
         dbstar = DBStars(stars)
-        self.assertIsNotNone(dbstar.add_entity())
+        global identy
+        identy = dbstar.add_entity()
+        self.assertIsNotNone(identy)
+
+    def teststarget(self):
+        dbstar = DBStars()
+        self.assertIsNotNone(dbstar.get(11))
+
+    def testgetdatabyname(self):
+        dbstar = DBStars()
+        self.assertIsNotNone(dbstar.getbyname('test'))
+
+    def testdeletestar(self):
+        dbstars = DBStars()
+        self.assertTrue(dbstars.delete_id(11))
+
 
 class TestPlanet(unittest.TestCase):
-    planet = Planet()
-    planet.name = 'test'
 
+    def testaddplanet(self):
+        planet = Planet()
+        planet.name = 'test'
+        planet.id_star = 12
+        dbplanet = DBPlanet(planet)
+        self.assertIsNotNone(dbplanet.add_entity())
+
+    def testgetplanet(self):
+        dbplanet = DBPlanet()
+        self.assertIsNotNone(dbplanet.get(11))
+
+    def testupdateplanet(self):
+        planet = Planet()
+        planet.name = 'Test'
+        planet.id_star = 12
+        dbplanet = DBPlanet(planet)
+        self.assertIsNotNone(dbplanet.update_entity(11))
+
+    def testdeleteplanet(self):
+        dbplanet = DBPlanet()
+        self.assertTrue(dbplanet.delete_id(11))
+
+
+class TestDrawingConstellation(unittest.TestCase):
+
+    def testadddrawingconstellation(self):
+        drawingconstellation = DrawingConstellation()
+        drawingconstellation.connected_Star = 12
+        dbdrawingconstellation = DbDrawingConstellation(drawingconstellation)
+        self.assertIsNotNone(dbdrawingconstellation.add_entity())
+
+    def testupdatedrawingconstellation(self):
+        drawingconstellation = DrawingConstellation()
+        drawingconstellation.connected_Star = 13
+        dbdrawingconstellation = DbDrawingConstellation(drawingconstellation)
+        self.assertIsNotNone(dbdrawingconstellation.update_entity(21))

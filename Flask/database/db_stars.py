@@ -35,14 +35,23 @@ class DBStars(DB):
             raise Exceptions.ExceptionNone
         except Response:
             self.util.session_rollback()
-            raise Response('message', 200, mimetype='application/json')
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get(self, id_sel):
         try:
             return self.util.get_session().query(Stars).get(id_sel)
         except Response:
             self.util.session_rollback()
-            raise Response('message', 200, mimetype='application/json')
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
+
+    def getbyname(self, name):
+        try:
+            if name is not None:
+                return self.util.get_session().query(Stars).filter(Stars.name == name).first()
+            raise Exceptions.ExceptionNone
+        except Response:
+            self.util.session_rollback()
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def update_entity(self, ids):
         try:
@@ -50,10 +59,10 @@ class DBStars(DB):
                 self.util.get_session().add(self.stars)
                 self.util.get_session().commit()
                 return True
-            return False
+            return Exceptions.ExceptionNone
         except Response:
             self.util.session_rollback()
-            raise Response('message', 200, mimetype='application/json')
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def delete_id(self, e_id):
         try:
@@ -62,4 +71,4 @@ class DBStars(DB):
             return True
         except Response:
             self.util.session_rollback()
-            raise Response('message', 200, mimetype='application/json')
+            raise Response('Server has found an error in database', 500, mimetype='application/json')

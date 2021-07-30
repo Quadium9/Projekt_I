@@ -13,9 +13,9 @@ class DbUser(DB):
     def get_all(self):
         try:
             return self.util.get_session().query(User).all()
-        except Exception:
+        except Response:
             self.util.session_rollback()
-            raise Exception
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get_query(self):
         pass
@@ -29,7 +29,7 @@ class DbUser(DB):
             return None
         except Response:
             self.util.session_rollback()
-            return Response('message', 200, mimetype='application/json')
+            return Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get(self, id_sel):
         try:
@@ -37,7 +37,7 @@ class DbUser(DB):
             return self.util.get_session().query(User).get(id_sel)
         except Response:
             self.util.session_rollback()
-            return Response('message', 200, mimetype='application/json')
+            return Response('Server has found an error in database', 500, mimetype='application/json')
 
     def update_entity(self, ids):
         pass
@@ -52,7 +52,7 @@ class DbUser(DB):
             return False
         except Response:
             self.util.session_rollback()
-            return Response('message', 200, mimetype='application/json')
+            return Response('Server has found an error in database', 500, mimetype='application/json')
 
     def update_password(self, ids, password):
         try:
@@ -63,7 +63,7 @@ class DbUser(DB):
             return False
         except Response:
             self.util.session_rollback()
-            return Response('message', 200, mimetype='application/json')
+            return Response('Server has found an error in database', 500, mimetype='application/json')
 
     def delete_id(self, ide):
         try:
@@ -72,4 +72,4 @@ class DbUser(DB):
             return True
         except Response:
             self.util.session_rollback()
-            raise Response('massage', 200, mimetype='application/json')
+            raise Response('Server has found an error in database', 500, mimetype='application/json')

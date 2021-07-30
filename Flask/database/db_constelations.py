@@ -12,9 +12,9 @@ class DBConstellations(DB):
     def get_all(self):
         try:
             return self.util.get_session().query(Constellations).all()
-        except Exception:
+        except Response:
             self.util.session_rollback()
-            raise Exception
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get_query(self):
         pass
@@ -28,14 +28,14 @@ class DBConstellations(DB):
             return False
         except Response:
             self.util.session_rollback()
-            return Response('message', 200, mimetype='application/json')
+            return Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get(self, id_sel):
         try:
             return self.util.get_session().query(Constellations).get(id_sel)
         except Response:
             self.util.session_rollback()
-            return Response('message', 200, mimetype='application/json')
+            return Response('Server has found an error in database', 500, mimetype='application/json')
 
     def update_entity(self, ids):
         pass
@@ -47,4 +47,4 @@ class DBConstellations(DB):
             return True
         except Response:
             self.util.session_rollback()
-            raise Response('message', 200, mimetype='application/json')
+            raise Response('Server has found an error in database', 500, mimetype='application/json')

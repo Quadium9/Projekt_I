@@ -31,9 +31,10 @@ class Stars(Base):
 
     def __repr__(self):
         return str(self.id) + ', ' + str(self.name) + ', ' + str(self.rectascension) + ', ' + str(self.declination)\
-               + ', ' + str(self.radial_speed) + ', ' + str(self.distance) + ', ' + str(self.brightness) + ', ' + str(self.star_type) + ', ' + str(self.mass) + ', ' + \
-                    str(self.greek_symbol) + ', ' + str(self.drawing_star) + ', ' + str(self.constellation.name) + ', '\
-                        + str(self.discaverer.name) + ', ' + str(self.discaverer.surname)
+               + ', ' + str(self.radial_speed) + ', ' + str(self.distance) + ', ' + str(self.brightness) + ', '\
+                    + str(self.star_type) + ', ' + str(self.mass) + ', ' + str(self.greek_symbol) + ', '\
+                        + str(self.drawing_star) + ', ' + str(self.constellation.name) + ', '\
+                            + str(self.discaverer.name) + ', ' + str(self.discaverer.surname)
 
 
 class Constellations(Base):
