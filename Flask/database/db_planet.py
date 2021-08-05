@@ -22,7 +22,7 @@ class DBPlanet(DB):
 
     def add_entity(self):
         try:
-            if self.planet.name is not None:
+            if self.planet.name is not None and self.planet.id_star is not None:
                 self.util.get_session().add(self.planet)
                 self.util.get_session().commit()
                 return self.planet.id
@@ -40,7 +40,7 @@ class DBPlanet(DB):
 
     def update_entity(self, ids):
         try:
-            if self.planet.name is not None:
+            if self.planet.name is not None and self.planet.id_star is not None:
                 self.util.get_session().query(Planet).filter(Planet.id == ids).update({Planet.name: self.planet.name,
                                                                                        Planet.id_star: self.planet.id_star})
                 self.util.get_session().commit()

@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
-
-from orm import (Stars, DBConstellations, DBStars, DBPlanet)
+from database.db_stars import DBStars, Stars
+from database.db_user import DbUser, User
+from database.db_drawingconstellation import DrawingConstellation, DbDrawingConstellation
+from database.db_planet import DBPlanet, Planet
+from database.db_constelations import DBConstellations, Constellations
 
 app = Flask(__name__)
-cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['JSON_AS_ASCII'] = False
@@ -23,14 +24,10 @@ def to_jsonS():
             'radial_speed': str(s.radial_speed),
             'distance': str(s.distance),
             'brightness': str(s.brightness),
-            'spectral_type': s.spectral_type,
+            'star_type': str(s.star_type.value),
+            'greek_symbol': str(s.greek_symbol),
             'mass': str(s.mass),
-            'starmain': str(s.starmain),
-            'constelation_name': s.constelation.name,
-            'type': str(s.type),
-            'metallicity': str(s.metallicity),
-            'age': str(s.age),
-            'link': s.link
+            'constellation_name': s.constellation.name,
         })
     return jsonify(j)
 
@@ -44,16 +41,12 @@ def add_new_star():
         radial_speed = request.form.get('radial_speed')
         distance = request.form.get('distance')
         brightness = request.form.get('brightness')
-        spectral_type = request.form.get('spectral_type')
         mass = request.form.get('mass')
-        starmain = request.form.get('starmain')
-        type = request.form.get('type')
-        metallicity = request.form.get('metallicity')
-        age = request.form.get('age')
-        link = request.form.get('link')
+        greek_symbol = request.form.get('greek_symbol')
+        star_type = request.form.get('star_type')
         constellation_id = request.form.get('constellation_id')
         new_star = Stars(name, rectascension, declination, radial_speed, distance, brightness, spectral_type, mass,
-                         starmain, type, metallicity, age, link, constellation_id)
+                         star_type, constellation_id, greek_symbol)
         DBStars(new_star).add_entity()
         return jsonify(new_star)
 

@@ -3,6 +3,7 @@ from models.orm import DrawingConstellation
 from flask import Response
 from Exceptions import Exceptions
 
+
 class DbDrawingConstellation(DB):
 
     def __init__(self, drawing=DrawingConstellation.__class__):

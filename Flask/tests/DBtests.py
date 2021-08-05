@@ -65,7 +65,7 @@ class TestStar(unittest.TestCase):
         stars.radial_speed = '10'
         stars.distance = '100'
         stars.brightness = '1000'
-        stars.star_type = stars_type.StarsType.dwarf
+        stars.star_type = stars_type.StarsType.browndwarf.value
         stars.mass = '10000'
         stars.greek_symbol = 'Ω'
         stars.constelation_id = 21
