@@ -1,7 +1,49 @@
+#home{
+    text-decoration: none;
+  }
+//#212529 
+#search-star{
+    margin-left: 8px;
+    text-decoration: none;
+    color:white;
+}
+.main {
+    background: linear-gradient(133deg, #3a0ca3, #4895ef);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 23s ease infinite;
+    -moz-animation: AnimationName 23s ease infinite;
+    animation: AnimationName 23s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 32%}
+    50%{background-position:100% 69%}
+    100%{background-position:0% 32%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 32%}
+    50%{background-position:100% 69%}
+    100%{background-position:0% 32%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 32%}
+    50%{background-position:100% 69%}
+    100%{background-position:0% 32%}
+}
+.left{
+    width: 100%;
+    display:flex; 
+    margin-top:10px;
+}
+.search{
+    text-decoration: none;
+    width: 50%;
+}
 .containeR{
     display:grid;
-    margin-left: 8px;
-    width: max-content;
+    
+    width: 100%;
 }
 .hmtl{
     background-color: darkgrey;

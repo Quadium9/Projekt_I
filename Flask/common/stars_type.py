@@ -11,4 +11,5 @@ class StarsType(enum.Enum):
     subdwarf = 'Subdwarf',
     reddwarf = 'Red dwarf',
     whitedwarf = 'White dwarf',
-    browndwarf = 'Brown dwarf'
+    browndwarf = 'Brown dwarf',
+    unknown = 'Unknown'

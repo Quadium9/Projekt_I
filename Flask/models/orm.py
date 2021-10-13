@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+import common.stars_type as stars_type
 
 Base = declarative_base()
 
@@ -30,11 +31,50 @@ class Stars(Base):
     discaverer = relationship('User', lazy='subquery')
 
     def __repr__(self):
-        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.rectascension) + ', ' + str(self.declination)\
-               + ', ' + str(self.radial_speed) + ', ' + str(self.distance) + ', ' + str(self.brightness) + ', '\
-                    + str(self.star_type) + ', ' + str(self.mass) + ', ' + str(self.greek_symbol) + ', '\
-                        + str(self.drawing_star) + ', ' + str(self.constellation.name) + ', '\
-                            + str(self.discaverer.name) + ', ' + str(self.discaverer.surname)
+        tmp = str(self.id) + ', ' + str(self.name) + ', ' + str(self.rectascension) + ', ' + str(self.declination) \
+              + ', ' + str(self.constellation.name)
+
+        # Radial speed is NULL
+        if self.radial_speed is None:
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+        else:
+            tmp = tmp + ', ' + str(self.radial_speed)
+        # Distance is NUll
+        if self.distance is None:
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+        else:
+            tmp = tmp + ', ' + str(self.distance)
+        # Brightness is NULL
+        if self.brightness is None:
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+        else:
+            tmp = tmp + ', ' + str(self.brightness)
+        # Star type is NULL
+        if self.star_type is None:
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+        else:
+            tmp = tmp + ', ' + str(self.star_type)
+        # Star mass is NULL
+        if self.mass is None:
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+        else:
+            tmp = tmp + ', ' + str(self.mass)
+        # Greek symbol is NULL
+        if self.greek_symbol is None:
+            tmp = tmp + ', None'
+        else:
+            tmp = tmp + ', ' + str(self.greek_symbol)
+        # Drawing star in Null
+        if self.drawing_star is not None:
+            tmp = tmp + self.drawing_star
+        else:
+            tmp = tmp + ', None'
+        # Discaverer is Null
+        if self.discaverer.name is not None and self.discaverer.surname is not None:
+            tmp = tmp + ', ' + self.discaverer.name + ', ' + self.discaverer.surname
+        else:
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+        return tmp
 
 
 class Constellations(Base):
@@ -47,7 +87,7 @@ class Constellations(Base):
     area = Column('area', Float)
 
     def __repr__(self):
-        return self.id + ', ' + self.name + ', ' + self.declination + ', ' + self.symbolism + ', ' + self.sky_side + \
+        return str(self.id) + ', ' + self.name + ', ' + self.declination + ', ' + self.symbolism + ', ' + self.sky_side + \
                ', ' + str(float(self.area))
 
 
@@ -59,7 +99,7 @@ class Planet(Base):
     star = relationship('Stars', lazy='subquery')
 
     def __repr__(self):
-        return self.id + ", " + self.name + ', ' + self.star.name
+        return str(self.id) + ", " + self.name + ', ' + str(self.star.name)
 
 
 class User(Base):
@@ -73,7 +113,7 @@ class User(Base):
 
     def __repr__(self):
         return str(self.id) + ', ' + self.name + ', ' + self.surname + ', ' + self.login + ', ' + self.password + ', ' \
-                + self.email
+               + self.email
 
 
 class DrawingConstellation(Base):
@@ -83,6 +123,3 @@ class DrawingConstellation(Base):
 
     def __repr__(self):
         return str(self.connected_Star)
-
-
-

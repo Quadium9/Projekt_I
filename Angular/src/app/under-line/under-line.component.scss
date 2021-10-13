@@ -1,0 +1,11 @@
+.line{
+    margin-left:-4%;
+    margin-right:-4%;
+    height: 1px;
+    background: linear-gradient(133deg, #3a0ca3, #4895ef);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 23s ease infinite;
+    -moz-animation: AnimationName 23s ease infinite;
+    animation: AnimationName 23s ease infinite;
+}

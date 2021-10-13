@@ -1,0 +1,17 @@
+<form method="POST">
+    <div class="Field" id="login">
+        <label class="input">
+            <input class="input__field" type="text" placeholder=" " #login/>
+            <span class="input__label">Enter your login</span>
+        </label>
+    </div>
+    <div class="Field" id="password">
+        <label class="input">
+            <input class="input__field" type="password" placeholder=" " #password/>
+            <span class="input__label">Enter password</span>
+        </label>
+        <div class="button-group">
+            <button class="button button-white button-border" (click)="Getlogin(login.value,password.value)">Login</button>
+        </div>
+    </div>
+</form>

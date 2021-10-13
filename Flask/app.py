@@ -5,6 +5,7 @@ from database.db_drawingconstellation import DrawingConstellation, DbDrawingCons
 from database.db_planet import DBPlanet, Planet
 from database.db_constelations import DBConstellations, Constellations
 
+
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -12,22 +13,25 @@ app.config['JSON_AS_ASCII'] = False
 app.config['SECRET_KEY'] = b'\xaa\x89u\xf7M\xf03\xcb\x1b\xc6#\xd2"\x8b\xf8\xb7'
 
 
-@app.route('/to-json-star', methods=['GET'])
+@app.route('/all_stars', methods=['GET'])
 def to_jsonS():
     stars = DBStars().get_all()
     j = []
     for s in stars:
         j.append({
-            'name': s.name,
-            'rectascension': s.rectascension,
-            'declination': s.declination,
+            'id': str(s.id),
+            'name': str(s.name),
+            'rectascension': str(s.rectascension),
+            'declination': str(s.declination),
             'radial_speed': str(s.radial_speed),
             'distance': str(s.distance),
             'brightness': str(s.brightness),
-            'star_type': str(s.star_type.value),
-            'greek_symbol': str(s.greek_symbol),
+            'star_type': str(s.star_type),
             'mass': str(s.mass),
-            'constellation_name': s.constellation.name,
+            'greek_symbol': str(s.greek_symbol),
+            'drawing_star': str(s.drawing_star),
+            'discaverer_name': str(s.discaverer.name),
+            'constellation_name': str(s.constellation.name),
         })
     return jsonify(j)
 
@@ -45,7 +49,7 @@ def add_new_star():
         greek_symbol = request.form.get('greek_symbol')
         star_type = request.form.get('star_type')
         constellation_id = request.form.get('constellation_id')
-        new_star = Stars(name, rectascension, declination, radial_speed, distance, brightness, spectral_type, mass,
+        new_star = Stars(name, rectascension, declination, radial_speed, distance, brightness, mass,
                          star_type, constellation_id, greek_symbol)
         DBStars(new_star).add_entity()
         return jsonify(new_star)
@@ -53,8 +57,21 @@ def add_new_star():
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])
 def get_one_star(star_id):
-    star = DBStars().get(int(star_id))
-    return jsonify(star)
+    s = DBStars().get(int(star_id))
+    j = ({'id': str(s.id),
+          'name': str(s.name),
+          'rectascension': str(s.rectascension),
+          'declination': str(s.declination),
+          'radial_speed': str(s.radial_speed),
+          'distance': str(s.distance),
+          'brightness': str(s.brightness),
+          'star_type': str(s.star_type),
+          'mass': str(s.mass),
+          'greek_symbol': str(s.greek_symbol),
+          'drawing_star': str(s.drawing_star),
+          'discaverer_name': str(s.discaverer.name),
+          'constellation_name': str(s.constellation.name)})
+    return jsonify(j)
 
 
 @app.route('/delete_stars/<star_id>', methods=['GET'])
@@ -102,6 +119,12 @@ def get_distance():
             'distance': str(s.distance),
         })
     return jsonify(j)
+
+
+@app.route('/login-system', methods=['GET', 'POST'])
+def user_data():
+    request.get_data()
+    return 1
 
 
 if __name__ == '__main__':

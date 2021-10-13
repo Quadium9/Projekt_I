@@ -77,7 +77,8 @@ class TestStar(unittest.TestCase):
 
     def teststarget(self):
         dbstar = DBStars()
-        self.assertIsNotNone(dbstar.get(11))
+        print(dbstar.get(17))
+        self.assertIsNotNone(dbstar.get(17))
 
     def testgetdatabyname(self):
         dbstar = DBStars()

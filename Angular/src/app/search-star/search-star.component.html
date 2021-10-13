@@ -1,11 +1,11 @@
-<div class="Field">
+<div class="Field text-center">
     <label class="input">
-        <input class="input__field" type="text" placeholder=" " />
-        <span class="input__label">Enter star name</span>
+        <input class="input__field" type="text" placeholder=" " #value />
+        <span class="input__label">Podaj nazwę gwiazdy</span>
     </label>
-    <div class="button-group">
-        <button class="button button-white button-border">Search</button>
-    </div>
+        <button class="button button-white button-border przycizg"  (click)="GetSearchValue(value.value)" >Szukaj</button>
+    
 </div>
-
+<div *ngFor="let items of items">
+Star name: {{items.name}} <br></div>
 <app-constellation-list></app-constellation-list>

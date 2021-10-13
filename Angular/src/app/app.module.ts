@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +14,10 @@ import { StarsComponent } from './stars/stars.component';
 import { SlonceComponent } from './slonce/slonce.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ConstellationListComponent } from './constellation-list/constellation-list.component';
+import { LoginSystemComponent } from './login-system/login-system.component';
+import { RegisterComponent } from './register/register.component';
+import { UnderLineComponent } from './under-line/under-line.component';
+
 
 @NgModule({
   declarations: [
@@ -24,6 +29,9 @@ import { ConstellationListComponent } from './constellation-list/constellation-l
     SlonceComponent,
     WelcomeComponent,
     ConstellationListComponent,
+    LoginSystemComponent,
+    RegisterComponent,
+    UnderLineComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +41,7 @@ import { ConstellationListComponent } from './constellation-list/constellation-l
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

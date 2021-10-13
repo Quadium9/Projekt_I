@@ -31,10 +31,13 @@ class DbUser(DB):
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')
 
-    def get(self, id_sel):
+    def get(self, user_login, user_password):
         try:
-            print(self.util.get_session().query(User).get(id_sel))
-            return self.util.get_session().query(User).get(id_sel)
+            if self.util.get_session().query(User.password).filter(User.login == user_login) is None:
+                if self.util.get_session().query(User.password).filter(User.login == user_login) == user_password:
+                    return True
+                return False
+            return False
         except Response:
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')
