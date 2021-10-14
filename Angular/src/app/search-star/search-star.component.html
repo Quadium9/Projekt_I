@@ -3,9 +3,7 @@
         <input class="input__field" type="text" placeholder=" " #value />
         <span class="input__label">Podaj nazwę gwiazdy</span>
     </label>
-        <button class="button button-white button-border przycizg"  (click)="GetSearchValue(value.value)" >Szukaj</button>
+        <button class="button button-white button-border przycizg" id  (click)="GetSearchValue(value.value)" >Szukaj</button>
     
 </div>
-<div *ngFor="let items of items">
-Star name: {{items.name}} <br></div>
 <app-constellation-list></app-constellation-list>

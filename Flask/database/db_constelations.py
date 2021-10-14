@@ -31,8 +31,11 @@ class DBConstellations(DB):
             return Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get(self, id_sel):
+        return True
+
+    def get_one_by_name(self, name):
         try:
-            return self.util.get_session().query(Constellations).get(id_sel)
+            return self.util.get_session().query(Constellations).get(name)
         except Response:
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')

@@ -20,6 +20,10 @@ class DB(ABC):
         pass
 
     @abstractmethod
+    def get_one_by_name(self, name):
+        pass
+
+    @abstractmethod
     def get(self, id_sel):
         pass
 
@@ -30,3 +34,4 @@ class DB(ABC):
     @abstractmethod
     def delete_id(self, e_id):
         pass
+

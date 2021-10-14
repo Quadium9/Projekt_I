@@ -87,7 +87,7 @@ class Constellations(Base):
     area = Column('area', Float)
 
     def __repr__(self):
-        return str(self.id) + ', ' + self.name + ', ' + self.declination + ', ' + self.symbolism + ', ' + self.sky_side + \
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.declination) + ', ' + str(self.symbolism) + ', ' + str(self.sky_side) + \
                ', ' + str(float(self.area))
 
 

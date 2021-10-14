@@ -40,10 +40,10 @@ class TestConstellation(unittest.TestCase):
 
     def testaddconstellation(self):
         constellation = Constellations()
-        constellation.name = 'test'
+        constellation.name = 'test2'
         constellation.declination = '-10:20:30.0'
         constellation.symbolism = 'test'
-        constellation.sky_side = cardinal_direction.CardinalDirection.North
+        constellation.sky_side = cardinal_direction.CardinalDirection.North.value
         constellation.area = 123.4
         dbconstellation = DBConstellations(constellation)
         global identyfikator
@@ -52,7 +52,12 @@ class TestConstellation(unittest.TestCase):
 
     def testconstellationdelete(self):
         dbconstellation = DBConstellations()
-        self.assertTrue(dbconstellation.delete_id(identyfikator))
+        self.assertTrue(dbconstellation.delete_id(21))
+
+    def testconstellationget(self):
+        dbconstellation = DBConstellations()
+        print(dbconstellation.get_all())
+        self.assertIsNotNone(dbconstellation.get(23))
 
 
 class TestStar(unittest.TestCase):
@@ -82,7 +87,8 @@ class TestStar(unittest.TestCase):
 
     def testgetdatabyname(self):
         dbstar = DBStars()
-        self.assertIsNotNone(dbstar.getbyname('test'))
+        print(dbstar.get_one_star_by_name('test'))
+        self.assertIsNotNone(dbstar.get_one_star_by_name('test'))
 
     def testdeletestar(self):
         dbstars = DBStars()

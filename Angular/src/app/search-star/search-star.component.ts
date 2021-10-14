@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-search-star',
@@ -7,27 +8,22 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./search-star.component.scss']
 })
 export class SearchStarComponent implements OnInit {
+  
+  
 
   constructor() { HttpClient}
 
   ngOnInit(): void {
   }
 
-  private value:string;
-  items = [];
-
-  GetSearchValue(value:string){
-    console.log(value)
-    this.RequestSearch(value)
-  }
-
-  RequestSearch(name:string){
-    let data =''
-    fetch('http://127.0.0.1:5000/to-json-star').then(function(response){
+  GetSearchValue(name:string){
+    let http = "http://127.0.0.1:5000/get_one_star_by_name/" + name
+    let data = []
+    fetch(http).then(function(response){
       return response.json();
     }).then(function(myJson){
-      data = myJson
-      console.log(data) 
+      data=myJson
+      console.log(data)
     })
   }
 }

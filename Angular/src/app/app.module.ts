@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon'
 import { SearchStarComponent } from './search-star/search-star.component';
 import { DrawConstComponent } from './draw-const/draw-const.component';
 import { StarsComponent } from './stars/stars.component';
-import { SlonceComponent } from './slonce/slonce.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ConstellationListComponent } from './constellation-list/constellation-list.component';
 import { LoginSystemComponent } from './login-system/login-system.component';
@@ -26,7 +25,6 @@ import { UnderLineComponent } from './under-line/under-line.component';
     SearchStarComponent,
     DrawConstComponent,
     StarsComponent,
-    SlonceComponent,
     WelcomeComponent,
     ConstellationListComponent,
     LoginSystemComponent,

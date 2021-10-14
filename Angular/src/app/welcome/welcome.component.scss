@@ -2,9 +2,31 @@
     width: 30%;
     margin: 24px;
 }
+#EnterText{
+    font-size: 90px;
+    font-weight: 900;
+}
+.textgradient {
+    font-size: 80px;
+    font-weight: 900;
+    background-image:url("../../assets/photo/Crab_Nebula.jpg");
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    background-size: 150% auto;
+    animation: textShine 30s ease-in-out infinite alternate;
+  }
+  
+  @keyframes textShine {
+    to {
+        background-position: 200%;
+      }
+  }
 
 .main{
     padding: 8%;
+    padding-top: 3.5%;
 }
 .Text{
     color : white;

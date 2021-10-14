@@ -44,11 +44,12 @@ class DBStars(DB):
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')
 
-    def getbyname(self, name):
+    def get_one_by_name(self, name):
         try:
             if name is not None:
                 return self.util.get_session().query(Stars).filter(Stars.name == name).first()
-            raise Exceptions.ExceptionNone
+            else:
+                raise Exceptions.ExceptionNone
         except Response:
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')

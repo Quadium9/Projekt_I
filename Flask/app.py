@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request
+from flask_cors import cross_origin
 from database.db_stars import DBStars, Stars
 from database.db_user import DbUser, User
 from database.db_drawingconstellation import DrawingConstellation, DbDrawingConstellation
 from database.db_planet import DBPlanet, Planet
 from database.db_constelations import DBConstellations, Constellations
-
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -57,7 +57,27 @@ def add_new_star():
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])
 def get_one_star(star_id):
-    s = DBStars().get(int(star_id))
+    s = DBStars().get(star_id)
+    j = ({'id': str(s.id),
+          'name': str(s.name),
+          'rectascension': str(s.rectascension),
+          'declination': str(s.declination),
+          'radial_speed': str(s.radial_speed),
+          'distance': str(s.distance),
+          'brightness': str(s.brightness),
+          'star_type': str(s.star_type),
+          'mass': str(s.mass),
+          'greek_symbol': str(s.greek_symbol),
+          'drawing_star': str(s.drawing_star),
+          'discaverer_name': str(s.discaverer.name),
+          'constellation_name': str(s.constellation.name)})
+    return jsonify(j)
+
+
+@app.route('/get_one_star_by_name/<star_name>', methods=['GET'])
+@cross_origin()
+def get_one_star_by_name(star_name):
+    s = DBStars().get_one_by_name(star_name)
     j = ({'id': str(s.id),
           'name': str(s.name),
           'rectascension': str(s.rectascension),
@@ -86,14 +106,12 @@ def to_jsonC():
     j = []
     for c in constellations:
         j.append({
-            'id': c.id,
-            'name': c.name,
+            'id': str(c.id),
+            'name': str(c.name),
             'declination': str(c.declination),
-            'mainstar': str(c.mainstar),
-            'symbolism': c.symbolism,
-            'sky_side': c.sky_side,
-            'brightest_star': c.brightest_star,
-            'area': c.area
+            'symbolism': str(c.symbolism),
+            'sky_side': str(c.sky_side),
+            'area': str(c.area)
         })
     return jsonify(j)
 

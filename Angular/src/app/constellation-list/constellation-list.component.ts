@@ -11,7 +11,7 @@ export class ConstellationListComponent implements OnInit {
   }
   ngOnInit(): void {
     let lhtml = document.getElementById("list");
-    let list: string [] = ["cs", "css", "csss", "kI","kII","kIII"]
+    let list: string [] = ["cs", "css", "csss", "kI","kII","kIII","hiue"]
     for (let i = 0; i < list.length; i++) {
       let div = document.createElement("div");
       let href = document.createElement("a");
