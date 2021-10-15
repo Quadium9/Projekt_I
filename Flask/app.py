@@ -101,6 +101,7 @@ def delete_stars(stars_id):
 
 
 @app.route('/to-jsonC', methods=['GET'])
+@cross_origin()
 def to_jsonC():
     constellations = DBConstellations().get_all()
     j = []

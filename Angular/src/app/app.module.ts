@@ -16,6 +16,7 @@ import { ConstellationListComponent } from './constellation-list/constellation-l
 import { LoginSystemComponent } from './login-system/login-system.component';
 import { RegisterComponent } from './register/register.component';
 import { UnderLineComponent } from './under-line/under-line.component';
+import { EmailComponent } from './email/email.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { UnderLineComponent } from './under-line/under-line.component';
     LoginSystemComponent,
     RegisterComponent,
     UnderLineComponent,
+    EmailComponent,
   ],
   imports: [
     BrowserModule,
