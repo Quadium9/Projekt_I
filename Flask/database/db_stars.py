@@ -1,6 +1,6 @@
 from .db import DB
 from models.orm import Stars
-from flask import Response
+from flask import Response, request
 from common import validation
 from Exceptions import Exceptions
 
@@ -47,7 +47,7 @@ class DBStars(DB):
     def get_one_by_name(self, name):
         try:
             if name is not None:
-                return self.util.get_session().query(Stars).filter(Stars.name == name).first()
+                return self.util.get_session().query(Stars).filter(Stars.name >= name).all()
             else:
                 raise Exceptions.ExceptionNone
         except Response:

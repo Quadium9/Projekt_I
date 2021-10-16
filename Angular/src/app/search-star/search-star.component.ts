@@ -16,19 +16,18 @@ export class SearchStarComponent implements OnInit {
 
   GetSearchValue(name: string) {
     let http = "http://127.0.0.1:5000/get_one_star_by_name/" + name;
-    let data: any;
+    let data: any = [];
     fetch(http).then(function (response) {
       return response.json();
     }).then(function (myJson) {
       data = myJson
-      console.log(data)
       let div = document.getElementById("resultsearch");
-      let div2 = document.createElement("div");
-      div2.textContent = data.name;
-      let div3 = document.createElement("div");
-      div3.textContent = data.id;
-      div.appendChild(div2);
-      div.appendChild(div3);
+      for (let i = 0; i < data.length; i++) {
+        let div2 = document.createElement("div");
+        div2.textContent = data.name[i];
+        div2.setAttribute("style", "width:100%; text-align:center; padding:1%;");
+        div.appendChild(div2);
+      }
     })
 
   }

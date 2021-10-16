@@ -5,7 +5,7 @@ from database.db_stars import DBStars
 from database.db_user import DbUser
 from database.db_constelations import DBConstellations
 from common import cardinal_direction, stars_type
-
+from flask import request
 import unittest
 
 
@@ -64,14 +64,14 @@ class TestStar(unittest.TestCase):
 
     def teststaradd(self):
         stars = Stars()
-        stars.name = 'test'
-        stars.rectascension = '10:20:30.1'
-        stars.declination = '10:20:30.1'
+        stars.name = 'testowy'
+        stars.rectascension = '10:22:30.1'
+        stars.declination = '10:22:30.1'
         stars.radial_speed = '10'
         stars.distance = '100'
         stars.brightness = '1000'
         stars.star_type = stars_type.StarsType.browndwarf.value
-        stars.mass = '10000'
+        stars.mass = '100001'
         stars.greek_symbol = 'Ω'
         stars.constelation_id = 21
         stars.discaverer_id = 62
@@ -82,13 +82,12 @@ class TestStar(unittest.TestCase):
 
     def teststarget(self):
         dbstar = DBStars()
-        print(dbstar.get(17))
         self.assertIsNotNone(dbstar.get(17))
 
     def testgetdatabyname(self):
         dbstar = DBStars()
-        print(dbstar.get_one_star_by_name('test'))
-        self.assertIsNotNone(dbstar.get_one_star_by_name('test'))
+        print(dbstar.get_one_by_name('test'))
+        self.assertIsNotNone(dbstar.get_one_by_name('test'))
 
     def testdeletestar(self):
         dbstars = DBStars()

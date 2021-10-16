@@ -77,20 +77,22 @@ def get_one_star(star_id):
 @app.route('/get_one_star_by_name/<star_name>', methods=['GET'])
 @cross_origin()
 def get_one_star_by_name(star_name):
-    s = DBStars().get_one_by_name(star_name)
-    j = ({'id': str(s.id),
-          'name': str(s.name),
-          'rectascension': str(s.rectascension),
-          'declination': str(s.declination),
-          'radial_speed': str(s.radial_speed),
-          'distance': str(s.distance),
-          'brightness': str(s.brightness),
-          'star_type': str(s.star_type),
-          'mass': str(s.mass),
-          'greek_symbol': str(s.greek_symbol),
-          'drawing_star': str(s.drawing_star),
-          'discaverer_name': str(s.discaverer.name),
-          'constellation_name': str(s.constellation.name)})
+    stars = DBStars().get_one_by_name(star_name)
+    j = []
+    for s in stars:
+        j.append({'id': str(s.id),
+                  'name': str(s.name),
+                  'rectascension': str(s.rectascension),
+                  'declination': str(s.declination),
+                  'radial_speed': str(s.radial_speed),
+                  'distance': str(s.distance),
+                  'brightness': str(s.brightness),
+                  'star_type': str(s.star_type),
+                  'mass': str(s.mass),
+                  'greek_symbol': str(s.greek_symbol),
+                  'drawing_star': str(s.drawing_star),
+                  'discaverer_name': str(s.discaverer.name),
+                  'constellation_name': str(s.constellation.name)})
     return jsonify(j)
 
 
