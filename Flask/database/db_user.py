@@ -31,7 +31,7 @@ class DbUser(DB):
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')
 
-    def get(self, user_login, user_password):
+    def get_login(self, user_login, user_password):
         try:
             if self.util.get_session().query(User.password).filter(User.login == user_login) is None:
                 if self.util.get_session().query(User.password).filter(User.login == user_login) == user_password:

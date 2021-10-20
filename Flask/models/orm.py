@@ -19,15 +19,12 @@ class Stars(Base):
     mass = Column('mass', String(20))
     greek_symbol = Column('greek_symbols', String(1))
 
-    drawing_star = Column('drawing_star', Integer,
-                          ForeignKey('drawing_constellation.id', ondelete="CASCADE"))
     constelation_id = Column('constellation_id', Integer,
                              ForeignKey('constellations.id', ondelete="CASCADE"), nullable=False)
     discaverer_id = Column('discaverer_id', Integer,
                            ForeignKey('user.id', ondelete="CASCADE"))
 
     constellation = relationship('Constellations', lazy='subquery')
-    drawing = relationship('DrawingConstellation', lazy='subquery')
     discaverer = relationship('User', lazy='subquery')
 
     def __repr__(self):
@@ -64,11 +61,6 @@ class Stars(Base):
             tmp = tmp + ', None'
         else:
             tmp = tmp + ', ' + str(self.greek_symbol)
-        # Drawing star in Null
-        if self.drawing_star is not None:
-            tmp = tmp + self.drawing_star
-        else:
-            tmp = tmp + ', None'
         # Discaverer is Null
         if self.discaverer.name is not None and self.discaverer.surname is not None:
             tmp = tmp + ', ' + self.discaverer.name + ', ' + self.discaverer.surname
@@ -87,7 +79,8 @@ class Constellations(Base):
     area = Column('area', Float)
 
     def __repr__(self):
-        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.declination) + ', ' + str(self.symbolism) + ', ' + str(self.sky_side) + \
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.declination) + ', ' + str(
+            self.symbolism) + ', ' + str(self.sky_side) + \
                ', ' + str(float(self.area))
 
 
@@ -119,7 +112,10 @@ class User(Base):
 class DrawingConstellation(Base):
     __tablename__ = "drawing_constellation"
     id = Column('id', Integer, primary_key=True, nullable=False, autoincrement=True)
-    connected_Star = Column("connected_star", Integer)
+    star_name_out = Column("star_name_out", Integer, nullable=False)
+    star_name_in = Column('star_name_in', Integer,
+                          ForeignKey('stars.id', ondelete="CASCADE"), nullable=False)
+    star = relationship('Stars', lazy='subquery')
 
     def __repr__(self):
-        return str(self.connected_Star)
+        return str(self.id) + ', ' + str(self.star.id) + ', ' + str(self.star_name_out)

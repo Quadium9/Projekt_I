@@ -10,11 +10,18 @@
   
 
 //#212529 
-#search-star{
+.under-menu{
     margin-left: 8px;
+}
+#search-star{
     text-decoration: none;
     color:white;
 }
+#constellations-info{
+    text-decoration: none;
+    color:white;
+}
+
 .main {
     background: linear-gradient(133deg, #3a0ca3, #4895ef);
     background-size: 400% 400%;

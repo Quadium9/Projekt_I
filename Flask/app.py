@@ -29,7 +29,6 @@ def to_jsonS():
             'star_type': str(s.star_type),
             'mass': str(s.mass),
             'greek_symbol': str(s.greek_symbol),
-            'drawing_star': str(s.drawing_star),
             'discaverer_name': str(s.discaverer.name),
             'constellation_name': str(s.constellation.name),
         })
@@ -56,6 +55,7 @@ def add_new_star():
 
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])
+@cross_origin()
 def get_one_star(star_id):
     s = DBStars().get(star_id)
     j = ({'id': str(s.id),
@@ -68,7 +68,6 @@ def get_one_star(star_id):
           'star_type': str(s.star_type),
           'mass': str(s.mass),
           'greek_symbol': str(s.greek_symbol),
-          'drawing_star': str(s.drawing_star),
           'discaverer_name': str(s.discaverer.name),
           'constellation_name': str(s.constellation.name)})
     return jsonify(j)
@@ -90,16 +89,23 @@ def get_one_star_by_name(star_name):
                   'star_type': str(s.star_type),
                   'mass': str(s.mass),
                   'greek_symbol': str(s.greek_symbol),
-                  'drawing_star': str(s.drawing_star),
                   'discaverer_name': str(s.discaverer.name),
                   'constellation_name': str(s.constellation.name)})
     return jsonify(j)
 
 
-@app.route('/delete_stars/<star_id>', methods=['GET'])
-def delete_stars(stars_id):
-    DBStars().delete_id(int(stars_id))
-    return True
+@app.route('/data-for-image/<id_cons>', methods=['GET'])
+@cross_origin()
+def data_for_image(id_cons):
+    c = DbDrawingConstellation().get_one_by_name(id_cons)
+    j = []
+    for dc in c:
+        j.append({
+            'id': str(dc.id),
+            'star_name_in': str(dc.star_name_in),
+            'star_name_out': str(dc.star_name_out)
+        })
+    return jsonify(j)
 
 
 @app.route('/to-jsonC', methods=['GET'])
@@ -130,22 +136,13 @@ def to_jsonP():
         })
 
 
-@app.route('/get-distance', methods=['GET'])
-def get_distance():
-    stars = DBStars().get_all()
-    j = []
-    for s in stars:
-        j.append({
-            'name': s.name,
-            'distance': str(s.distance),
-        })
-    return jsonify(j)
-
-
-@app.route('/login-system', methods=['GET', 'POST'])
+@app.route('/login-system', methods=['GET'])
+@cross_origin()
 def user_data():
-    request.get_data()
-    return 1
+    user_login = request.args.get('user-login')
+    user_password = request.args.get('user-password')
+    user = DbUser.get_login(user_login, user_password)
+    return user
 
 
 if __name__ == '__main__':

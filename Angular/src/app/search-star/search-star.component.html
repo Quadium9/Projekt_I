@@ -1,11 +1,28 @@
-<div class="Field text-center">
-    <label class="input">
-        <input class="input__field" type="text" placeholder=" " #value />
-        <span class="input__label">Podaj nazwę gwiazdy</span>
-    </label>
-    <button class="button button-white button-border przycizg" id (click)="GetSearchValue(value.value)">Szukaj</button>
+<div class="main">
+    <div class="Field text-center">
+        <div id="title1" style="margin-bottom: 2%;">
+            <div id = "title1">Wyszukaj gwiazdę</div>
+        </div>
+        <label class="input">
+            <input class="input__field" type="text" placeholder=" " #value />
+            <span class="input__label">Podaj nazwę gwiazdy</span>
+        </label>
+        <button class="button button-white button-border przycizg" id
+            (click)="GetSearchValue(value.value)">Szukaj</button>
+    </div>
+    <app-under-line></app-under-line>
+    <div id="resultbox">
+        <div id="name"></div>
+        <div id="brightness"></div>
+        <div id="constellation_name"></div>
+        <div id="discaverer_name"></div>
+        <div id="distance"></div>
+        <div id="greek_symbol"></div>
+        <div id="mass"></div>
+        <div id="radial_speed"></div>
+        <div id="rectascension"></div>
+        <div id="declination"></div>
+        <div id="star_type"></div>
+    </div>
+    <app-under-line></app-under-line>
 </div>
-<div id = "resultsearch">
-</div>
-
-<app-constellation-list></app-constellation-list>

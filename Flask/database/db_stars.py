@@ -47,7 +47,8 @@ class DBStars(DB):
     def get_one_by_name(self, name):
         try:
             if name is not None:
-                return self.util.get_session().query(Stars).filter(Stars.name >= name).all()
+                if self.util.get_session().query(Stars).filter(Stars.name == name).all() is not None:
+                    return self.util.get_session().query(Stars).filter(Stars.name == name).all()
             else:
                 raise Exceptions.ExceptionNone
         except Response:
@@ -73,3 +74,6 @@ class DBStars(DB):
         except Response:
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')
+
+    def get_login(self, login, password):
+        return False

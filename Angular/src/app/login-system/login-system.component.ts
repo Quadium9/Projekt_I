@@ -19,16 +19,13 @@ export class LoginSystemComponent implements OnInit {
 
   Getlogin(login:string, password:string){
     console.log(login, password)
-    this.http.post('http://127.0.0.1:5000/login-system',JSON.parse(this.password))
-   /* function httpCall(method:'user-data', url:'http://127.0.0.1:5000/login-system', data:any, callback:(result:any)=>any){
-      var xhr = new XMLHttpRequest();
-      xhr.open(method, url, true);
-      if (callback) xhr.onload = function() { callback(JSON.parse(this[login],this[password])); };
-      if (data != null) {
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-    }
-      else xhr.send();
-    }*/
+    let http = "http://127.0.0.1:5000/login-system/user-login=" + login +"&user-password="+ password;
+    let data: any = [];
+    fetch(http).then(function (response) {
+      return response.json();
+    }).then(function (myJson) {
+      data = myJson
+      console.log(data)
+    })
   }
 }
