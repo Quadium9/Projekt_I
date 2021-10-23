@@ -7,6 +7,7 @@ import { LoginSystemComponent } from './login-system/login-system.component';
 import { RegisterComponent } from './register/register.component';
 import { EmailComponent } from './email/email.component';
 import { ConstellationInfoComponent } from './constellation-info/constellation-info.component';
+import { FactsComponent } from './facts/facts.component';
 
 const routes: Routes = [
   { path: 'search-star', component: SearchStarComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'email', component:EmailComponent},
   { path: 'constellation', component:ConstellationInfoComponent},
+  { path: 'facts', component:FactsComponent},
   { path: '', component: WelcomeComponent},
 ];
 
