@@ -33,11 +33,14 @@ class DbUser(DB):
 
     def get_login(self, user_login, user_password):
         try:
-            if self.util.get_session().query(User.password).filter(User.login == user_login) is None:
-                if self.util.get_session().query(User.password).filter(User.login == user_login) == user_password:
-                    return True
-                return False
-            return False
+            if user_login is None or user_password is None:
+                return "False"
+            tmp_login = self.util.get_session().query(User.login).filter(User.login == user_login).first()
+            tmp_password = self.util.get_session().query(User.password).filter(User.password == user_password).first()
+            if tmp_password is None or tmp_login is None:
+                return "False"
+            else:
+                return "True"
         except Response:
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')
@@ -73,6 +76,16 @@ class DbUser(DB):
             self.util.get_session().query(User).filter(User.id == ide).delete()
             self.util.get_session().commit()
             return True
+        except Response:
+            self.util.session_rollback()
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
+
+    def get(self, id_sel):
+        pass
+
+    def get_one_by_name(self, name):
+        try:
+            return self.util.get_session().query(User).filter(User.login == name).first()
         except Response:
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')

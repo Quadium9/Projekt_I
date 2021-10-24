@@ -35,6 +35,10 @@ class TestUser(unittest.TestCase):
         user = DbUser()
         self.assertTrue(user.delete_id(identyfikator))
 
+    def testloginuser(self):
+        user = DbUser()
+        self.assertTrue(user.get_login("admin", "adminadmin"))
+
 
 class TestConstellation(unittest.TestCase):
 

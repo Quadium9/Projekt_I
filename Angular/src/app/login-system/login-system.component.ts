@@ -8,24 +8,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginSystemComponent implements OnInit {
 
-  constructor() { }
-  private login:string;
-  private http:HttpClient;
-  private password:string;
-
+  constructor(private http:HttpClient ) {}
+  url = "http://127.0.0.1:5000/login-system"
 
   ngOnInit(): void {
   }
 
-  Getlogin(login:string, password:string){
-    console.log(login, password)
-    let http = "http://127.0.0.1:5000/login-system/user-login=" + login +"&user-password="+ password;
-    let data: any = [];
-    fetch(http).then(function (response) {
-      return response.json();
-    }).then(function (myJson) {
-      data = myJson
-      console.log(data)
+  Getlogin(data:any){
+    console.log(data)
+    this.http.post(this.url, data).subscribe((result)=>{
+      console.log(result)
     })
+    return this.http.post(this.url, data)
   }
 }

@@ -1,3 +1,4 @@
+import flask
 from flask import Flask, jsonify, request
 from flask_cors import cross_origin
 from database.db_stars import DBStars, Stars
@@ -136,13 +137,15 @@ def to_jsonP():
         })
 
 
-@app.route('/login-system', methods=['GET'])
+@app.route('/login-system', methods=['POST', 'GET'])
 @cross_origin()
 def user_data():
-    user_login = request.args.get('user-login')
-    user_password = request.args.get('user-password')
-    user = DbUser.get_login(user_login, user_password)
-    return user
+    if request.method == 'POST':
+        tmp = flask.request.json
+        user = DbUser.get_one_by_name(tmp["login"])
+        if user.password == tmp["password"]:
+            return jsonify("1")
+        return jsonify("0")
 
 
 if __name__ == '__main__':
