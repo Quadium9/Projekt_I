@@ -14,6 +14,29 @@ app.config['JSON_AS_ASCII'] = False
 app.config['SECRET_KEY'] = b'\xaa\x89u\xf7M\xf03\xcb\x1b\xc6#\xd2"\x8b\xf8\xb7'
 
 
+@app.route('/login-system', methods=['POST'])
+@cross_origin()
+def user_login():
+    try:
+        if request.method == 'POST':
+            tmp = flask.request.json
+            user = DbUser().get_one_by_name(tmp["username"])
+            j = []
+            if user.password == tmp["password"]:
+                j.append({
+                    'firstname': str(user.name),
+                    'lastname': str(user.surname),
+                    'username': str(user.login),
+                    'password': str(user.password),
+                    'email': str(user.email),
+                    'rules': str(user.rules)
+                })
+                return jsonify(j)
+            return False
+    except AttributeError:
+        return AttributeError
+
+
 @app.route('/all_stars', methods=['GET'])
 def to_jsonS():
     stars = DBStars().get_all()
@@ -113,6 +136,7 @@ def data_for_image(id_cons):
 @cross_origin()
 def to_jsonC():
     constellations = DBConstellations().get_all()
+
     j = []
     for c in constellations:
         j.append({
@@ -135,17 +159,7 @@ def to_jsonP():
             'name': p.name,
             'id_star': p.star.name
         })
-
-
-@app.route('/login-system', methods=['POST', 'GET'])
-@cross_origin()
-def user_data():
-    if request.method == 'POST':
-        tmp = flask.request.json
-        user = DbUser.get_one_by_name(tmp["login"])
-        if user.password == tmp["password"]:
-            return jsonify("1")
-        return jsonify("0")
+    return 1
 
 
 if __name__ == '__main__':

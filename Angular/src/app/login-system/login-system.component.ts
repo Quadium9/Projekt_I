@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../_services/auth.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-login-system',
@@ -8,17 +9,45 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginSystemComponent implements OnInit {
 
-  constructor(private http:HttpClient ) {}
-  url = "http://127.0.0.1:5000/login-system"
+  form:any = {
+    username: null,
+    password: null
+  };
+
+  isLoggedIn = false;
+  isLoginFailed = false;
+  errorMessage = "";
+  roles: string[] = [];
+
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService ) {}
 
   ngOnInit(): void {
+    if (this.tokenStorage.getToken()) {
+      this.isLoggedIn = true;
+      this.roles = this.tokenStorage.getUser()[0].rules;
+    }
   }
 
-  Getlogin(data:any){
-    console.log(data)
-    this.http.post(this.url, data).subscribe((result)=>{
-      console.log(result)
-    })
-    return this.http.post(this.url, data)
+  onSubmit(): void {
+    const { username, password } = this.form;
+
+    this.authService.login(username, password).subscribe(
+      data => {
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data);
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        this.roles = this.tokenStorage.getUser()[0].rules;
+        this.reloadPage();
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isLoginFailed = true;
+      }
+    );
+  }
+
+  reloadPage(): void {
+    window.location.reload();
   }
 }

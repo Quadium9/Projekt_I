@@ -1,6 +1,5 @@
 #home{
     text-decoration: none;
-    color: white;
   }
 
 #email{
@@ -9,7 +8,6 @@
     color:white;
 }
   
-
 //#212529 
 .under-menu{
     margin-left: 8px;
@@ -26,6 +24,19 @@
     text-decoration: none;
     color: white;
 }
+#form{
+    text-decoration: none;
+    color: white; 
+}
+#form-list{
+    text-decoration: none;
+    color: white;
+}
+#logouticon{
+    width: 40px;
+    height: 40px;
+}
+
 
 .main {
     background: linear-gradient(133deg, #3a0ca3, #4895ef);

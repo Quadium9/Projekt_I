@@ -19,7 +19,12 @@ import { UnderLineComponent } from './under-line/under-line.component';
 import { EmailComponent } from './email/email.component';
 import { ConstellationInfoComponent } from './constellation-info/constellation-info.component';
 import { FactsComponent } from './facts/facts.component';
-
+import { ToolbarAdminComponent } from './toolbar-admin/toolbar-admin.component';
+import { ToolbarUserComponent } from './toolbar-user/toolbar-user.component';
+import { FormComponent } from './form/form.component';
+import { FormListComponent } from './form-list/form-list.component';
+import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +41,11 @@ import { FactsComponent } from './facts/facts.component';
     EmailComponent,
     ConstellationInfoComponent,
     FactsComponent,
+    ToolbarAdminComponent,
+    ToolbarUserComponent,
+    FormComponent,
+    FormListComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +57,7 @@ import { FactsComponent } from './facts/facts.component';
     MatIconModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [ authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

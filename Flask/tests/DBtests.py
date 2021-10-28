@@ -23,21 +23,14 @@ class TestUser(unittest.TestCase):
         identyfikator = dbuser.add_entity()
         self.assertIsNotNone(identyfikator)
 
-    def testupdatenameuser(self):
-        user = DbUser()
-        self.assertTrue(user.update_name_surname_email(identyfikator, "adminT", "adminT", "admin@test.com"))
-
-    def testupdateuserpassword(self):
-        user = DbUser()
-        self.assertTrue(user.update_password(identyfikator, "test1234"))
-
     def testgetdatauseranddelete(self):
         user = DbUser()
         self.assertTrue(user.delete_id(identyfikator))
 
     def testloginuser(self):
         user = DbUser()
-        self.assertTrue(user.get_login("admin", "adminadmin"))
+        tmp = user.get_one_by_name("admin")
+        self.assertIsNotNone(user.get_one_by_name("admin"))
 
 
 class TestConstellation(unittest.TestCase):

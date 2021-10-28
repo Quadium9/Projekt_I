@@ -1,6 +1,6 @@
 from .db import DB
 from models.orm import Stars
-from flask import Response, request
+from flask import Response
 from common import validation
 from Exceptions import Exceptions
 
@@ -74,6 +74,3 @@ class DBStars(DB):
         except Response:
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')
-
-    def get_login(self, login, password):
-        return False

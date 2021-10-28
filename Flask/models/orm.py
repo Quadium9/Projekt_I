@@ -103,10 +103,11 @@ class User(Base):
     login = Column('login', String(100), nullable=False)
     password = Column('password', String(100), nullable=False)
     email = Column('email', String(100), nullable=False)
+    rules = Column('rules', String(20), nullable=False)
 
     def __repr__(self):
-        return str(self.id) + ', ' + self.name + ', ' + self.surname + ', ' + self.login + ', ' + self.password + ', ' \
-               + self.email
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.surname) + ', ' + str(self.login) + ', ' + str(self.password) + ', ' \
+               + str(self.email) + ', ' + str(self.rules)
 
 
 class DrawingConstellation(Base):

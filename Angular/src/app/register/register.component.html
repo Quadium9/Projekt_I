@@ -1,34 +1,76 @@
-<div class="Field" id = "name">
-    <label class="input">
-        <input class="input__field" type="text" placeholder=" " />
-        <span class="input__label">Wprowadź swoje imię</span>
-    </label>
-</div>
-<div class="Field" id = "surname">
-    <label class="input">
-        <input class="input__field" type="text" placeholder=" " />
-        <span class="input__label">Wprowadź swoje nazwisko</span>
-    </label>
-</div>
-<div class="Field" id = "login">
-    <label class="input">
-        <input class="input__field" type="text" placeholder=" " />
-        <span class="input__label">Wprowadź nazwę użytkownika</span>
-    </label>
-</div>
-<div class="Field" id = "password">
-    <label class="input">
-        <input class="input__field" type="password" placeholder=" " />
-        <span class="input__label">Wprowadź hasło</span>
-    </label>
-</div>
-<div class="Field" id = "email">
-    <label class="input">
-        <input class="input__field" type="email" placeholder=" " />
-        <span class="input__label">Wprowadź email</span>
-    </label>
-    <div class="button-group" id ="login-button">
-        <button class="button button-white button-border">Rejestracja</button>
+<div class="main">
+    <form class="Seform" *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <div class="form-group" id="inputfield">
+            <label for="firstname">Imię</label>
+            <input type="text" class="form-control" name="firstname" [(ngModel)]="form.firstname" required
+                maxlength="30" #firstname="ngModel" />
+            <div class="alert-danger" *ngIf="firstname.errors && f.submitted">
+                <div *ngIf="firstname.errors.required">Imię jest wymagane</div>
+                <div *ngIf="firstname.errors.maxlength">
+                    Imię przekracza dozwoloną liczbę znaków: 30.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="inputfield">
+            <label for="lastname">Nazwisko</label>
+            <input type="text" class="form-control" name="lastname" [(ngModel)]="form.lastname" required maxlength="30"
+                #lastname="ngModel" />
+            <div class="alert-danger" *ngIf="lastname.errors && f.submitted">
+                <div *ngIf="lastname.errors.required">Nazwisko jest wymagane</div>
+                <div *ngIf="lastname.errors.maxlength">
+                    Nazwisko przekracza dozwoloną liczbę znaków: 30.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="inputfield">
+            <label for="username">Nazwa użytkownika</label>
+            <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required maxlength="30"
+                #username="ngModel" />
+            <div class="alert-danger" *ngIf="username.errors && f.submitted">
+                <div *ngIf="username.errors.required">Nazwa użytkownika jest wymagana</div>
+                <div *ngIf="username.errors.maxlength">
+                    Nazwa użytkownika przekracza dozwoloną liczbę znaków: 30.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="inputfield">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" [(ngModel)]="form.email" required maxlength="40"
+                #email="ngModel" />
+            <div class="alert-danger" *ngIf="email.errors && f.submitted">
+                <div *ngIf="email.errors.required">Email jest wymagany</div>
+                <div *ngIf="email.errors.maxlength">
+                    Email przekracza dozwoloną liczbę znaków: 40.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="inputfield">
+            <label for="password">Hasło</label>
+            <input type="text" class="form-control" name="email" [(ngModel)]="form.password" required maxlength="40"
+                #password="ngModel" />
+            <div class="alert-danger" *ngIf="password.errors && f.submitted">
+                <div *ngIf="password.errors.required">Hasło jest wymagany</div>
+                <div *ngIf="password.errors.maxlength">
+                    Hasło przekracza dozwoloną liczbę znaków: 40.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="text-align: center; padding-top: 32px;">
+            <button class="btn btn-primary btn-block" id="buttonrej">Rejestracja</button>
+        </div>
+
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+            Rejestracja nieudana: <br />{{ errorMessage }}
+        </div>
+
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+        Rejestracja udana.
     </div>
 </div>
-

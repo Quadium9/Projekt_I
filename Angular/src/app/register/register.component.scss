@@ -1,61 +1,35 @@
-#login-button{
-    margin-top: 4%;
+#inputfield{
+  padding-top: 24px;
 }
-.Field{
-    padding: 2%;
-    width: 100%;
-    text-align: center;
-    background: #212529;
-    color: white;
-    --size-bezel: .3rem;
-    --size-radius: 4px;
-    line-height: 1.4;
-    font-family: 'Inter', sans-serif;
-    font-size: calc(.7rem + .4vw);
+
+#buttonrej{
+  width: 50%;
 }
-  .input {
-    position: relative;
-    width: 25%;
-    min-width: 300px;
-    &__label {
-      position: absolute;
-      left: 0;
-      top: 0;
-      padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * .8);
-      margin: calc(var(--size-bezel) * 0.75 + 1px) calc(var(--size-bezel) * .8);
-      white-space: nowrap;
-      transform: translate(0, 0);
-      transform-origin: 0 0;
-      background: var(--color-background);
-      transition: transform 200ms ease-in;
-    }
-    &__field {
-      box-sizing: border-box;
-      display: block;
-      width: 100%;
-      border: 2px solid currentColor;
-      padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
-      color: currentColor;
-      background: transparent;
-      border-radius: var(--size-radius);
-      
-      &:focus,
-      &:not(:placeholder-shown) {
-        & + .input__label {
-          transform: translate(.25rem, -95%) scale(.8);
-          color: var(--color-accent);
-        }
-      }
-    }
-  }
-  
-  
+.main{
+  padding: 4%;
+}
+
+.alert-danger{
+  margin-top: 1%;
+}
+
+.alert-warning{
+  margin-top: 2%;
+}
+
+.Seform{
+  margin:auto;
+  width: 50%;
+  min-width: 200px;
+}
+
   .button-group {
       padding: 1%;
       margin-top: calc(var(--size-bezel) * 2.5);
   }
   
   button {
+    margin-top: 24px;
       min-width: 120px;
       width: 16%;
       color: currentColor;

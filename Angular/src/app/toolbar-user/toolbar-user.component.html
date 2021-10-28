@@ -6,14 +6,16 @@
                     <h3 class="text-white">Menu</h3>
                     <div class="under-menu">
                         <a id="search-star" routerLink="/search-star" routerLinkActive="active">Wyszukaj gwiazdę</a><br>
-                        <a id="constellations-info" routerLink="/constellation"
-                            routerLinkActive="active">Gwiazdozbiory</a><br>
-                        <a id="facts" routerLink="/facts" routerLinkActive="active">Ciekawostki</a>
+                        <a id="constellations-info" routerLink="/constellation" routerLinkActive="active">Gwiazdozbiory</a><br>
+                        <a id="facts" routerLink="/facts" routerLinkActive="active">Ciekawostki</a><br>
+                        <a id="form" routerLink="/form" routerLink="active">Formularz dodania gwiazdy</a>
                     </div>
                 </div>
                 <div class="Contact" style="text-align: right; width: 50%;">
                     <h4 class="text-white">Skontaktuj się</h4>
                     <a id="email" routerLink="/email" routerLinkActive="active">Autor</a>
+                    <h4 class="text-white">Zalogowany jako</h4>
+                    <p>Użytkownik</p>
                 </div>
             </div>
         </div>
@@ -23,20 +25,20 @@
     <div class="navbar navbar-dark shadow-sm" id="toolbar">
         <div class="navbar-brand d-flex align-items-center">
             <a id="home" routerLink="" routerLinkActive="active">
-                <div>
+                <div class="navbar-brand d-flex align-items-center">
                     <h3 style="margin-left: 8px;">Star Database</h3>
                 </div>
             </a>
         </div>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
-                aria-controls="navbarHeader" aria-expanded="true" aria-label="Toggle navigation">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-arrow-bar-down"
-                    viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                </svg>
-            </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+            aria-controls="navbarHeader" aria-expanded="true" aria-label="Toggle navigation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-arrow-bar-down"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+            </svg>
+        </button>
         <div class="right">
             <a routerLink="/login-system" style="color: inherit; text-decoration: none;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" fill="currentColor"
@@ -46,7 +48,7 @@
                     <path fill-rule="evenodd"
                         d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
                 </svg>
-                Zaloguj
+                Logout
             </a>
             <a routerLink="register" style="color: inherit; text-decoration: none;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"

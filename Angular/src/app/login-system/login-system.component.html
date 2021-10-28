@@ -1,17 +1,36 @@
-<form #userForm="ngForm" (ngSubmit)="Getlogin(userForm.value)">
-    <div class="Field" id="login">
-        <label class="input">
-            <input class="input__field" type="text" ngModel name="login" placeholder=""/>
-            <span class="input__label">Wprowadź nazwę użytkownika</span>
-        </label>
-    </div>
-    <div class="Field" id="password">
-        <label class="input">
-            <input class="input__field" type="password" ngModel name="password" placeholder=""/>
-            <span class="input__label">Wprowadź hasło</span>
-        </label>
-        <div class="button-group">
-            <button class="button button-white button-border">Login</button>
+<div class="main">
+    <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <div class="Field form-group">
+            <label for="username">Nazwa użytkownika</label>
+            <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required
+                #username="ngModel" />
+            <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">
+                Nazwa użytkownika jest wymagana!
+            </div>
         </div>
+        <div class="Field form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
+                minlength="8" #password="ngModel" />
+            <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
+                <div *ngIf="password.errors.required">Hasło jest wymagane!</div>
+                <div *ngIf="password.errors.minlength">
+                    Hasło musi składać się z minimum 8 znaków!
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block">
+                Zaloguj
+            </button>
+        </div>
+        <div class="form-group">
+            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+                Logowanie niudane: {{ errorMessage }}
+            </div>
+        </div>
+    </form>
+    <div class="alert alert-success" *ngIf="isLoggedIn">
+        Zalogowany jako: {{ roles }}.
     </div>
-</form>
+</div>

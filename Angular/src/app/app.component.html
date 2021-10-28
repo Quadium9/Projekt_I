@@ -1,4 +1,7 @@
-<app-toolbar></app-toolbar>
+<app-toolbar *ngIf="!showAdminBoard && !showUserBoard"></app-toolbar>
+<app-toolbar-admin *ngIf="showAdminBoard"></app-toolbar-admin>
+<app-toolbar-user *ngIf="showUserBoard"></app-toolbar-user>
+
 <router-outlet></router-outlet>
 
 

@@ -28,10 +28,6 @@ class DB(ABC):
         pass
 
     @abstractmethod
-    def get_login(self, user_login, user_password):
-        pass
-
-    @abstractmethod
     def update_entity(self, ids):
         pass
 
