@@ -9,7 +9,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 })
 export class LoginSystemComponent implements OnInit {
 
-  form:any = {
+  form: any = {
     username: null,
     password: null
   };
@@ -19,7 +19,7 @@ export class LoginSystemComponent implements OnInit {
   errorMessage = "";
   roles: string[] = [];
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService ) {}
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
@@ -33,12 +33,19 @@ export class LoginSystemComponent implements OnInit {
 
     this.authService.login(username, password).subscribe(
       data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getUser()[0].rules;
-        this.reloadPage();
+        console.log(data.id)
+        if (data.id == null) {
+          this.errorMessage = data.message;
+          this.isLoginFailed = true;
+        } 
+        if (data[0].id != null) {
+          this.tokenStorage.saveToken(data.accessToken);
+          this.tokenStorage.saveUser(data);
+          this.isLoginFailed = false;
+          this.isLoggedIn = true;
+          this.roles = this.tokenStorage.getUser()[0].rules;
+          this.reloadPage();
+        }
       },
       err => {
         this.errorMessage = err.error.message;

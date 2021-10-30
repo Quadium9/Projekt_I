@@ -13,11 +13,12 @@ class TestUser(unittest.TestCase):
 
     def testadduser(self):
         user = User()
-        user.name = 'admin'
-        user.surname = 'admin'
-        user.login = 'admin'
-        user.password = 'adminadmin'
-        user.email = 'admin@admin.admin'
+        user.name = 'user'
+        user.surname = 'user'
+        user.login = 'user'
+        user.password = 'useruser'
+        user.email = 'user@user.user'
+        user.rules = 'user'
         dbuser = DbUser(user)
         global identyfikator
         identyfikator = dbuser.add_entity()

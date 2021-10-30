@@ -5,7 +5,7 @@
             <input type="text" class="form-control" name="firstname" [(ngModel)]="form.firstname" required
                 maxlength="30" #firstname="ngModel" />
             <div class="alert-danger" *ngIf="firstname.errors && f.submitted">
-                <div *ngIf="firstname.errors.required">Imię jest wymagane</div>
+                <div *ngIf="firstname.errors.required">Imię jest wymagane!</div>
                 <div *ngIf="firstname.errors.maxlength">
                     Imię przekracza dozwoloną liczbę znaków: 30.
                 </div>
@@ -17,7 +17,7 @@
             <input type="text" class="form-control" name="lastname" [(ngModel)]="form.lastname" required maxlength="30"
                 #lastname="ngModel" />
             <div class="alert-danger" *ngIf="lastname.errors && f.submitted">
-                <div *ngIf="lastname.errors.required">Nazwisko jest wymagane</div>
+                <div *ngIf="lastname.errors.required">Nazwisko jest wymagane!</div>
                 <div *ngIf="lastname.errors.maxlength">
                     Nazwisko przekracza dozwoloną liczbę znaków: 30.
                 </div>
@@ -29,7 +29,7 @@
             <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required maxlength="30"
                 #username="ngModel" />
             <div class="alert-danger" *ngIf="username.errors && f.submitted">
-                <div *ngIf="username.errors.required">Nazwa użytkownika jest wymagana</div>
+                <div *ngIf="username.errors.required">Nazwa użytkownika jest wymagana!</div>
                 <div *ngIf="username.errors.maxlength">
                     Nazwa użytkownika przekracza dozwoloną liczbę znaków: 30.
                 </div>
@@ -41,7 +41,7 @@
             <input type="email" class="form-control" name="email" [(ngModel)]="form.email" required maxlength="40"
                 #email="ngModel" />
             <div class="alert-danger" *ngIf="email.errors && f.submitted">
-                <div *ngIf="email.errors.required">Email jest wymagany</div>
+                <div *ngIf="email.errors.required">Email jest wymagany!</div>
                 <div *ngIf="email.errors.maxlength">
                     Email przekracza dozwoloną liczbę znaków: 40.
                 </div>
@@ -50,12 +50,15 @@
 
         <div class="form-group" id="inputfield">
             <label for="password">Hasło</label>
-            <input type="text" class="form-control" name="email" [(ngModel)]="form.password" required maxlength="40"
+            <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required maxlength="40" minlength="8"
                 #password="ngModel" />
             <div class="alert-danger" *ngIf="password.errors && f.submitted">
-                <div *ngIf="password.errors.required">Hasło jest wymagany</div>
+                <div *ngIf="password.errors.required">Hasło jest wymagane!</div>
                 <div *ngIf="password.errors.maxlength">
                     Hasło przekracza dozwoloną liczbę znaków: 40.
+                </div>
+                <div *ngIf="password.errors.minlength">
+                    Hasło musi zawierać conajmniej 8 znaków.
                 </div>
             </div>
         </div>

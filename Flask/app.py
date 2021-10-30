@@ -1,4 +1,6 @@
 import flask
+import pymysql.err
+import sqlalchemy.exc
 from flask import Flask, jsonify, request
 from flask_cors import cross_origin
 from database.db_stars import DBStars, Stars
@@ -24,6 +26,7 @@ def user_login():
             j = []
             if user.password == tmp["password"]:
                 j.append({
+                    'id': str(user.id),
                     'firstname': str(user.name),
                     'lastname': str(user.surname),
                     'username': str(user.login),
@@ -34,29 +37,27 @@ def user_login():
                 return jsonify(j)
             return False
     except AttributeError:
-        return AttributeError
+        return jsonify({'id': None, 'message': "Niepoprawne dane logowania"})
 
 
-@app.route('/all_stars', methods=['GET'])
-def to_jsonS():
-    stars = DBStars().get_all()
-    j = []
-    for s in stars:
-        j.append({
-            'id': str(s.id),
-            'name': str(s.name),
-            'rectascension': str(s.rectascension),
-            'declination': str(s.declination),
-            'radial_speed': str(s.radial_speed),
-            'distance': str(s.distance),
-            'brightness': str(s.brightness),
-            'star_type': str(s.star_type),
-            'mass': str(s.mass),
-            'greek_symbol': str(s.greek_symbol),
-            'discaverer_name': str(s.discaverer.name),
-            'constellation_name': str(s.constellation.name),
-        })
-    return jsonify(j)
+@app.route('/register-user', methods=['POST'])
+@cross_origin()
+def register_user():
+    try:
+        if request.method == 'POST':
+            tmp = flask.request.json
+            user = User()
+            user.name = tmp['firstname']
+            user.surname = tmp['lastname']
+            user.login = tmp['username']
+            user.password = tmp['password']
+            user.email = tmp['email']
+            user.rules = 'user'
+            new_user = DbUser(user).add_entity()
+            j = ({'id': new_user})
+            return jsonify(j)
+    except sqlalchemy.exc.IntegrityError as e:
+        return jsonify(({'id': None, 'message': "Nazwa użytkownika lub email już istnieje"}))
 
 
 @app.route('/add_new_star', methods=['GET', 'POST'])
@@ -76,25 +77,6 @@ def add_new_star():
                          star_type, constellation_id, greek_symbol)
         DBStars(new_star).add_entity()
         return jsonify(new_star)
-
-
-@app.route('/get_one_star/<star_id>', methods=['GET'])
-@cross_origin()
-def get_one_star(star_id):
-    s = DBStars().get(star_id)
-    j = ({'id': str(s.id),
-          'name': str(s.name),
-          'rectascension': str(s.rectascension),
-          'declination': str(s.declination),
-          'radial_speed': str(s.radial_speed),
-          'distance': str(s.distance),
-          'brightness': str(s.brightness),
-          'star_type': str(s.star_type),
-          'mass': str(s.mass),
-          'greek_symbol': str(s.greek_symbol),
-          'discaverer_name': str(s.discaverer.name),
-          'constellation_name': str(s.constellation.name)})
-    return jsonify(j)
 
 
 @app.route('/get_one_star_by_name/<star_name>', methods=['GET'])
@@ -150,16 +132,23 @@ def to_jsonC():
     return jsonify(j)
 
 
-@app.route('/to-jsonP', methods=['GET'])
-def to_jsonP():
-    planet = DBPlanet().get_all()
-    j = []
-    for p in planet:
-        j.append({
-            'name': p.name,
-            'id_star': p.star.name
-        })
-    return 1
+@app.route('/get_one_star/<star_id>', methods=['GET'])
+@cross_origin()
+def get_one_star(star_id):
+    s = DBStars().get(star_id)
+    j = ({'id': str(s.id),
+          'name': str(s.name),
+          'rectascension': str(s.rectascension),
+          'declination': str(s.declination),
+          'radial_speed': str(s.radial_speed),
+          'distance': str(s.distance),
+          'brightness': str(s.brightness),
+          'star_type': str(s.star_type),
+          'mass': str(s.mass),
+          'greek_symbol': str(s.greek_symbol),
+          'discaverer_name': str(s.discaverer.name),
+          'constellation_name': str(s.constellation.name)})
+    return jsonify(j)
 
 
 if __name__ == '__main__':

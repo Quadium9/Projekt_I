@@ -1,3 +1,5 @@
+import sqlalchemy.exc
+
 import common.validation as cv
 from .db import DB
 from flask import Response
