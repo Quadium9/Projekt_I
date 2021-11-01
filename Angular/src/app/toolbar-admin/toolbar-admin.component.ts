@@ -12,6 +12,9 @@ export class ToolbarAdminComponent implements OnInit {
   constructor(private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    if(this.tokenStorageService.getToken() == null){
+      window.location.replace("/")
+    }
   }
 
   logout(): void {

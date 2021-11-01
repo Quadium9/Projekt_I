@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../_services/user.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-toolbar-user',
@@ -10,17 +10,17 @@ export class ToolbarUserComponent implements OnInit {
 
   content?: string;
 
-  constructor(private userService: UserService) { }
+  constructor(private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
-    this.userService.getUserBoard().subscribe(
-      data => {
-        this.content = data;
-      },
-      err => {
-        this.content = JSON.parse(err.error).message;
-      }
-    );
+    if(this.tokenStorage.getToken() == null){
+      window.location.replace("/")
+    }
+  }
+  logout(): void {
+    this.tokenStorage.isLoggedIn = false;
+    this.tokenStorage.signOut();
+    window.location.reload();
   }
 
 }

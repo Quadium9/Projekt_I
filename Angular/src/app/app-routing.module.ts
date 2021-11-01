@@ -14,6 +14,7 @@ import { ToolbarAdminComponent } from './toolbar-admin/toolbar-admin.component';
 import { ToolbarUserComponent } from './toolbar-user/toolbar-user.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ProfileComponent } from './profile/profile.component';
+import { MoreInfoStarComponent } from './more-info-star/more-info-star.component';
 
 const routes: Routes = [
   { path: 'search-star', component: SearchStarComponent},
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'admin-toolbar', component:ToolbarAdminComponent},
   { path: 'form-list', component:FormListComponent},
   { path: 'profil', component:ProfileComponent},
+  { path: 'star-more-info', component:MoreInfoStarComponent},
   { path: '', component: WelcomeComponent},
 ];
 

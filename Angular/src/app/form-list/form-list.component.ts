@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-form-list',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private tokenStorage: TokenStorageService) {}
 
   ngOnInit(): void {
+    if(this.tokenStorage.getToken() == null){
+      window.location.replace("/")
+    }
   }
 
 }

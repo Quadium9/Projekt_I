@@ -26,11 +26,9 @@ class DBStars(DB):
             if validation.validationNone([self.stars.name, self.stars.rectascension, self.stars.declination]):
                 if validation.validate_text(self.stars.mass) and validation.validate_text(self.stars.brightness)\
                         and validation.validate_text(self.stars.distance) and validation.validate_text(self.stars.radial_speed):
-
                     self.util.get_session().add(self.stars)
                     self.util.get_session().commit()
-                    return self.stars.id
-
+                    return self.stars
                 raise Exceptions.ExceptionNotNumber
             raise Exceptions.ExceptionNone
         except Response:
@@ -47,8 +45,8 @@ class DBStars(DB):
     def get_one_by_name(self, name):
         try:
             if name is not None:
-                if self.util.get_session().query(Stars).filter(Stars.name == name).all() is not None:
-                    return self.util.get_session().query(Stars).filter(Stars.name == name).all()
+                search_value = "%{}%".format(name)
+                return self.util.get_session().query(Stars).filter(Stars.name.like(search_value)).all()
             else:
                 raise Exceptions.ExceptionNone
         except Response:

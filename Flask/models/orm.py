@@ -17,6 +17,7 @@ class Stars(Base):
     brightness = Column('brightness', String(20))
     star_type = Column('star_type', String(50))
     mass = Column('mass', String(20))
+    confirmed = Column('confirmed', String(3), nullable=False)
     greek_symbol = Column('greek_symbols', String(1))
 
     constelation_id = Column('constellation_id', Integer,
@@ -29,7 +30,7 @@ class Stars(Base):
 
     def __repr__(self):
         tmp = str(self.id) + ', ' + str(self.name) + ', ' + str(self.rectascension) + ', ' + str(self.declination) \
-              + ', ' + str(self.constellation.name)
+              + ', ' + str(self.constellation.name) + ', ' + self.confirmed
 
         # Radial speed is NULL
         if self.radial_speed is None:

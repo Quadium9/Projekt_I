@@ -33,7 +33,6 @@ export class LoginSystemComponent implements OnInit {
 
     this.authService.login(username, password).subscribe(
       data => {
-        console.log(data.id)
         if (data.id == null) {
           this.errorMessage = data.message;
           this.isLoginFailed = true;

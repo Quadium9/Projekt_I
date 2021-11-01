@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +25,7 @@ import { FormComponent } from './form/form.component';
 import { FormListComponent } from './form-list/form-list.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { ProfileComponent } from './profile/profile.component';
+import { MoreInfoStarComponent } from './more-info-star/more-info-star.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ProfileComponent } from './profile/profile.component';
     FormComponent,
     FormListComponent,
     ProfileComponent,
+    MoreInfoStarComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +58,7 @@ import { ProfileComponent } from './profile/profile.component';
     MatToolbarModule,
     MatIconModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [ authInterceptorProviders],
   bootstrap: [AppComponent]

@@ -24,15 +24,10 @@ export class AppComponent {
       
       if (this.rules === 'admin'){
         this.showAdminBoard = true;
-        console.log('admin');
       }
       if (this.rules === 'user'){
-        console.log('user')
+        this.showUserBoard = true;
       }
-
-      //this.showAdminBoard = this.rules.includes('admin');
-      //this.showUserBoard = this.rules.includes('user');
-
       this.username = user.username;
     }
   }

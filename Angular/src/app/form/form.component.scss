@@ -1,0 +1,18 @@
+
+button {
+    min-width: 300px;
+    width: 16%;
+    color: currentColor;
+    padding: var(--size-bezel) calc(var(--size-bezel) * 2);
+    background: #4895ef;
+    border-radius: 4px;
+    font-weight: 400;
+    border: none;
+    font-size: 24px;
+  }
+  button:hover{
+    transition: 200ms ease-in;
+    color: #212529;
+    font-weight: 600;
+    background: #ffffffee;
+  }

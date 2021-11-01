@@ -39,7 +39,8 @@ class DBConstellations(DB):
 
     def get_one_by_name(self, name):
         try:
-            return self.util.get_session().query(Constellations).get(name)
+            search_value = "%{}%".format(name)
+            return self.util.get_session().query(Constellations).filter(Constellations.name == search_value).first()
         except Response:
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')

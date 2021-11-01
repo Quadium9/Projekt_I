@@ -35,7 +35,7 @@ def user_login():
                     'rules': str(user.rules)
                 })
                 return jsonify(j)
-            return False
+            return jsonify({'id': None, 'message': "Niepoparwne hasło"})
     except AttributeError:
         return jsonify({'id': None, 'message': "Niepoprawne dane logowania"})
 
@@ -60,44 +60,58 @@ def register_user():
         return jsonify(({'id': None, 'message': "Nazwa użytkownika lub email już istnieje"}))
 
 
-@app.route('/add_new_star', methods=['GET', 'POST'])
+@app.route('/add_new_star', methods=['POST'])
+@cross_origin()
 def add_new_star():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        rectascension = request.form.get('rectascension')
-        declination = request.form.get('declination')
-        radial_speed = request.form.get('radial_speed')
-        distance = request.form.get('distance')
-        brightness = request.form.get('brightness')
-        mass = request.form.get('mass')
-        greek_symbol = request.form.get('greek_symbol')
-        star_type = request.form.get('star_type')
-        constellation_id = request.form.get('constellation_id')
-        new_star = Stars(name, rectascension, declination, radial_speed, distance, brightness, mass,
-                         star_type, constellation_id, greek_symbol)
-        DBStars(new_star).add_entity()
-        return jsonify(new_star)
+    try:
+        if request.method == 'POST':
+            tmp = flask.request.json
+            star = Stars()
+            cons = DBConstellations().get_one_by_name(tmp['constellation'])
+            star.name = tmp['name']
+            star.star_type = tmp['star_type']
+            star.rectascension = tmp['rectascension']
+            star.declination = tmp['declination']
+            star.radial_speed = tmp['radial_speed']
+            star.distance = tmp['distance']
+            star.brightness = tmp['brightness']
+            star.mass = tmp['mass']
+            star.greek_symbol = None
+            star.constelation_id = cons.id
+            star.discaverer_id = tmp['discavererid']
+            star.confirmed = "NO"
+            DBStars(star).add_entity()
+            return jsonify({'message': "Wysłano formularz"})
+    except AttributeError:
+        return jsonify({'message': "Podany gwiazdozbiór nie istnieje w bazie"})
 
 
 @app.route('/get_one_star_by_name/<star_name>', methods=['GET'])
 @cross_origin()
 def get_one_star_by_name(star_name):
-    stars = DBStars().get_one_by_name(star_name)
-    j = []
-    for s in stars:
-        j.append({'id': str(s.id),
-                  'name': str(s.name),
-                  'rectascension': str(s.rectascension),
-                  'declination': str(s.declination),
-                  'radial_speed': str(s.radial_speed),
-                  'distance': str(s.distance),
-                  'brightness': str(s.brightness),
-                  'star_type': str(s.star_type),
-                  'mass': str(s.mass),
-                  'greek_symbol': str(s.greek_symbol),
-                  'discaverer_name': str(s.discaverer.name),
-                  'constellation_name': str(s.constellation.name)})
-    return jsonify(j)
+    try:
+        stars = DBStars().get_one_by_name(star_name)
+        j = []
+        for s in stars:
+            if s.confirmed == "YES":
+                j.append({'id': str(s.id),
+                          'confirmed': str(s.confirmed),
+                          'name': str(s.name),
+                          'rectascension': str(s.rectascension),
+                          'declination': str(s.declination),
+                          'radial_speed': str(s.radial_speed),
+                          'distance': str(s.distance),
+                          'brightness': str(s.brightness),
+                          'star_type': str(s.star_type),
+                          'mass': str(s.mass),
+                          'greek_symbol': str(s.greek_symbol),
+                          'discaverer_name': str(s.discaverer.name),
+                          'discaverer_lastname': str(s.discaverer.surname),
+                          'constellation_name': str(s.constellation.name),
+                          })
+        return jsonify(j)
+    except TypeError:
+        return jsonify({None})
 
 
 @app.route('/data-for-image/<id_cons>', methods=['GET'])

@@ -1,40 +1,6 @@
-#home{
-    text-decoration: none;
-  }
-
-#email{
-    margin-right: 8px;
-    text-decoration: none;
-    color:white;
-}
-
-  
-
-//#212529 
-.under-menu{
-    margin-left: 8px;
-}
-#search-star{
-    text-decoration: none;
-    color:white;
-}
-#constellations-info{
-    text-decoration: none;
-    color:white;
-}
-#facts{
-    text-decoration: none;
-    color: white;
-}
-#form{
-    text-decoration: none;
-    color: white;
-}
-
-.main {
+#main {
     background: linear-gradient(133deg, #3a0ca3, #4895ef);
     background-size: 400% 400%;
-
     -webkit-animation: AnimationName 23s ease infinite;
     -moz-animation: AnimationName 23s ease infinite;
     animation: AnimationName 23s ease infinite;
@@ -55,31 +21,19 @@
     50%{background-position:100% 69%}
     100%{background-position:0% 32%}
 }
-.left{
-    width: 100%;
-    display:flex; 
-    margin-top:10px;
-}
-.search{
-    text-decoration: none;
-    width: 50%;
-}
-.containeR{
-    display:grid;
-    
-    width: 100%;
-}
-.hmtl{
-    background-color: darkgrey;
+
+#home{
+    font-size: 24px;
+    font-weight: 800;
+    color: #E6E8E6;
 }
 
-.right{
-    font-size: 20px;
-    color: white;
-    text-align:right;
-    margin-right: 16px;;
+#text1{
+    margin-left: 8px;
+    color: #E6E8E6;
 }
 
-.Contact{
-    margin-right: 16px;;
+#logout{
+    margin-left: 8px;
+    color: #E6E8E6;
 }
