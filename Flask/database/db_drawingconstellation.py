@@ -21,16 +21,10 @@ class DbDrawingConstellation(DB):
         pass
 
     def add_entity(self):
-        try:
-            self.util.get_session().add(self.drawing)
-            self.util.get_session().commit()
-            return True
-        except Response:
-            self.util.session_rollback()
-            return Response('Server has found an error in database', 500, mimetype='application/json')
+        return False
 
     def get(self, id_sel):
-        return True
+        return False
 
     def update_entity(self, ids):
         try:
@@ -56,10 +50,7 @@ class DbDrawingConstellation(DB):
 
     def get_one_by_name(self, name):
         try:
-            return self.util.get_session().query(DrawingConstellation).filter(DrawingConstellation.id == name).all()
+            return self.util.get_session().query(DrawingConstellation).filter(DrawingConstellation.star_name_in.like(name)).all()
         except Response:
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')
-
-    def get_login(self, login, password):
-        return False

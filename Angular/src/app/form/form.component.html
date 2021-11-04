@@ -1,4 +1,4 @@
-<form [formGroup]="formValue" name="form">
+<form [formGroup]="formValue">
     <div class="d-block p-3">
         <h4>Pola wymagane</h4>
         <div class="form-group p-2">
@@ -41,37 +41,37 @@
                 <option value="Red dwarf">Red dwarf</option>
                 <option value="White dwarf">White dwarf</option>
                 <option value="Brown dwarf">Brown dwarf</option>
-                <option value="Unknown">Unknown</option>
+                <option value="Unknown">Nieznana</option>
             </select>
         </div>
         <label for="starspeed" class="mt-1 pl-2">Prędkość radialna</label>
         <div class="input-group pl-2">
             <input type="number" class="form-control" formControlName="inputspeed" min="0" placeholder="Podaj prędkość radialną gwiazdy"
-                aria-label="Podaj prędkość radialną gwiazdy" aria-describedby="basic-addon2">
+                aria-label="Podaj prędkość radialną gwiazdy">
             <div class="input-group-append">
-                <span class="input-group-text" formControlName="basic-addon2">km/s</span>
+                <span class="input-group-text">km/s</span>
             </div>
         </div>
         <label for="stardistnace" class="mt-1 pl-2">Odległość od słońca</label>
         <div class="input-group pl-2">
-            <input type="number" class="form-control" formControlName="inputdistance" placeholder="Podaj odległość od słońca"
-                aria-label="Podaj odległość od słońca" aria-describedby="basic-addon2">
+            <input type="number" class="form-control" formControlName="inputdistance" min="0" placeholder="Podaj odległość od słońca"
+                aria-label="Podaj odległość od słońca">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2"> l.y.</span>
             </div>
         </div>
         <label for="starbrightness" class="mt-1 pl-2">Jasność</label>
         <div class="input-group pl-2">
-            <input type="number" class="form-control" formControlName="inputbrightness" placeholder="Podaj jasność gwiazdy"
-                aria-label="Podaj jasność gwiazdy" aria-describedby="basic-addon2">
+            <input type="number" class="form-control" formControlName="inputbrightness" min="0" placeholder="Podaj jasność gwiazdy"
+                aria-label="Podaj jasność gwiazdy">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">L☉</span>
             </div>
         </div>
         <label for="starmass" class="mt-1 pl-2">Masa</label>
         <div class="input-group pl-2">
-            <input type="number" class="form-control" formControlName="inputmass" placeholder="Podaj masę gwiazdy"
-                aria-label="Podaj masę gwiazdy" aria-describedby="basic-addon2">
+            <input type="number" class="form-control" formControlName="inputmass" min="0" placeholder="Podaj masę gwiazdy"
+                aria-label="Podaj masę gwiazdy">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">M☉</span>
             </div>

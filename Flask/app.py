@@ -69,16 +69,16 @@ def add_new_star():
             star = Stars()
             cons = DBConstellations().get_one_by_name(tmp['constellation'])
             star.name = tmp['name']
-            star.star_type = tmp['star_type']
             star.rectascension = tmp['rectascension']
             star.declination = tmp['declination']
+            star.constelation_id = cons.id
+            star.discaverer_id = tmp['discavererid']
+            star.star_type = tmp['star_type']
             star.radial_speed = tmp['radial_speed']
             star.distance = tmp['distance']
             star.brightness = tmp['brightness']
             star.mass = tmp['mass']
-            star.greek_symbol = None
-            star.constelation_id = cons.id
-            star.discaverer_id = tmp['discavererid']
+            star.greek_symboxl = None
             star.confirmed = "NO"
             DBStars(star).add_entity()
             return jsonify({'message': "Wysłano formularz"})
