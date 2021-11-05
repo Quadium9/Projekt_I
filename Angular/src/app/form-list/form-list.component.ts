@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
-const STAR = "";
 
 @Component({
   selector: 'app-form-list',
@@ -13,29 +12,32 @@ const STAR = "";
 })
 export class FormListComponent implements OnInit {
 
-  errorMessage = "";
-  noStar = false;
-  starData !: any;
+  showconf: boolean = false;
+  shownonconf: boolean = false;
+  showsus: boolean = false;
 
-  constructor(private http: HttpClient, private api: ApiService, private router: Router, private tokenStorage:TokenStorageService) {}
+  constructor( private tokenStorage:TokenStorageService) {}
 
   ngOnInit(): void {
     if(this.tokenStorage.getToken() == null){
       window.location.replace("/")
     }
+    this.shownonconfirmed()
   }
-  getStar(name: string) {
-    this.api.getStarByName(name).subscribe(res => {
-      if (res == null) {
-        this.errorMessage = "Bląd wyszukania gwiazdy"
-      } else {
-        this.starData = res;
-      }
-    })
+  
+  showconfirmed(){
+    this.showconf = true;
+    this.shownonconf = false;
+    this.showsus = false;
   }
-  moreInfo(row:any) {
-    this.api.STAR = row;
-    this.router.navigate(['/star-more-info']);
+  shownonconfirmed(){
+    this.showconf = false;
+    this.shownonconf = true;
+    this.showsus = false;
   }
-
+  showuser(){
+    this.showconf = false;
+    this.shownonconf = false;
+    this.showsus = true;
+  }
 }

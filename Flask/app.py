@@ -2,8 +2,8 @@ import flask
 import pymysql.err
 import sqlalchemy.exc
 from flask import Flask, jsonify, request
-from flask_cors import cross_origin
 from database.db_stars import DBStars, Stars
+from flask_cors import cross_origin
 from database.db_user import DbUser, User
 from database.db_drawingconstellation import DrawingConstellation, DbDrawingConstellation
 from database.db_planet import DBPlanet, Planet
@@ -16,6 +16,90 @@ app.config['JSON_AS_ASCII'] = False
 app.config['SECRET_KEY'] = b'\xaa\x89u\xf7M\xf03\xcb\x1b\xc6#\xd2"\x8b\xf8\xb7'
 
 
+@app.route('/confirmed-star/<ids>')
+@cross_origin()
+def confirmed_star(ids):
+    try:
+        if request.method == 'GET':
+            if DBStars().update_entity(ids):
+                return jsonify({'result': True, 'message': 'Gwiazda została potwierdzona'})
+            return jsonify({'result': False, 'message': 'Błąd potwierdzenia gwiazdy'})
+    except AttributeError:
+        return jsonify({'result': False, 'message': 'Błąd potwierdzenia gwiazdy'})
+
+
+@app.route('/delete-star', methods=['POST'])
+@cross_origin()
+def delete_star():
+    try:
+        if request.method == 'POST':
+            tmp = flask.request.json
+            star = DBStars().delete_id(tmp['id'])
+            if star:
+                return jsonify({'result': True, 'message': "Usunięto gwiazdę " + tmp['name']})
+            return jsonify({'result': False, 'message': "Błąd usuwania gwiazdy"})
+    except AttributeError:
+        return jsonify({'result': False, 'message': "Błąd usuwania gwiazdy"})
+
+
+@app.route('/form-list-admin-NO', methods=['GET'])
+@cross_origin()
+def form_list_admin_NO():
+    try:
+        if request.method == 'GET':
+            stars = DBStars().get_all()
+            j = []
+            for s in stars:
+                if s.confirmed == "NO":
+                    j.append({'id': str(s.id),
+                              'confirmed': str(s.confirmed),
+                              'name': str(s.name),
+                              'rectascension': str(s.rectascension),
+                              'declination': str(s.declination),
+                              'radial_speed': str(s.radial_speed),
+                              'distance': str(s.distance),
+                              'brightness': str(s.brightness),
+                              'star_type': str(s.star_type),
+                              'mass': str(s.mass),
+                              'greek_symbol': str(s.greek_symbol),
+                              'discaverer_name': str(s.discaverer.name),
+                              'discaverer_lastname': str(s.discaverer.surname),
+                              'constellation_name': str(s.constellation.name),
+                              })
+            return jsonify(j)
+    except TypeError:
+        return jsonify({'result': False, 'message': "Błąd pobierania"})
+
+
+@app.route('/form-list-admin-YES', methods=['GET'])
+@cross_origin()
+def form_list_admin_YES():
+    try:
+        if request.method == 'GET':
+            stars = DBStars().get_all()
+            j = []
+            for s in stars:
+                if s.confirmed == "YES":
+                    j.append({'id': str(s.id),
+                              'confirmed': str(s.confirmed),
+                              'name': str(s.name),
+                              'rectascension': str(s.rectascension),
+                              'declination': str(s.declination),
+                              'radial_speed': str(s.radial_speed),
+                              'distance': str(s.distance),
+                              'brightness': str(s.brightness),
+                              'star_type': str(s.star_type),
+                              'mass': str(s.mass),
+                              'greek_symbol': str(s.greek_symbol),
+                              'discaverer_name': str(s.discaverer.name),
+                              'discaverer_lastname': str(s.discaverer.surname),
+                              'constellation_name': str(s.constellation.name),
+                              })
+            return jsonify(j)
+    except AttributeError:
+        return jsonify({'result': False, 'message': "Błąd pobierania"})
+
+
 @app.route('/login-system', methods=['POST'])
 @cross_origin()
 def user_login():
@@ -24,7 +108,7 @@ def user_login():
             tmp = flask.request.json
             user = DbUser().get_one_by_name(tmp["username"])
             j = []
-            if user.password == tmp["password"]:
+            if user.password == str(tmp["password"]):
                 j.append({
                     'id': str(user.id),
                     'firstname': str(user.name),
@@ -34,8 +118,7 @@ def user_login():
                     'email': str(user.email),
                     'rules': str(user.rules)
                 })
-                return jsonify(j)
-            return jsonify({'id': None, 'message': "Niepoparwne hasło"})
+            return jsonify(j)
     except AttributeError:
         return jsonify({'id': None, 'message': "Niepoprawne dane logowania"})
 
@@ -128,23 +211,26 @@ def data_for_image(id_cons):
     return jsonify(j)
 
 
-@app.route('/to-jsonC', methods=['GET'])
+@app.route('/constellation', methods=['GET'])
 @cross_origin()
 def to_jsonC():
-    constellations = DBConstellations().get_all()
-
-    j = []
-    for c in constellations:
-        j.append({
-            'id': str(c.id),
-            'name': str(c.name),
-            'declination': str(c.declination),
-            'symbolism': str(c.symbolism),
-            'sky_side': str(c.sky_side),
-            'area': str(c.area)
-        })
-    return jsonify(j)
-
+    try:
+        if request.method == 'GET':
+            constellations = DBConstellations().get_all()
+            j = []
+            for c in constellations:
+                j.append({
+                    'id': str(c.id),
+                    'name': str(c.name),
+                    'declination': str(c.declination),
+                    'symbolism': str(c.symbolism),
+                    'sky_side': str(c.sky_side),
+                    'area': str(c.area)
+                })
+            return jsonify(j)
+        return jsonify({'result': False, 'message': 'Bład pobierania gwiazdozbiorów'})
+    except AttributeError:
+        return jsonify({'result': False, 'message': 'Błąd danych'})
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])
 @cross_origin()

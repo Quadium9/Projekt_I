@@ -55,11 +55,9 @@ class DBStars(DB):
 
     def update_entity(self, ids):
         try:
-            if validation.validationNone(([self.stars.name, self.stars.rectascension, self.stars.declination])):
-                self.util.get_session().add(self.stars)
-                self.util.get_session().commit()
-                return True
-            return Exceptions.ExceptionNone
+            self.util.get_session().query(Stars).filter(Stars.id == ids).update({Stars.confirmed: "YES"}, synchronize_session = False)
+            self.util.get_session().commit()
+            return True
         except Response:
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')

@@ -26,6 +26,10 @@ import { FormListComponent } from './form-list/form-list.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { ProfileComponent } from './profile/profile.component';
 import { MoreInfoStarComponent } from './more-info-star/more-info-star.component';
+import { ConfirmedstarComponent } from './confirmedstar/confirmedstar.component';
+import { NonconfirmedstarComponent } from './nonconfirmedstar/nonconfirmedstar.component';
+import { UserComponent } from './user/user.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +52,10 @@ import { MoreInfoStarComponent } from './more-info-star/more-info-star.component
     FormListComponent,
     ProfileComponent,
     MoreInfoStarComponent,
+    ConfirmedstarComponent,
+    NonconfirmedstarComponent,
+    UserComponent,
+    EditFormComponent,
   ],
   imports: [
     BrowserModule,

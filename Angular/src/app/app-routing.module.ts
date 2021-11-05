@@ -15,8 +15,10 @@ import { ToolbarUserComponent } from './toolbar-user/toolbar-user.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MoreInfoStarComponent } from './more-info-star/more-info-star.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
 
 const routes: Routes = [
+  { path: 'edit-form', component: EditFormComponent},
   { path: 'search-star', component: SearchStarComponent},
   { path: 'constellation-list', component: ConstellationListComponent},
   { path: 'login-system', component: LoginSystemComponent},
