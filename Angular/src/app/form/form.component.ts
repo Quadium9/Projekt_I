@@ -51,14 +51,18 @@ export class FormComponent implements OnInit {
     this.starModelObj.name = this.formValue.value.inputname;
     this.starModelObj.brightness = this.formValue.value.inputbrightness;
     this.starModelObj.constellation = this.formValue.value.inputconstellation;
-    this.starModelObj.declination = this.formValue.value.inputdeclh + "h" + this.formValue.value.inputdeclm + "m" + this.formValue.value.inputdecls + "s";
-    this.starModelObj.rectascension = this.formValue.value.inputrecth + "°" + this.formValue.value.inputrectm + "′" + this.formValue.value.inputrects + "″";
+    this.starModelObj.declinationh = this.formValue.value.inputdeclh;
+    this.starModelObj.declinationm = this.formValue.value.inputdeclm;
+    this.starModelObj.declinations = this.formValue.value.inputdecls;
+    this.starModelObj.rectascensionh = this.formValue.value.inputrecth;
+    this.starModelObj.rectascensionm = this.formValue.value.inputrectm;
+    this.starModelObj.rectascensions = this.formValue.value.inputrects;
     this.starModelObj.distance = this.formValue.value.inputdistance;
     this.starModelObj.discavererid = this.tokenStorage.getUser()[0].id
     this.starModelObj.mass = this.formValue.value.inputmass;
     this.starModelObj.radial_speed = this.formValue.value.inputspeed;
     this.starModelObj.star_type = this.formValue.value.inputtype;
-
+    console.log(this.starModelObj)
     if (this.formValue.value.inputname == null) {
       alert("Nazwa jest wymagana");
       return 0;
@@ -76,12 +80,11 @@ export class FormComponent implements OnInit {
       return 0;
     }
     this.api.postAddStar(this.starModelObj).subscribe(res => {
-      if (res.message) {
-        alert(res.message);
-        this.formValue.reset();
-      } else {
+      if (res.result) {
         alert("Wysłano formularz o nowej gwieżdzie");
         this.formValue.reset();
+      } else {
+        alert(res.message);
       }
     },
     )

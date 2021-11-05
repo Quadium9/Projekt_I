@@ -10,14 +10,18 @@ class Stars(Base):
     __tablename__ = 'stars'
     id = Column('id', Integer, primary_key=True, nullable=False, autoincrement=True)
     name = Column('name', String(100), nullable=False)
-    rectascension = Column('rectascension', String(20), nullable=False)
-    declination = Column('declination', String(20), nullable=False)
+    rectascensionh = Column('rectascensionh', Integer, nullable=False)
+    rectascensionm = Column('rectascensionm', Integer, nullable=False)
+    rectascensions = Column('rectascensions', Integer, nullable=False)
+    declinationh = Column('declinationh', Integer, nullable=False)
+    declinationm = Column('declinationm', Integer, nullable=False)
+    declinations = Column('declinations', Integer, nullable=False)
+    confirmed = Column('confirmed', String(3), nullable=False)
     radial_speed = Column('radial_speed', String(20))
     distance = Column('distance', String(20))
     brightness = Column('brightness', String(20))
     star_type = Column('star_type', String(50))
     mass = Column('mass', String(20))
-    confirmed = Column('confirmed', String(3), nullable=False)
     greek_symbol = Column('greek_symbols', String(1))
 
     constelation_id = Column('constellation_id', Integer,
@@ -29,8 +33,9 @@ class Stars(Base):
     discaverer = relationship('User', lazy='subquery')
 
     def __repr__(self):
-        tmp = str(self.id) + ', ' + str(self.name) + ', ' + str(self.rectascension) + ', ' + str(self.declination) \
-              + ', ' + str(self.constellation.name) + ', ' + self.confirmed
+        tmp = str(self.id) + ', ' + str(self.name) + ', ' + str(self.rectascensionh) + ', ' + str(self.declinationh) \
+              + ', ' + str(self.constellation.name) + ', ' + self.confirmed + ', ' + str(self.rectascensionm) + \
+              ', ' + str(self.rectascensions) + ', ' + str(self.declinationm) + ', ' + str(self.declinations)
 
         # Radial speed is NULL
         if self.radial_speed is None:
@@ -74,26 +79,17 @@ class Constellations(Base):
     __tablename__ = 'constellations'
     id = Column('id', Integer, primary_key=True, nullable=False, autoincrement=True)
     name = Column('name', String(100), nullable=False)
-    declination = Column('declination', String(100), nullable=False)
+    declinationh = Column('declinationh', Integer, nullable=False)
+    declinationm = Column('declinationm', Integer, nullable=False)
+    declinations = Column('declinations', Integer, nullable=False)
     symbolism = Column('symbolism', String(2000))
     sky_side = Column('sky_side', String(50))
     area = Column('area', Float)
 
     def __repr__(self):
-        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.declination) + ', ' + str(
-            self.symbolism) + ', ' + str(self.sky_side) + \
-               ', ' + str(float(self.area))
-
-
-class Planet(Base):
-    __tablename__ = 'planet'
-    id = Column('id', Integer, primary_key=True, nullable=False, autoincrement=True)
-    name = Column('name', String(100), nullable=False)
-    id_star = Column('id_star', Integer, ForeignKey('stars.id', ondelete="CASCADE"), nullable=True)
-    star = relationship('Stars', lazy='subquery')
-
-    def __repr__(self):
-        return str(self.id) + ", " + self.name + ', ' + str(self.star.name)
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.declinationh) + ', ' + str(
+            self.symbolism) + ', ' + str(self.sky_side) + ', ' + str(self.declinationm) + ', ' \
+               + str(self.declinations) + ', ' + str(float(self.area))
 
 
 class User(Base):
@@ -107,8 +103,8 @@ class User(Base):
     rules = Column('rules', String(20), nullable=False)
 
     def __repr__(self):
-        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.surname) + ', ' + str(self.login) + ', ' + str(self.password) + ', ' \
-               + str(self.email) + ', ' + str(self.rules)
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.surname) + ', ' + str(self.login) + ', ' + \
+               str(self.password) + ', ' + str(self.email) + ', ' + str(self.rules)
 
 
 class DrawingConstellation(Base):

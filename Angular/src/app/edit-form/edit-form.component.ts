@@ -50,8 +50,12 @@ export class EditFormComponent implements OnInit {
     this.starModelObj.name = this.formValue.value.inputname;
     this.starModelObj.brightness = this.formValue.value.inputbrightness;
     this.starModelObj.constellation = this.formValue.value.inputconstellation;
-    this.starModelObj.declination = this.formValue.value.inputdeclh + "h" + this.formValue.value.inputdeclm + "m" + this.formValue.value.inputdecls + "s";
-    this.starModelObj.rectascension = this.formValue.value.inputrecth + "°" + this.formValue.value.inputrectm + "′" + this.formValue.value.inputrects + "″";
+    this.starModelObj.declinationh = this.formValue.value.inputdeclh;
+    this.starModelObj.declinationm = this.formValue.value.inputdeclm;
+    this.starModelObj.declinations = this.formValue.value.inputdecls;
+    this.starModelObj.rectascensionh = this.formValue.value.inputrecth;
+    this.starModelObj.rectascensionm = this.formValue.value.inputrectm;
+    this.starModelObj.rectascensions = this.formValue.value.inputrects;
     this.starModelObj.distance = this.formValue.value.inputdistance;
     this.starModelObj.discavererid = this.tokenStorage.getUser()[0].id
     this.starModelObj.mass = this.formValue.value.inputmass;

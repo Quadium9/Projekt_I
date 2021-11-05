@@ -25,7 +25,6 @@ export class NonconfirmedstarComponent implements OnInit {
   }
   getStar() {
     this.api.getFormListNO().subscribe(res => {
-      console.log(res)
       if (res == null) {
         this.errorMessage = "Bląd wyszukiwania"
       } else {

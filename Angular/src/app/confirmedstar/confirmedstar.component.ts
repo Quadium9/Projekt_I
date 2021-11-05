@@ -13,7 +13,6 @@ const STAR = "";
 export class ConfirmedstarComponent implements OnInit {
 
   errorMessage = "";
-  noStar = false;
   starData !: any;
 
   constructor(private api: ApiService, private router: Router, private tokenStorage:TokenStorageService) { }

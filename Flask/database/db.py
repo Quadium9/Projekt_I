@@ -28,7 +28,7 @@ class DB(ABC):
         pass
 
     @abstractmethod
-    def update_entity(self, ids):
+    def update_entity(self, ids, option):
         pass
 
     @abstractmethod

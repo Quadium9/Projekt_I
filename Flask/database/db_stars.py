@@ -23,7 +23,7 @@ class DBStars(DB):
 
     def add_entity(self):
         try:
-            if validation.validationNone([self.stars.name, self.stars.rectascension, self.stars.declination]):
+            if validation.validationNone([self.stars.name, self.stars.rectascensionh, self.stars.rectascensionm, self.stars.rectascensions, self.stars.declinationh, self.stars.declinationm, self.stars.declinations]):
                 if validation.validate_text(self.stars.mass) and validation.validate_text(self.stars.brightness)\
                         and validation.validate_text(self.stars.distance) and validation.validate_text(self.stars.radial_speed):
                     self.util.get_session().add(self.stars)
@@ -53,7 +53,7 @@ class DBStars(DB):
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')
 
-    def update_entity(self, ids):
+    def update_entity(self, ids, option):
         try:
             self.util.get_session().query(Stars).filter(Stars.id == ids).update({Stars.confirmed: "YES"}, synchronize_session = False)
             self.util.get_session().commit()

@@ -6,7 +6,6 @@ from database.db_stars import DBStars, Stars
 from flask_cors import cross_origin
 from database.db_user import DbUser, User
 from database.db_drawingconstellation import DrawingConstellation, DbDrawingConstellation
-from database.db_planet import DBPlanet, Planet
 from database.db_constelations import DBConstellations, Constellations
 
 app = Flask(__name__)
@@ -54,8 +53,12 @@ def form_list_admin_NO():
                     j.append({'id': str(s.id),
                               'confirmed': str(s.confirmed),
                               'name': str(s.name),
-                              'rectascension': str(s.rectascension),
-                              'declination': str(s.declination),
+                              'rectascensionh': str(s.rectascensionh),
+                              'rectascensionm': str(s.rectascensionm),
+                              'rectascensions': str(s.rectascensions),
+                              'declinationh': str(s.declinationh),
+                              'declinationm': str(s.declinationm),
+                              'declinations': str(s.declinations),
                               'radial_speed': str(s.radial_speed),
                               'distance': str(s.distance),
                               'brightness': str(s.brightness),
@@ -83,8 +86,12 @@ def form_list_admin_YES():
                     j.append({'id': str(s.id),
                               'confirmed': str(s.confirmed),
                               'name': str(s.name),
-                              'rectascension': str(s.rectascension),
-                              'declination': str(s.declination),
+                              'rectascensionh': str(s.rectascensionh),
+                              'rectascensionm': str(s.rectascensionm),
+                              'rectascensions': str(s.rectascensions),
+                              'declinationh': str(s.declinationh),
+                              'declinationm': str(s.declinationm),
+                              'declinations': str(s.declinations),
                               'radial_speed': str(s.radial_speed),
                               'distance': str(s.distance),
                               'brightness': str(s.brightness),
@@ -96,6 +103,59 @@ def form_list_admin_YES():
                               'constellation_name': str(s.constellation.name),
                               })
             return jsonify(j)
+        return jsonify({'result': False, 'message': "Błąd pobierania"})
+    except AttributeError:
+        return jsonify({'result': False, 'message': "Błąd pobierania"})
+
+
+@app.route('/user-to-admin', methods=['POST'])
+@cross_origin()
+def user_to_admin():
+    try:
+        if request.method == 'POST':
+            tmp = flask.request.json
+            tmp['rules'] = 'administrator'
+            user = DbUser().update_entity(tmp, 'rules')
+            if user:
+                return jsonify({'result': True, 'message': "Użytkownik " + tmp['username'] + " został administratorem"})
+        return jsonify({'result': False, 'message': 'Błąd zmiany uprawnień'})
+    except AttributeError:
+        return jsonify({'result': False, 'message': 'Niepoprawne dane'})
+
+
+@app.route('/admin-to-user', methods=['POST'])
+@cross_origin()
+def admin_to_user():
+    try:
+        if request.method == 'POST':
+            tmp = flask.request.json
+            tmp['rules'] = 'użytkownik'
+            user = DbUser().update_entity(tmp, 'rules')
+            if user:
+                return jsonify({'result': True, 'message': "Administrator " + tmp['username'] + " został użytkownikiem"})
+        return jsonify({'result': False, 'message': 'Błąd zmiany uprawnień'})
+    except AttributeError:
+        return jsonify({'result': False, 'message': 'Niepoprawne dane'})
+
+
+@app.route('/get-all-user', methods=['GET'])
+@cross_origin()
+def get_all_user():
+    try:
+        if request.method == 'GET':
+            user = DbUser().get_all()
+            j = []
+            for u in user:
+                j.append({
+                    'id': str(u.id),
+                    'username': str(u.login),
+                    'firstname': str(u.name),
+                    'lastname': str(u.surname),
+                    'email': str(u.email),
+                    'rules': str(u.rules)
+                })
+            return jsonify(j)
+        return jsonify({'result': False, 'message': "Błąd pobierania"})
     except AttributeError:
         return jsonify({'result': False, 'message': "Błąd pobierania"})
 
@@ -152,8 +212,12 @@ def add_new_star():
             star = Stars()
             cons = DBConstellations().get_one_by_name(tmp['constellation'])
             star.name = tmp['name']
-            star.rectascension = tmp['rectascension']
-            star.declination = tmp['declination']
+            star.rectascensionh = tmp['rectascensionh']
+            star.rectascensionm = tmp['rectascensionm']
+            star.rectascensions = tmp['rectascensions']
+            star.declinationh = tmp['declinationh']
+            star.declinationm = tmp['declinationm']
+            star.declinations = tmp['declinations']
             star.constelation_id = cons.id
             star.discaverer_id = tmp['discavererid']
             star.star_type = tmp['star_type']
@@ -164,9 +228,9 @@ def add_new_star():
             star.greek_symboxl = None
             star.confirmed = "NO"
             DBStars(star).add_entity()
-            return jsonify({'message': "Wysłano formularz"})
+            return jsonify({'result': True, 'message': "Wysłano formularz"})
     except AttributeError:
-        return jsonify({'message': "Podany gwiazdozbiór nie istnieje w bazie"})
+        return jsonify({'result': False, 'message': "Podany gwiazdozbiór nie istnieje w bazie"})
 
 
 @app.route('/get_one_star_by_name/<star_name>', methods=['GET'])
@@ -180,8 +244,12 @@ def get_one_star_by_name(star_name):
                 j.append({'id': str(s.id),
                           'confirmed': str(s.confirmed),
                           'name': str(s.name),
-                          'rectascension': str(s.rectascension),
-                          'declination': str(s.declination),
+                          'rectascensionh': str(s.rectascensionh),
+                          'rectascensionm': str(s.rectascensionm),
+                          'rectascensions': str(s.rectascensions),
+                          'declinationh': str(s.declinationh),
+                          'declinationm': str(s.declinationm),
+                          'declinations': str(s.declinations),
                           'radial_speed': str(s.radial_speed),
                           'distance': str(s.distance),
                           'brightness': str(s.brightness),
@@ -238,8 +306,12 @@ def get_one_star(star_id):
     s = DBStars().get(star_id)
     j = ({'id': str(s.id),
           'name': str(s.name),
-          'rectascension': str(s.rectascension),
-          'declination': str(s.declination),
+          'rectascensionh': str(s.rectascensionh),
+          'rectascensionm': str(s.rectascensionm),
+          'rectascensions': str(s.rectascensions),
+          'declinationh': str(s.declinationh),
+          'declinationm': str(s.declinationm),
+          'declinations': str(s.declinations),
           'radial_speed': str(s.radial_speed),
           'distance': str(s.distance),
           'brightness': str(s.brightness),

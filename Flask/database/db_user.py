@@ -1,5 +1,3 @@
-import sqlalchemy.exc
-
 import common.validation as cv
 from .db import DB
 from flask import Response
@@ -47,8 +45,17 @@ class DbUser(DB):
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')
 
-    def update_entity(self, ids):
-        pass
+    def update_entity(self, ids, option):
+        try:
+            if option == 'rules':
+                self.util.get_session().query(User).filter(User.id == ids['id']).update({User.rules: ids['rules']},
+                                                                                    synchronize_session=False)
+
+            self.util.get_session().commit()
+            return True
+        except Response:
+            self.util.session_rollback()
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def delete_id(self, ide):
         try:

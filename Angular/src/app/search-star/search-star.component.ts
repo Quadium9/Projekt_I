@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
 
@@ -15,7 +14,7 @@ export class SearchStarComponent implements OnInit {
   errorMessage = "";
   noStar = false;
   starData !: any;
-  constructor(private http: HttpClient, private api: ApiService, private router: Router) {
+  constructor(private api: ApiService, private router: Router) {
   }
   ngOnInit(): void {
   }

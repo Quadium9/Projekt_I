@@ -1,6 +1,5 @@
 from models.orm import *
 from database.db_drawingconstellation import DbDrawingConstellation
-from database.db_planet import DBPlanet
 from database.db_stars import DBStars
 from database.db_user import DbUser
 from database.db_constelations import DBConstellations
@@ -39,7 +38,9 @@ class TestConstellation(unittest.TestCase):
     def testaddconstellation(self):
         constellation = Constellations()
         constellation.name = 'test2'
-        constellation.declination = '-10:20:30.0'
+        constellation.declinationh = 1
+        constellation.declinationm = 2
+        constellation.declinations = 3
         constellation.symbolism = 'test'
         constellation.sky_side = cardinal_direction.CardinalDirection.North.value
         constellation.area = 123.4

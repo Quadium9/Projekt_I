@@ -45,7 +45,7 @@ class DBConstellations(DB):
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')
 
-    def update_entity(self, ids):
+    def update_entity(self, ids, option):
         pass
 
     def delete_id(self, e_id):

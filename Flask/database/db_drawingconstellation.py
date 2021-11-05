@@ -26,7 +26,7 @@ class DbDrawingConstellation(DB):
     def get(self, id_sel):
         return False
 
-    def update_entity(self, ids):
+    def update_entity(self, ids, option):
         try:
             if self.drawing.connected_Star is not None:
                 self.util.get_session().query(DrawingConstellation).filter(DrawingConstellation.id == ids).\

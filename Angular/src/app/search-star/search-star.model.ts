@@ -1,8 +1,12 @@
 export class StarModel{
     id: number = 0;
     name: string = '';
-    rectascension: string = '';
-    declination: string = '';
+    rectascensionh: number = 0;
+    rectascensionm: number = 0;
+    rectascensions: number = 0;
+    declinationh: number = 0;
+    declinationm: number = 0;
+    declinations: number = 0;
     radial_speed: string = '';
     distance: string = '';
     brightness: string = '';
