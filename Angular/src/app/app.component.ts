@@ -22,10 +22,10 @@ export class AppComponent {
       const user = this.tokenStorageService.getUser();
       this.rules = user[0].rules;
       
-      if (this.rules === 'admin'){
+      if (this.rules === 'administrator'){
         this.showAdminBoard = true;
       }
-      if (this.rules === 'user'){
+      if (this.rules === 'użytkownik'){
         this.showUserBoard = true;
       }
       this.username = user.username;

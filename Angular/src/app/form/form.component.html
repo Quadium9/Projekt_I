@@ -17,6 +17,9 @@
             <input type="number" class="form-control mx-2" formControlName="inputdeclm" required max="60" placeholder="YY">′
             <input type="number" class="form-control mx-2" formControlName="inputdecls" required max="60" placeholder="ZZ">″
         </div>
+        <div class="alert-danger" *ngIf="inputdeclh.errors">
+            <div *ngIf="inputdeclh.errors.required">Pole wymagane</div>
+        </div>
         <div class="form-group p-2">
             <label for="starconstellation">Gwiazdozbiór</label>
             <input type="text" class="form-control" formControlName="inputconstellation" required placeholder="Podaj nazwę gwiazdozbioru">

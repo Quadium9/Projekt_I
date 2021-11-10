@@ -21,6 +21,7 @@ export class ApiService {
   url_get_all_user = "http://127.0.0.1:5000/get-all-user";
   url_admin_to_user = "http://127.0.0.1:5000/admin-to-user";
   url_user_to_admin = "http://127.0.0.1:5000/user-to-admin";
+  url_edit_star = "http://127.0.0.1:5000/edit-star";
 
   postAddStar(data: any){
     return this.httpclient.post<any>(this.url_add_star, data).pipe(map((res:any)=>{
@@ -59,12 +60,17 @@ export class ApiService {
   }
   adminToUser(data: any){
     return this.httpclient.post(this.url_admin_to_user, data).pipe(map((res:any)=>{
-      return res
+      return res;
     }))
   }
   userToAdmin(data: any){
     return this.httpclient.post(this.url_user_to_admin, data).pipe(map((res:any)=>{
-      return res
+      return res;
+    }))
+  }
+  editStar(data: any){
+    return this.httpclient.post(this.url_edit_star, data).pipe(map((res:any)=>{
+      return res;
     }))
   }
 }

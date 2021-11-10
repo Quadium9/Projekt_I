@@ -15,14 +15,29 @@ app.config['JSON_AS_ASCII'] = False
 app.config['SECRET_KEY'] = b'\xaa\x89u\xf7M\xf03\xcb\x1b\xc6#\xd2"\x8b\xf8\xb7'
 
 
-@app.route('/confirmed-star/<ids>')
+@app.route('/edit-star', methods=['POST'])
+@cross_origin()
+def edit_star():
+    try:
+        tmp = flask.request.json
+        cons = DBConstellations().get_one_by_name(tmp['constellation'])
+        tmp['constellation'] = cons.id
+        star = DBStars().update_entity(tmp, "edit")
+        if star:
+            return jsonify({'result': True, 'message': 'Dane gwiazdy został zmienione'})
+        return jsonify({'result': False, 'message': 'Błąd edycji gwiazdy'})
+    except AttributeError:
+        return jsonify({'result': False, 'message': 'Błąd w parametrach gwiazdy'})
+
+
+@app.route('/confirmed-star/<ids>', methods=['GET'])
 @cross_origin()
 def confirmed_star(ids):
     try:
         if request.method == 'GET':
-            if DBStars().update_entity(ids):
+            if DBStars().update_entity(ids, "confirm"):
                 return jsonify({'result': True, 'message': 'Gwiazda została potwierdzona'})
-            return jsonify({'result': False, 'message': 'Błąd potwierdzenia gwiazdy'})
+            return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Błąd potwierdzenia gwiazdy'})
 
@@ -212,6 +227,10 @@ def add_new_star():
             star = Stars()
             cons = DBConstellations().get_one_by_name(tmp['constellation'])
             star.name = tmp['name']
+            if tmp['rectascensionh'] > 60 or tmp['rectascensionm'] > 60 or tmp['rectascensions'] > 60:
+                return jsonify({'result': False, 'message': "Rektascencja nie może przekroczyć 60"})
+            if tmp['declinationh'] > 60 or tmp['declinationm'] > 60 or tmp['declinations'] > 60:
+                return jsonify({'result': False, 'message': "Deklinacja nie może przekroczyć 60"})
             star.rectascensionh = tmp['rectascensionh']
             star.rectascensionm = tmp['rectascensionm']
             star.rectascensions = tmp['rectascensions']
@@ -290,7 +309,9 @@ def to_jsonC():
                 j.append({
                     'id': str(c.id),
                     'name': str(c.name),
-                    'declination': str(c.declination),
+                    'declinationh': str(c.declinationh),
+                    'declinationm': str(c.declinationm),
+                    'declinations': str(c.declinations),
                     'symbolism': str(c.symbolism),
                     'sky_side': str(c.sky_side),
                     'area': str(c.area)
@@ -299,6 +320,7 @@ def to_jsonC():
         return jsonify({'result': False, 'message': 'Bład pobierania gwiazdozbiorów'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Błąd danych'})
+
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])
 @cross_origin()

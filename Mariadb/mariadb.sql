@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Wersja serwera:               10.6.3-MariaDB - mariadb.org binary distribution
+-- Wersja serwera:               10.6.4-MariaDB - mariadb.org binary distribution
 -- Serwer OS:                    Win64
 -- HeidiSQL Wersja:              11.3.0.6295
 -- --------------------------------------------------------
@@ -21,20 +21,22 @@ USE `starsdb`;
 CREATE TABLE IF NOT EXISTS `constellations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
-  `declination` varchar(100) NOT NULL DEFAULT '',
+  `declinationh` tinyint(4) NOT NULL DEFAULT 0,
+  `declinationm` tinyint(4) NOT NULL DEFAULT 0,
+  `declinations` tinyint(4) NOT NULL DEFAULT 0,
   `symbolism` text NOT NULL,
   `sky_side` varchar(50) NOT NULL DEFAULT '',
   `area` float NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
 
--- Zrzucanie danych dla tabeli starsdb.constellations: ~1 rows (około)
+-- Zrzucanie danych dla tabeli starsdb.constellations: ~2 rows (około)
 DELETE FROM `constellations`;
 /*!40000 ALTER TABLE `constellations` DISABLE KEYS */;
-INSERT INTO `constellations` (`id`, `name`, `declination`, `symbolism`, `sky_side`, `area`) VALUES
-	(21, 'test', '-10:20:30.0', 'test', 'CardinalDirection.North', 123.4),
-	(23, 'test2', '-10:20:30.0', 'test', 'north', 123.4);
+INSERT INTO `constellations` (`id`, `name`, `declinationh`, `declinationm`, `declinations`, `symbolism`, `sky_side`, `area`) VALUES
+	(1, 'test', 1, 1, 1, 'cos', 'North', 100),
+	(24, 'test2', 1, 2, 3, 'test', 'north', 123.4);
 /*!40000 ALTER TABLE `constellations` ENABLE KEYS */;
 
 -- Zrzut struktury tabela starsdb.drawing_constellation
@@ -47,35 +49,21 @@ CREATE TABLE IF NOT EXISTS `drawing_constellation` (
   CONSTRAINT `in` FOREIGN KEY (`star_name_in`) REFERENCES `stars` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 
--- Zrzucanie danych dla tabeli starsdb.drawing_constellation: ~1 rows (około)
+-- Zrzucanie danych dla tabeli starsdb.drawing_constellation: ~0 rows (około)
 DELETE FROM `drawing_constellation`;
 /*!40000 ALTER TABLE `drawing_constellation` DISABLE KEYS */;
-INSERT INTO `drawing_constellation` (`id`, `star_name_in`, `star_name_out`) VALUES
-	(21, 17, 19);
 /*!40000 ALTER TABLE `drawing_constellation` ENABLE KEYS */;
-
--- Zrzut struktury tabela starsdb.planet
-CREATE TABLE IF NOT EXISTS `planet` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `id_star` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `SK` (`id_star`),
-  CONSTRAINT `SK` FOREIGN KEY (`id_star`) REFERENCES `stars` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
-
--- Zrzucanie danych dla tabeli starsdb.planet: ~1 rows (około)
-DELETE FROM `planet`;
-/*!40000 ALTER TABLE `planet` DISABLE KEYS */;
-/*!40000 ALTER TABLE `planet` ENABLE KEYS */;
 
 -- Zrzut struktury tabela starsdb.stars
 CREATE TABLE IF NOT EXISTS `stars` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `rectascension` varchar(20) NOT NULL,
-  `declination` varchar(20) NOT NULL,
+  `rectascensionh` tinyint(4) NOT NULL DEFAULT 0,
+  `rectascensionm` tinyint(4) NOT NULL DEFAULT 0,
+  `rectascensions` tinyint(4) NOT NULL DEFAULT 0,
+  `declinationh` tinyint(4) NOT NULL DEFAULT 0,
+  `declinationm` tinyint(4) NOT NULL DEFAULT 0,
+  `declinations` tinyint(4) NOT NULL DEFAULT 0,
   `radial_speed` varchar(20) DEFAULT NULL,
   `distance` varchar(20) DEFAULT NULL,
   `brightness` varchar(20) DEFAULT NULL,
@@ -90,18 +78,13 @@ CREATE TABLE IF NOT EXISTS `stars` (
   KEY `CK` (`constellation_id`) USING BTREE,
   CONSTRAINT `CK` FOREIGN KEY (`constellation_id`) REFERENCES `constellations` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `DK` FOREIGN KEY (`discaverer_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3;
 
--- Zrzucanie danych dla tabeli starsdb.stars: ~6 rows (około)
+-- Zrzucanie danych dla tabeli starsdb.stars: ~1 rows (około)
 DELETE FROM `stars`;
 /*!40000 ALTER TABLE `stars` DISABLE KEYS */;
-INSERT INTO `stars` (`Id`, `name`, `rectascension`, `declination`, `radial_speed`, `distance`, `brightness`, `star_type`, `mass`, `greek_symbols`, `constellation_id`, `discaverer_id`, `confirmed`) VALUES
-	(17, 'test', '10:20:30.1', '10:20:30.1', '10', '100', '1000', 'Brown dwarf', '10000', 'Ω', 21, 62, 'NO'),
-	(19, 'testowy', '10:22:30.1', '10:22:30.1', '10', '100', '1000', 'Brown dwarf', '100001', 'Ω', 21, 62, 'YES'),
-	(20, '2', '2h 2m 2s', '2h 2m 2s', '2', '2', '2', 'Unknown', '2', NULL, 23, 62, 'NO'),
-	(21, 'Wymagane', '1h 1m 1s', '1h 1m 1s', '3', '3', '3', 'Unknown', '3', NULL, 23, 62, 'NO'),
-	(22, 'Wymagane2', '2h 2m 2s', '2h 2m 2s', '', '', '', 'Unknown', '', NULL, 21, 62, 'YES'),
-	(23, '4', '4°4′4″', '4h4m4s', '', '', '', 'Unknown', '', NULL, 21, 62, 'NO');
+INSERT INTO `stars` (`Id`, `name`, `rectascensionh`, `rectascensionm`, `rectascensions`, `declinationh`, `declinationm`, `declinations`, `radial_speed`, `distance`, `brightness`, `star_type`, `mass`, `greek_symbols`, `constellation_id`, `discaverer_id`, `confirmed`) VALUES
+	(37, 'test', 1, 1, 1, 1, 1, 1, '200', '185', '56', 'White dwarf', '8888', NULL, 24, 62, 'YES');
 /*!40000 ALTER TABLE `stars` ENABLE KEYS */;
 
 -- Zrzut struktury tabela starsdb.user
@@ -118,13 +101,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `login` (`login`)
 ) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb3;
 
--- Zrzucanie danych dla tabeli starsdb.user: ~2 rows (około)
+-- Zrzucanie danych dla tabeli starsdb.user: ~3 rows (około)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `name`, `surname`, `login`, `password`, `email`, `rules`) VALUES
-	(62, 'admin', 'admin', 'admin', 'adminadmin', 'admin@admin.admin', 'admin'),
-	(77, 'test', 'test', 'wqe', '12345678', 'test2@test.test', 'user'),
-	(79, 'test', 'test', 'wqewqe', 'fweqwewqeq', 'test10@test.test', 'user');
+	(62, 'admin', 'admin', 'admin', 'adminadmin', 'admin@admin.admin', 'administrator'),
+	(77, 'test', 'test', 'wqe', '12345678y', 'test2@test.test', 'użytkownik'),
+	(79, 'test', 'test', 'wqewqe', 'fweqwewqeq', 'test10@test.test', 'użytkownik');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

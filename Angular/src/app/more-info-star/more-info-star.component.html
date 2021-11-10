@@ -33,16 +33,17 @@
                 <td id="startype"></td>
             </tr>
             <tr>
+                <td>Odkrywca</td>
+                <td id="stardiscaverer"></td>
+            </tr>
+            <tr>
                 <td>Dystans od Słońca</td>
                 <td id="stardistance"></td>
             </tr>
             <tr>
                 <td>Jasność</td>
                 <td id="starbrightness"></td>
-            </tr>
-            <tr>
-                <td>Odkrywca</td>
-                <td id="stardiscaverer"></td>
+                
             </tr>
             <tr>
                 <td>Symbol gwiazdy</td>
@@ -58,4 +59,19 @@
             </tr>
         </tbody>
     </table>
+</div>
+<form>
+    Procent wartości prędkości światła
+    <div class="slidecontainer" style="text-align: center;" >
+        <input type="range" min="1" max="100" value="50" class="slider" id="myrange" style="width: 40%;" (change)="getSliderValue($event)" (oninput)="getSliderValue($event)">
+        <p id="num"></p>
+    </div>
+    <div>
+        Teoretyczny czas lotu statku kosmicznego: {{result}} lat <br>
+        Prędkość: {{km}} km/h
+    </div>
+</form>
+<div>
+    <iframe src="https://www.lightpollutionmap.info/#zoom=4.00&lat=45.8720&lon=14.5470&layers=B0FFFFFFFTFFFFFFFFFF"
+        width="100%" height="500px" style="margin-top: 50px"></iframe>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { StarModel } from '../search-star/search-star.model';
 import { ApiService } from '../shared/api.service';
 import { TokenStorageService } from '../_services/token-storage.service';
@@ -11,7 +12,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 })
 export class EditFormComponent implements OnInit {
 
-  constructor(private tokenStorage: TokenStorageService, private formBuilder: FormBuilder, private api: ApiService) { }
+  constructor(private tokenStorage: TokenStorageService, private formBuilder: FormBuilder, private api: ApiService, private router: Router) { }
 
   form: any = {
     name: null,
@@ -28,25 +29,34 @@ export class EditFormComponent implements OnInit {
     if (this.tokenStorage.getToken() == null) {
       window.location.replace("/")
     }
+    if (this.api.STAR == null){
+      this.router.navigate(['/form-list']);
+    }
+    this.createfrom()
+  }
+
+  createfrom(){
     this.formValue = this.formBuilder.group({
-      inputname: null,
-      inputrecth: null,
-      inputrectm: null,
-      inputrects: null,
-      inputdeclh: null,
-      inputdeclm: null,
-      inputdecls: null,
-      inputconstellation: null,
-      inputtype: ['Unknown'],
-      inputspeed: [''],
-      inputdistance: [''],
-      inputbrightness: [''],
-      inputmass: ['']
+      inputname: this.api.STAR.name,
+      inputrecth: this.api.STAR.rectascensionh,
+      inputrectm: this.api.STAR.rectascensionm,
+      inputrects: this.api.STAR.rectascensions,
+      inputdeclh: this.api.STAR.declinationh,
+      inputdeclm: this.api.STAR.declinationm,
+      inputdecls: this.api.STAR.declinations,
+      inputconstellation: this.api.STAR.constellation_name,
+      inputtype: this.api.STAR.star_type,
+      inputspeed: this.api.STAR.radial_speed,
+      inputdistance: this.api.STAR.distance,
+      inputbrightness: this.api.STAR.brightness,
+      inputmass: this.api.STAR.mass
     })
     this.firstname = this.tokenStorage.getUser()[0].firstname;
     this.lastname = this.tokenStorage.getUser()[0].lastname;
   }
+
   postStarDetails() {
+    this.starModelObj.id = this.api.STAR.id;
     this.starModelObj.name = this.formValue.value.inputname;
     this.starModelObj.brightness = this.formValue.value.inputbrightness;
     this.starModelObj.constellation = this.formValue.value.inputconstellation;
@@ -78,13 +88,12 @@ export class EditFormComponent implements OnInit {
       alert("Gwiazdozbiór jest wymagany");
       return 0;
     }
-    this.api.postAddStar(this.starModelObj).subscribe(res => {
+    this.api.editStar(this.starModelObj).subscribe(res => {
       if (res.message) {
         alert(res.message);
-        this.formValue.reset();
+        this.router.navigate['/form-list']
       } else {
-        alert("Wysłano formularz o nowej gwieżdzie");
-        this.formValue.reset();
+        alert(res.message);
       }
     },
     )

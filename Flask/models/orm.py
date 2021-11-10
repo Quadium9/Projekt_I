@@ -82,6 +82,9 @@ class Constellations(Base):
     declinationh = Column('declinationh', Integer, nullable=False)
     declinationm = Column('declinationm', Integer, nullable=False)
     declinations = Column('declinations', Integer, nullable=False)
+    rectascensionh = Column('rectascensionh', Integer, nullable=False)
+    rectascensionm = Column('rectascensionm', Integer, nullable=False)
+    rectascensions = Column('rectascensions', Integer, nullable=False)
     symbolism = Column('symbolism', String(2000))
     sky_side = Column('sky_side', String(50))
     area = Column('area', Float)
@@ -89,7 +92,8 @@ class Constellations(Base):
     def __repr__(self):
         return str(self.id) + ', ' + str(self.name) + ', ' + str(self.declinationh) + ', ' + str(
             self.symbolism) + ', ' + str(self.sky_side) + ', ' + str(self.declinationm) + ', ' \
-               + str(self.declinations) + ', ' + str(float(self.area))
+            + str(self.declinations) + ', ' + str(float(self.area)) + ', ' + str(self.rectascensionh) \
+            + ', ' + str(self.rectascensionm) + ', ' + str(self.rectascensions)
 
 
 class User(Base):
