@@ -1,12 +1,11 @@
 import flask
-import pymysql.err
 import sqlalchemy.exc
 from flask import Flask, jsonify, request
 from database.db_stars import DBStars, Stars
 from flask_cors import cross_origin
 from database.db_user import DbUser, User
-from database.db_drawingconstellation import DrawingConstellation, DbDrawingConstellation
-from database.db_constelations import DBConstellations, Constellations
+from database.db_drawingconstellation import DbDrawingConstellation
+from database.db_constelations import DBConstellations
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
