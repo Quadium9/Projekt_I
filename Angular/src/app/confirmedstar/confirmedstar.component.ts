@@ -29,6 +29,7 @@ export class ConfirmedstarComponent implements OnInit {
       if (res == null) {
         this.errorMessage = "Bląd wyszukiwania"
       } else {
+        console.log(res)
         this.starData = res;
       }
     })

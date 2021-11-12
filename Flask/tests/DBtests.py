@@ -35,28 +35,10 @@ class TestUser(unittest.TestCase):
 
 class TestConstellation(unittest.TestCase):
 
-    def testaddconstellation(self):
-        constellation = Constellations()
-        constellation.name = 'test2'
-        constellation.declinationh = 1
-        constellation.declinationm = 2
-        constellation.declinations = 3
-        constellation.symbolism = 'test'
-        constellation.sky_side = cardinal_direction.CardinalDirection.North.value
-        constellation.area = 123.4
-        dbconstellation = DBConstellations(constellation)
-        global identyfikator
-        identyfikator = dbconstellation.add_entity()
-        self.assertIsNotNone(identyfikator)
-
-    def testconstellationdelete(self):
-        dbconstellation = DBConstellations()
-        self.assertTrue(dbconstellation.delete_id(21))
-
     def testconstellationget(self):
         dbconstellation = DBConstellations()
-        print(dbconstellation.get_all())
-        self.assertIsNotNone(dbconstellation.get(23))
+        print(dbconstellation.get(130))
+        self.assertIsNotNone(dbconstellation.get(130))
 
 
 class TestStar(unittest.TestCase):
@@ -81,7 +63,9 @@ class TestStar(unittest.TestCase):
 
     def teststarget(self):
         dbstar = DBStars()
-        self.assertIsNotNone(dbstar.get(17))
+        print(dbstar.get_all())
+        rt = dbstar.get_all()
+        self.assertIsNotNone(rt)
 
     def testgetdatabyname(self):
         dbstar = DBStars()
@@ -91,31 +75,6 @@ class TestStar(unittest.TestCase):
     def testdeletestar(self):
         dbstars = DBStars()
         self.assertTrue(dbstars.delete_id(11))
-
-
-class TestPlanet(unittest.TestCase):
-
-    def testaddplanet(self):
-        planet = Planet()
-        planet.name = 'test'
-        planet.id_star = 12
-        dbplanet = DBPlanet(planet)
-        self.assertIsNotNone(dbplanet.add_entity())
-
-    def testgetplanet(self):
-        dbplanet = DBPlanet()
-        self.assertIsNotNone(dbplanet.get(11))
-
-    def testupdateplanet(self):
-        planet = Planet()
-        planet.name = 'Test'
-        planet.id_star = 12
-        dbplanet = DBPlanet(planet)
-        self.assertIsNotNone(dbplanet.update_entity(11))
-
-    def testdeleteplanet(self):
-        dbplanet = DBPlanet()
-        self.assertTrue(dbplanet.delete_id(11))
 
 
 class TestDrawingConstellation(unittest.TestCase):

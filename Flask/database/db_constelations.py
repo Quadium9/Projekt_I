@@ -1,7 +1,7 @@
 from .db import DB
 from models.orm import Constellations
 from flask import Response
-from common import validation as cv
+
 
 class DBConstellations(DB):
 

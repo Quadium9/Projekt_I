@@ -64,6 +64,12 @@ def form_list_admin_NO():
             j = []
             for s in stars:
                 if s.confirmed == "NO":
+                    if s.discaverer == None:
+                        disn = "Nie przypisano"
+                        disl = ""
+                    else:
+                        disn = str(s.discaverer.name)
+                        disl = str(s.discaverer.surname)
                     j.append({'id': str(s.id),
                               'confirmed': str(s.confirmed),
                               'name': str(s.name),
@@ -79,8 +85,8 @@ def form_list_admin_NO():
                               'star_type': str(s.star_type),
                               'mass': str(s.mass),
                               'greek_symbol': str(s.greek_symbol),
-                              'discaverer_name': str(s.discaverer.name),
-                              'discaverer_lastname': str(s.discaverer.surname),
+                              'discaverer_name': disn,
+                              'discaverer_lastname': disl,
                               'constellation_name': str(s.constellation.name),
                               })
             return jsonify(j)
@@ -97,6 +103,12 @@ def form_list_admin_YES():
             j = []
             for s in stars:
                 if s.confirmed == "YES":
+                    if s.discaverer == None:
+                        disn = "Nie przypisano"
+                        disl = ""
+                    else:
+                        disn = str(s.discaverer.name)
+                        disl = str(s.discaverer.surname)
                     j.append({'id': str(s.id),
                               'confirmed': str(s.confirmed),
                               'name': str(s.name),
@@ -112,8 +124,8 @@ def form_list_admin_YES():
                               'star_type': str(s.star_type),
                               'mass': str(s.mass),
                               'greek_symbol': str(s.greek_symbol),
-                              'discaverer_name': str(s.discaverer.name),
-                              'discaverer_lastname': str(s.discaverer.surname),
+                              'discaverer_name': disn,
+                              'discaverer_lastname': disl,
                               'constellation_name': str(s.constellation.name),
                               })
             return jsonify(j)
@@ -297,9 +309,9 @@ def data_for_image(id_cons):
     return jsonify(j)
 
 
-@app.route('/constellation', methods=['GET'])
+@app.route('/all-constellations', methods=['GET'])
 @cross_origin()
-def to_jsonC():
+def all_constellations():
     try:
         if request.method == 'GET':
             constellations = DBConstellations().get_all()
@@ -308,9 +320,8 @@ def to_jsonC():
                 j.append({
                     'id': str(c.id),
                     'name': str(c.name),
-                    'declinationh': str(c.declinationh),
-                    'declinationm': str(c.declinationm),
-                    'declinations': str(c.declinations),
+                    'declination': str(c.declination),
+                    'rectascension': str(c.rectascension),
                     'symbolism': str(c.symbolism),
                     'sky_side': str(c.sky_side),
                     'area': str(c.area)
@@ -319,6 +330,18 @@ def to_jsonC():
         return jsonify({'result': False, 'message': 'Bład pobierania gwiazdozbiorów'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Błąd danych'})
+
+
+@app.route('/number_of_star/<const_id>', methods=['GET'])
+@cross_origin()
+def number_of_star(const_id):
+    star = DBStars().get_all()
+    j = 0
+    for s in star:
+        if int(s.constellation.id) == int(const_id):
+            print(s)
+            j = j + 1
+    return jsonify({'numb': j})
 
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])

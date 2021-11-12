@@ -1,8 +1,24 @@
-<div class="container">
-    <h4>
-        Lista gwiazdozbiorów ustalnona przez Międzynarodową Unię Astronomiczną
-    </h4>
-    <div id="list">
-        
-    </div>
+<div class="top-0 start-0 translate-middle">
+    <table class="table table-dark" id="table">
+        <thead>
+            <tr id="theader">
+                <th scope="col">Nazwa</th>
+                <th scope="col">Deklinacja</th>
+                <th scope="col">Rektascencja</th>
+                <th scope="col">Półkula</th>
+                <th scope="col" style="text-align: center;">Więcej informacji</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="constellationdata != null">
+            <tr *ngFor="let row of constellationdata">
+                <td id="cosntname">Gwiazdozbiór {{row.name}}</td>
+                <td id="constrec">{{row.rectascension}}h</td>
+                <td id="constdec">{{row.declination}}°</td>
+                <td id="constskyside">{{row.sky_side}}</td>
+                <td style="max-height: fit-content; text-align: center;"><button type="button"
+                        class="btn btn-secondary text-white bg-dark" (click)="moreInfo(row)">Szczegóły</button></td>
+
+            </tr>
+        </tbody>
+    </table>
 </div>

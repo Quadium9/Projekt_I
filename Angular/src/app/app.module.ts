@@ -30,6 +30,7 @@ import { ConfirmedstarComponent } from './confirmedstar/confirmedstar.component'
 import { NonconfirmedstarComponent } from './nonconfirmedstar/nonconfirmedstar.component';
 import { UserComponent } from './user/user.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
+import { ConstellationMoreInfoComponent } from './constellation-more-info/constellation-more-info.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { EditFormComponent } from './edit-form/edit-form.component';
     NonconfirmedstarComponent,
     UserComponent,
     EditFormComponent,
+    ConstellationMoreInfoComponent,
   ],
   imports: [
     BrowserModule,

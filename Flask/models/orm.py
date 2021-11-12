@@ -39,27 +39,27 @@ class Stars(Base):
 
         # Radial speed is NULL
         if self.radial_speed is None:
-            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown.value)
         else:
             tmp = tmp + ', ' + str(self.radial_speed)
         # Distance is NUll
         if self.distance is None:
-            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown.value)
         else:
             tmp = tmp + ', ' + str(self.distance)
         # Brightness is NULL
         if self.brightness is None:
-            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown.value)
         else:
             tmp = tmp + ', ' + str(self.brightness)
         # Star type is NULL
         if self.star_type is None:
-            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown.value)
         else:
             tmp = tmp + ', ' + str(self.star_type)
         # Star mass is NULL
         if self.mass is None:
-            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+            tmp = tmp + ', ' + str(stars_type.StarsType.unknown.value)
         else:
             tmp = tmp + ', ' + str(self.mass)
         # Greek symbol is NULL
@@ -68,10 +68,10 @@ class Stars(Base):
         else:
             tmp = tmp + ', ' + str(self.greek_symbol)
         # Discaverer is Null
-        if self.discaverer.name is not None and self.discaverer.surname is not None:
-            tmp = tmp + ', ' + self.discaverer.name + ', ' + self.discaverer.surname
+        if self.discaverer is None:
+            tmp = tmp + ', None'
         else:
-            tmp = tmp + ', ' + str(stars_type.StarsType.unknown)
+            tmp = tmp + ', ' + self.discaverer.name + ', ' + self.discaverer.surname
         return tmp
 
 
@@ -86,7 +86,7 @@ class Constellations(Base):
     area = Column('area', Float)
 
     def __repr__(self):
-        return str(self.id) + ', ' + str(self.name) + ', ' + str(self.declination) + ', ' + str(self.rectascension)\
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(float(self.declination)) + ', ' + str(float(self.rectascension))\
                + ', ' + str(self.symbolism) + ', ' + str(self.sky_side) + ', ' + str(float(self.area))
 
 

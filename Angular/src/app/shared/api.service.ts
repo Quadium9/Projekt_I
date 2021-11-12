@@ -8,7 +8,8 @@ import { map } from 'rxjs/operators'
 })
 export class ApiService {
 
-  public STAR:any;
+  public STAR: any;
+  public CONSTELLATION: any;
 
   constructor(private httpclient: HttpClient) { }
 
@@ -22,6 +23,8 @@ export class ApiService {
   url_admin_to_user = "http://127.0.0.1:5000/admin-to-user";
   url_user_to_admin = "http://127.0.0.1:5000/user-to-admin";
   url_edit_star = "http://127.0.0.1:5000/edit-star";
+  url_all_constellations = "http://127.0.0.1:5000/all-constellations";
+  url_number_of_star = "http://127.0.0.1:5000/number_of_star/";
 
   postAddStar(data: any){
     return this.httpclient.post<any>(this.url_add_star, data).pipe(map((res:any)=>{
@@ -70,6 +73,16 @@ export class ApiService {
   }
   editStar(data: any){
     return this.httpclient.post(this.url_edit_star, data).pipe(map((res:any)=>{
+      return res;
+    }))
+  }
+  allconstellations(){
+    return this.httpclient.get(this.url_all_constellations).pipe(map((res:any)=>{
+      return res;
+    }))
+  }
+  numberofstar(data: number){
+    return this.httpclient.get(this.url_number_of_star + data).pipe(map((res:any)=>{
       return res;
     }))
   }

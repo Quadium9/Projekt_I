@@ -16,8 +16,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MoreInfoStarComponent } from './more-info-star/more-info-star.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
+import { ConstellationMoreInfoComponent } from './constellation-more-info/constellation-more-info.component';
 
 const routes: Routes = [
+  { path: 'constellation-more-info', component: ConstellationMoreInfoComponent},
   { path: 'edit-form', component: EditFormComponent},
   { path: 'search-star', component: SearchStarComponent},
   { path: 'constellation-list', component: ConstellationListComponent},
