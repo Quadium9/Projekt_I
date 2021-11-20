@@ -14,7 +14,7 @@ export class ApiService {
   constructor(private httpclient: HttpClient) { }
 
   url_add_star = "http://127.0.0.1:5000/add_new_star";
-  url_get_Star_by_name = "http://127.0.0.1:5000/get_one_star_by_name/";
+  url_get_Star_by_name = "http://127.0.0.1:5000/get_star_by_name/";
   url_get_form_list_NO = "http://127.0.0.1:5000/form-list-admin-NO";
   url_get_form_list_YES = "http://127.0.0.1:5000/form-list-admin-YES";
   url_delete_star = "http://127.0.0.1:5000/delete-star";
@@ -24,7 +24,8 @@ export class ApiService {
   url_user_to_admin = "http://127.0.0.1:5000/user-to-admin";
   url_edit_star = "http://127.0.0.1:5000/edit-star";
   url_all_constellations = "http://127.0.0.1:5000/all-constellations";
-  url_number_of_star = "http://127.0.0.1:5000/number_of_star/";
+  url_image_data_const = "http://127.0.0.1:5000/image-data-const/";
+  url_number_star = "http://127.0.0.1:5000/number_of_star/"
 
   postAddStar(data: any){
     return this.httpclient.post<any>(this.url_add_star, data).pipe(map((res:any)=>{
@@ -81,8 +82,8 @@ export class ApiService {
       return res;
     }))
   }
-  numberofstar(data: number){
-    return this.httpclient.get(this.url_number_of_star + data).pipe(map((res:any)=>{
+  imagedataconst(data: string){
+    return this.httpclient.get(this.url_image_data_const + data).pipe(map((res:any)=>{
       return res;
     }))
   }

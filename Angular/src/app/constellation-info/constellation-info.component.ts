@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../shared/api.service';
 
 @Component({
   selector: 'app-constellation-info',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConstellationInfoComponent implements OnInit {
 
-  constructor() { }
+  drawingdata !: any;
+
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
   }
-
 }

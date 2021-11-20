@@ -9,8 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule} from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
 import { SearchStarComponent } from './search-star/search-star.component';
-import { DrawConstComponent } from './draw-const/draw-const.component';
-import { StarsComponent } from './stars/stars.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ConstellationListComponent } from './constellation-list/constellation-list.component';
 import { LoginSystemComponent } from './login-system/login-system.component';
@@ -31,14 +29,13 @@ import { NonconfirmedstarComponent } from './nonconfirmedstar/nonconfirmedstar.c
 import { UserComponent } from './user/user.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
 import { ConstellationMoreInfoComponent } from './constellation-more-info/constellation-more-info.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
     SearchStarComponent,
-    DrawConstComponent,
-    StarsComponent,
     WelcomeComponent,
     ConstellationListComponent,
     LoginSystemComponent,
@@ -70,7 +67,7 @@ import { ConstellationMoreInfoComponent } from './constellation-more-info/conste
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [ authInterceptorProviders],
+  providers: [ authInterceptorProviders, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

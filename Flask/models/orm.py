@@ -68,9 +68,7 @@ class Stars(Base):
         else:
             tmp = tmp + ', ' + str(self.greek_symbol)
         # Discaverer is Null
-        if self.discaverer is None:
-            tmp = tmp + ', None'
-        else:
+        if self.discaverer is not None:
             tmp = tmp + ', ' + self.discaverer.name + ', ' + self.discaverer.surname
         return tmp
 
@@ -108,10 +106,11 @@ class User(Base):
 class DrawingConstellation(Base):
     __tablename__ = "drawing_constellation"
     id = Column('id', Integer, primary_key=True, nullable=False, autoincrement=True)
-    star_name_out = Column("star_name_out", Integer, nullable=False)
-    star_name_in = Column('star_name_in', Integer,
-                          ForeignKey('stars.id', ondelete="CASCADE"), nullable=False)
-    star = relationship('Stars', lazy='subquery')
+    star_name_in = Column('star_name_in', Integer, nullable=False)
+    star_name_out = Column('star_name_out', Integer, nullable=False)
+    constellation_id = Column('constellation_id', Integer,
+                              ForeignKey('constellations.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
-        return str(self.id) + ', ' + str(self.star.id) + ', ' + str(self.star_name_out)
+        return str(self.id) + ', ' + str(self.star_name_in) + ', ' + str(self.star_name_out)\
+               + ', ' + str(self.constellation_id)

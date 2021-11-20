@@ -42,7 +42,7 @@
             <tr>
                 <td>Jasność</td>
                 <td id="starbrightness"></td>
-                
+
             </tr>
             <tr>
                 <td>Symbol gwiazdy</td>
@@ -60,17 +60,27 @@
     </table>
 </div>
 <form>
-    Procent wartości prędkości światła
-    <div class="slidecontainer" style="text-align: center;" >
-        <input type="range" min="1" max="100" value="50" class="slider" id="myrange" style="width: 40%;" (change)="getSliderValue($event)" (oninput)="getSliderValue($event)">
+    <div style="text-align: center; padding-top: 32px;">
+        <h3>Procent wartości prędkości światła</h3>
+    </div>
+    <div class="slidecontainer" style="text-align: center;">
+        <input type="range" min="1" max="100" value="50" class="slider" id="myrange" style="width: 40%;"
+            (change)="getSliderValue($event)" (oninput)="getSliderValue($event)">
         <p id="num"></p>
     </div>
-    <div>
-        Teoretyczny czas lotu statku kosmicznego: {{result}} lat <br>
-        Prędkość: {{km}} km/h
+    <div style="padding: 16px; background-color: #2a3035 ;">
+        <h4>
+            Teoretyczny czas lotu statku kosmicznego: {{result}} lat <br>
+            Prędkość: {{km}} km/h
+        </h4>
     </div>
 </form>
 <div>
+    <div style="padding: 24px; margin-top: 32px;">
+        <button type="button" class="btn btn-primary text-white btn-lg btn-block" (click)="showMap()">Zobacz obszary z utrudnioną obserwacją nocnego nieba</button>
+    </div>
+    <div *ngIf="mapdiv">
     <iframe src="https://www.lightpollutionmap.info/#zoom=4.00&lat=45.8720&lon=14.5470&layers=B0FFFFFFFTFFFFFFFFFF"
-        width="100%" height="500px" style="margin-top: 50px"></iframe>
+        width="100%" height="720px" style="margin-top: 50px"></iframe>
+    </div>
 </div>

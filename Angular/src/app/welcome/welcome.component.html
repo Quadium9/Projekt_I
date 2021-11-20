@@ -1,15 +1,15 @@
 <div class="main form-grid">
     <div class="Text">
         <h2 class="textgradient">STAR DATABASE <br></h2><br>
-
-        <h4>Ta aplikacja powstała, aby ułatwić wyszukiwanie informacji o gwiazdach i gwiazdozbiorach.</h4>
     </div>
     <div class="star-info">
         <app-under-line></app-under-line>
-        <h2 id="title1">Co to jest gwiazda?</h2>
+        <div id="title1">Co to jest gwiazda?</div>
         Wikipedia: "Gwiazda – kuliste ciało niebieskie, stanowiące skupisko powiązanej grawitacyjnie materii."
-        Powyższy tekst pochodzi z znanej, wśród ludzi szukających wiedzy, strony internetowej i oddaje on dokładny opis
-        obiektów, które nazywamy gwiazdami. Dla nas są one odległymi punktami, które zachwycają nas swoim wyglądem, a
+        Powyższy tekst pochodzi z znanej, wśród ludzi szukających wiedzy, strony internetowej i oddaje on dokładny
+        opis
+        obiektów, które nazywamy gwiazdami. Dla nas są one odległymi punktami, które zachwycają nas swoim wyglądem,
+        a
         ważnym aspektem
         ich podziwiania powinna być dokładniejsze wiedza i chęć zrozumienia w jaki sposób działają.
     </div>
@@ -29,42 +29,48 @@
         <app-under-line></app-under-line>
     </div>
     <div class="units">
-        <div >
+        <div>
             <h2 id="title1">Jednostki używane w aplikacji</h2>
         </div>
         <div class="units2">
-            <h3 id="tmp"><br>Masa: M☉ (masa Słońca)</h3>
+            <h3 class="tmp"><br>Masa: M☉ (masa Słońca)</h3>
             Jest to najczęściej używana jednostka przy opisywaniu obiektów astronomicznych.
             Masa słońca wynosi około 1.9884 x 10^30kg czyli 1.9884 kwintyliona kilogramów i jest ponad 330 000 razy
             większa od masy Ziemi.<br>
-            <h3 id="tmp"><br> Jasność: L☉ (jasność Słońca)</h3>
+            <h3 class="tmp"><br> Jasność: L☉ (jasność Słońca)</h3>
             Jednostka astronomiczna używana do określenia jasności gwiazd. L☉ równa się średniej jasności bolometrycznej
             Słońca: 1 L☉ = 3.827 x 10^26 W. Wartość ta określa moc promieniowania elektromagnetycznego rodzimej gwiazdy
             we wszystkich zakresach fal, nie tylko tych widzialnych. Emitowana moc Słońca nie jest stała lecz podlega
             zmianom w trakcie cyklu słonecznego, ale są one małę w porównaniu z średnią wartością.
-            <h3 id="tmp"><br>Dystans: l.y. (en. light year)</h3>
+            <h3 class="tmp"><br>Dystans: l.y. (en. light year)</h3>
             Jednostka odległości stosowana w astronomi. Rok świetly jest to odległość jaką pokona światło w próżni w
             ciągu roku juliańskiego (365.25 dni). W przeliczeniu na kilometry odległość ta wynosi około
             9 500 000 000 000 km. Jednostka nie ma ustalonego symbolu. Podana jednostka jest używana przez
-            Międzynarodową Unię Astronimiczną. Podawana wartość w aplikacji odnosi się do odległości miedzy Słońcem 
+            Międzynarodową Unię Astronimiczną. Podawana wartość w aplikacji odnosi się do odległości miedzy Słońcem
             a daną gwiazdą.
-            <h3 id="tmp"><br>Prędkość radialna: km/s</h3>
+            <h3 class="tmp"><br>Prędkość radialna: km/s</h3>
             Wartość ta odpowiada prędkości zbliżania się lub oddalania obiektu od obserwatora. Wartości określa się
             jako prędkość zmian długości promienia wodzącego, a kierunkiem wzdłuż promienia wodzącego.<br>
-            <img src="../../assets/photo/radial_speed.svg" id="radial_speed"/><br>
+            <img src="../../assets/photo/radial_speed.svg" id="radial_speed" /><br>
             r – wersor o kierunku radialnym<br><br>
-            W astronomi prędkość radialna to składowa prędkości mierzona między obserwatorem a ciałęm niebieskim. Dla uproszczenia
-            obliczeń pomija się ruch obrotowy Ziemi wokół Słońca. Najczęstszą metodą wyznaczania tej wartości jest analiza widma obiektu,
+            W astronomi prędkość radialna to składowa prędkości mierzona między obserwatorem a ciałęm niebieskim. Dla
+            uproszczenia
+            obliczeń pomija się ruch obrotowy Ziemi wokół Słońca. Najczęstszą metodą wyznaczania tej wartości jest
+            analiza widma obiektu,
             w którym wyszukuje się regularnych przesunięć lini widmowych spowodowanych efektem Doppplera.
-            <h3 id="tmp"><br>Rektascencja: XX h : YY m : ZZ s</h3>
+            <h3 class="tmp"><br>Rektascencja: XX h : YY m : ZZ s</h3>
             Współrzędna wykorzysywana w astronomi, która określa położenie ciała niebieskiego w układzie współrzędnych
-            astronomicznych nazywanym układem równikowym równonocnym. Wartość ta określana jest jakokąt dwuścienny między 
-            płaszczyzną koła godzinnego punktu równonocy wiosennej a płaszczyzną koła godzinnego obiektu. Wspłórzędna ta 
+            astronomicznych nazywanym układem równikowym równonocnym. Wartość ta określana jest jakokąt dwuścienny
+            między
+            płaszczyzną koła godzinnego punktu równonocy wiosennej a płaszczyzną koła godzinnego obiektu. Wspłórzędna ta
             jest niezależna od ruchu obrotowego Ziemi.
-            <h3 id="tmp"><br>Deklinacja: XX° : YY′ : ZZ″</h3>
-            Współrzędna określająca położenie ciała niebieskiego w dwóch układach współrzędnych: równonocnym i godzinnym.
-            Wasrtości definiujemy jako kąt pomiędzy kierunkiem poprowadzonym od obserwatora do obiektu a płaszczyzną równika 
-            niebieskiego. Rozważamy dwa zakresy wartości, półkula północna ma wartośći dodatnie, a półkula południowa ujemne.
+            <h3 class="tmp"><br>Deklinacja: XX° : YY′ : ZZ″</h3>
+            Współrzędna określająca położenie ciała niebieskiego w dwóch układach współrzędnych: równonocnym i
+            godzinnym.
+            Wasrtości definiujemy jako kąt pomiędzy kierunkiem poprowadzonym od obserwatora do obiektu a płaszczyzną
+            równika
+            niebieskiego. Rozważamy dwa zakresy wartości, półkula północna ma wartośći dodatnie, a półkula południowa
+            ujemne.
         </div>
     </div>
 
@@ -75,13 +81,9 @@
 
     <!--  Wysłać do doktora email wspomnieć o słońcu
 
-    CZas lotu do gwiazdy, statku kosmicznego
-
     Ciekawostki z gwiazd
 
     Formularz kontaktowy
-
-    Planety tylko dla układu Słonecznego
 
     Ciekawostki: Tajemnica gwiazdy betlejemnskiej, park ciemnego nieba bieszczady
 

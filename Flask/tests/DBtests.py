@@ -85,8 +85,7 @@ class TestDrawingConstellation(unittest.TestCase):
         dbdrawingconstellation = DbDrawingConstellation(drawingconstellation)
         self.assertIsNotNone(dbdrawingconstellation.add_entity())
 
-    def testupdatedrawingconstellation(self):
-        drawingconstellation = DrawingConstellation()
-        drawingconstellation.connected_Star = 13
-        dbdrawingconstellation = DbDrawingConstellation(drawingconstellation)
-        self.assertIsNotNone(dbdrawingconstellation.update_entity(21))
+    def testgetdrawingconstellation(self):
+        drawingconstellation = DbDrawingConstellation()
+        res = drawingconstellation.get_all()
+        self.assertIsNotNone(res)

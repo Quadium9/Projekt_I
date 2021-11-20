@@ -1,3 +1,5 @@
+import math
+
 import flask
 import sqlalchemy.exc
 from flask import Flask, jsonify, request
@@ -263,50 +265,99 @@ def add_new_star():
         return jsonify({'result': False, 'message': "Podany gwiazdozbiór nie istnieje w bazie"})
 
 
-@app.route('/get_one_star_by_name/<star_name>', methods=['GET'])
+@app.route('/get_star_by_name/<star_name>', methods=['GET'])
 @cross_origin()
-def get_one_star_by_name(star_name):
+def get_star_by_name(star_name):
     try:
         stars = DBStars().get_one_by_name(star_name)
         j = []
+        if star_name in None:
+            return jsonify({'message': 'Wpisz nazwę gwiazdy'})
         for s in stars:
             if s.confirmed == "YES":
-                j.append({'id': str(s.id),
-                          'confirmed': str(s.confirmed),
-                          'name': str(s.name),
-                          'rectascensionh': str(s.rectascensionh),
-                          'rectascensionm': str(s.rectascensionm),
-                          'rectascensions': str(s.rectascensions),
-                          'declinationh': str(s.declinationh),
-                          'declinationm': str(s.declinationm),
-                          'declinations': str(s.declinations),
-                          'radial_speed': str(s.radial_speed),
-                          'distance': str(s.distance),
-                          'brightness': str(s.brightness),
-                          'star_type': str(s.star_type),
-                          'mass': str(s.mass),
-                          'greek_symbol': str(s.greek_symbol),
-                          'discaverer_name': str(s.discaverer.name),
-                          'discaverer_lastname': str(s.discaverer.surname),
-                          'constellation_name': str(s.constellation.name),
-                          })
+                if s.discaverer is None:
+                    j.append({'id': str(s.id),
+                              'confirmed': str(s.confirmed),
+                              'name': str(s.name),
+                              'rectascensionh': str(s.rectascensionh),
+                              'rectascensionm': str(s.rectascensionm),
+                              'rectascensions': str(s.rectascensions),
+                              'declinationh': str(s.declinationh),
+                              'declinationm': str(s.declinationm),
+                              'declinations': str(s.declinations),
+                              'radial_speed': str(s.radial_speed),
+                              'distance': str(s.distance),
+                              'brightness': str(s.brightness),
+                              'star_type': str(s.star_type),
+                              'mass': str(s.mass),
+                              'greek_symbol': str(s.greek_symbol),
+                              'discaverer_name': "Nie przypisano",
+                              'discaverer_lastname': "Nie przypisano",
+                              'constellation_name': str(s.constellation.name),
+                              })
+                else:
+                    j.append({'id': str(s.id),
+                              'confirmed': str(s.confirmed),
+                              'name': str(s.name),
+                              'rectascensionh': str(s.rectascensionh),
+                              'rectascensionm': str(s.rectascensionm),
+                              'rectascensions': str(s.rectascensions),
+                              'declinationh': str(s.declinationh),
+                              'declinationm': str(s.declinationm),
+                              'declinations': str(s.declinations),
+                              'radial_speed': str(s.radial_speed),
+                              'distance': str(s.distance),
+                              'brightness': str(s.brightness),
+                              'star_type': str(s.star_type),
+                              'mass': str(s.mass),
+                              'greek_symbol': s.greek_symbol,
+                              'discaverer_name': s.discaverer.name,
+                              'discaverer_lastname': s.discaverer.surname,
+                              'constellation_name': s.constellation.name,
+                              })
         return jsonify(j)
     except TypeError:
         return jsonify({None})
 
 
-@app.route('/data-for-image/<id_cons>', methods=['GET'])
+@app.route('/image-data-const/<id_cons>', methods=['GET'])
 @cross_origin()
 def data_for_image(id_cons):
-    c = DbDrawingConstellation().get_one_by_name(id_cons)
-    j = []
-    for dc in c:
-        j.append({
-            'id': str(dc.id),
-            'star_name_in': str(dc.star_name_in),
-            'star_name_out': str(dc.star_name_out)
-        })
-    return jsonify(j)
+    try:
+        dc = DbDrawingConstellation().get_all()
+        s = DBStars()
+        c = DBConstellations().get(id_cons)
+        j = []
+        for dcc in dc:
+            dsi = s.get(dcc.star_name_in)
+            dso = s.get(dcc.star_name_out)
+
+            xstarin = float(dsi.distance) * math.cos((15 * dsi.rectascensionh) + (dsi.rectascensionm/4) + (dsi.rectascensions/240)) * math.cos(dsi.declinationh + (dsi.declinationm/60) + (dsi.declinations/3600))
+            ystarin = float(dsi.distance) * math.sin((15 * dsi.rectascensionh) + (dsi.rectascensionm/4) + (dsi.rectascensions/240)) * math.cos(dsi.declinationh + (dsi.declinationm/60) + (dsi.declinations/3600))
+            zstarin = math.sin(dsi.declinationh + dsi.declinationm/60 + dsi.declinations/3600)
+
+
+            xstarout = math.cos(dso.rectascensionh + dso.rectascensionm /60 + dso.rectascensions/3600) * math.cos(dso.declinationh + dso.declinationm/60 + dso.declinations/3600)
+            ystarout = math.sin(dso.rectascensionh + dso.rectascensionm/60 + dso.rectascensions/3600) * math.cos(dso.declinationh + dso.declinationm/60 + dso.declinations/3600)
+            zstarout = math.sin(dso.declinationh + dso.declinationm/60 + dso.declinations/3600)
+            print(ystarin, xstarin)
+            j.append({
+                'id': str(dcc.id),
+                'star_name_in': str(dcc.star_name_in),
+                'star_name_out': str(dcc.star_name_out),
+                'constellation_id': str(dcc.constellation_id),
+                'constellation_rec': str(c.rectascension),
+                'constellation_dec': str(c.declination),
+                'inbrightness': dsi.brightness,
+                'xstarin': xstarin,
+                'ystarin': ystarin,
+                'outbrightness': dso.brightness,
+                'xstarout': xstarout,
+                'ystarout': ystarout,
+            })
+        return jsonify(j)
+    except:
+        return jsonify({'res': False})
 
 
 @app.route('/all-constellations', methods=['GET'])
@@ -339,7 +390,6 @@ def number_of_star(const_id):
     j = 0
     for s in star:
         if int(s.constellation.id) == int(const_id):
-            print(s)
             j = j + 1
     return jsonify({'numb': j})
 
