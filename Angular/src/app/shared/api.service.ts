@@ -25,65 +25,70 @@ export class ApiService {
   url_edit_star = "http://127.0.0.1:5000/edit-star";
   url_all_constellations = "http://127.0.0.1:5000/all-constellations";
   url_image_data_const = "http://127.0.0.1:5000/image-data-const/";
-  url_number_star = "http://127.0.0.1:5000/number_of_star/"
+  url_update_user = "http://127.0.0.1:5000/update-user";
 
-  postAddStar(data: any){
-    return this.httpclient.post<any>(this.url_add_star, data).pipe(map((res:any)=>{
+  postAddStar(data: any) {
+    return this.httpclient.post<any>(this.url_add_star, data).pipe(map((res: any) => {
       return res;
     }))
   }
-  getStarByName(data: string){
-    return this.httpclient.get<any>(this.url_get_Star_by_name + data).pipe(map((res:any)=>{
+  getStarByName(data: string) {
+    return this.httpclient.get<any>(this.url_get_Star_by_name + data).pipe(map((res: any) => {
       return res;
     }))
   }
-  getFormListNO(){
-    return this.httpclient.get<any>(this.url_get_form_list_NO).pipe(map((res:any)=>{
+  getFormListNO() {
+    return this.httpclient.get<any>(this.url_get_form_list_NO).pipe(map((res: any) => {
       return res;
     }))
   }
-  getFormListYES(){
-    return this.httpclient.get<any>(this.url_get_form_list_YES).pipe(map((res:any)=>{
+  getFormListYES() {
+    return this.httpclient.get<any>(this.url_get_form_list_YES).pipe(map((res: any) => {
       return res;
     }))
   }
-  deletestar(data: any){
-    return this.httpclient.post(this.url_delete_star, data).pipe(map((res:any)=>{
+  deletestar(data: any) {
+    return this.httpclient.post(this.url_delete_star, data).pipe(map((res: any) => {
       return res;
     }))
   }
-  confirmedstar(id: number){
-    return this.httpclient.get(this.url_confirm_star + id).pipe(map((res:any)=>{
+  confirmedstar(id: number) {
+    return this.httpclient.get(this.url_confirm_star + id).pipe(map((res: any) => {
       return res;
     }))
   }
-  getAllUser(){
-    return this.httpclient.get(this.url_get_all_user).pipe(map((res:any)=>{
+  getAllUser() {
+    return this.httpclient.get(this.url_get_all_user).pipe(map((res: any) => {
       return res;
     }))
   }
-  adminToUser(data: any){
-    return this.httpclient.post(this.url_admin_to_user, data).pipe(map((res:any)=>{
+  adminToUser(data: any) {
+    return this.httpclient.post(this.url_admin_to_user, data).pipe(map((res: any) => {
       return res;
     }))
   }
-  userToAdmin(data: any){
-    return this.httpclient.post(this.url_user_to_admin, data).pipe(map((res:any)=>{
+  userToAdmin(data: any) {
+    return this.httpclient.post(this.url_user_to_admin, data).pipe(map((res: any) => {
       return res;
     }))
   }
-  editStar(data: any){
-    return this.httpclient.post(this.url_edit_star, data).pipe(map((res:any)=>{
+  editStar(data: any) {
+    return this.httpclient.post(this.url_edit_star, data).pipe(map((res: any) => {
       return res;
     }))
   }
-  allconstellations(){
-    return this.httpclient.get(this.url_all_constellations).pipe(map((res:any)=>{
+  allconstellations() {
+    return this.httpclient.get(this.url_all_constellations).pipe(map((res: any) => {
       return res;
     }))
   }
-  imagedataconst(data: string){
-    return this.httpclient.get(this.url_image_data_const + data).pipe(map((res:any)=>{
+  imagedataconst(data: string) {
+    return this.httpclient.get(this.url_image_data_const + data).pipe(map((res: any) => {
+      return res;
+    }))
+  }
+  updateuser(data: any) {
+    return this.httpclient.post(this.url_update_user, data).pipe(map((res: any) => {
       return res;
     }))
   }

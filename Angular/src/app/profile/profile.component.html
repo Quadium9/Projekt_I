@@ -1,5 +1,5 @@
 <div class="container">
-  <header class="jumbotron" id="main" >
+  <header class="jumbotron" id="main">
     <h3>
       Użytkownik: <strong>{{ currentUser.username }}</strong>
     </h3>
@@ -11,4 +11,60 @@
     <strong>Email:</strong> {{currentUser.email}}
   </p>
   <strong>Rola:</strong> {{currentUser.rules}}
+  <div class="my-4" style="width: 100%;">
+    <button type="button" class="btn btn-secondary text-white bg-dark" (click)="upclick()">Edytuj dane
+      logowania</button>
+  </div>
+
+  <form (ngSubmit)="updateuser(username.value, password.value)" *ngIf="click">
+    <div class="group p-2">
+      <label for="username">Nazwa użytkownika</label>
+      <input type="text" class="form-control" id="username" name="username" required maxlength="30" placeholder="Nazwa użytkownika" #username/>
+    </div>
+    <div class="alert-danger bg-danger rounded-pill" *ngIf="error" id="error">
+      <div *ngIf="username.required">
+        Nazwa użytkownika jest wymagana.
+      </div>
+      <div *ngIf="username.maxlength">
+        Nazwa użytkownika nie może być dłuższa niż 30 znaków.
+      </div>
+    </div>
+    <div class="form-group p-2">
+      <label for="passwordold">Stare hasło</label>
+      <input type="password" class="form-control" required maxlength="40" minlength="8" placeholder="Hasło" #passwordold />
+    </div>
+    <div class="alert-danger bg-danger rounded-pill" *ngIf="error" id="error">
+      <div *ngIf="passwordold.required">
+        Hasło jest wymagane
+      </div>
+      <div *ngIf="passwordold.minlength">
+        Hasło musi składać się z zo najmniej 8 znaków.
+      </div>
+      <div *ngIf="passwordold.minlength">
+        Hasło nie może być dłuższe niż 40 znaków
+      </div>
+    </div>
+    <div class="form-group p-2" style="margin-top: -16px;">
+      <label for="passwordnew">Nowe hasło</label>
+      <input type="password" class="form-control" required maxlength="40" minlength="8" placeholder="Hasło" #passwordnew />
+    </div>
+    <div class="alert-danger bg-danger rounded-pill" *ngIf="error" id="error">
+      <div *ngIf="passwordnew.required">
+        Hasło jest wymagane
+      </div>
+      <div *ngIf="passwordnew.minlength">
+        Hasło musi składać się z zo najmniej 8 znaków.
+      </div>
+      <div *ngIf="passwordnew.minlength">
+        Hasło nie może być dłuższe niż 40 znaków
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <button type="button" class="btn btn-secondary text-white bg-dark"
+        (click)="updateuser(username.value, passwordold.value, passwordnew.value)">Potwierdź</button>
+    </div>
+  </form>
+  <div>
+    {{errorMessage}}
+  </div>
 </div>

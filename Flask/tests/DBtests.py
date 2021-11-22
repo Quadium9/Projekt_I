@@ -3,9 +3,9 @@ from database.db_drawingconstellation import DbDrawingConstellation
 from database.db_stars import DBStars
 from database.db_user import DbUser
 from database.db_constelations import DBConstellations
-from common import cardinal_direction, stars_type
-from flask import request
+from common import stars_type, validation
 import unittest
+import common.encryption as enc
 
 
 class TestUser(unittest.TestCase):
@@ -89,3 +89,19 @@ class TestDrawingConstellation(unittest.TestCase):
         drawingconstellation = DbDrawingConstellation()
         res = drawingconstellation.get_all()
         self.assertIsNotNone(res)
+
+
+class ValidationTest(unittest.TestCase):
+
+    def testvalidation(self):
+        res = validation.validationNone("")
+        print(res)
+
+    def testcreatehash(self):
+        result = enc.createhash('adminadmin')
+        print(result)
+
+    def testcomparehash(self):
+        create = b'\x9a?\xa3\xba\x89Gc,#2\xa4\xf0\x8e\xdb\xd4\xb9\xa3N\x16\x81\xd5\x95\x1a\xeb\x19\xc2\xe8|E\xa3\x10\xae\x01\xc5B\x1a\x83,\xb1ds\x0f\x10%\xf7\x173\xd9O\xe7\x1a\x95C\xd9\x96\x18\x8d^u/\x0f\xb5\xee\xda'
+        res = enc.comparepassword('haslo', create)
+        print(res)

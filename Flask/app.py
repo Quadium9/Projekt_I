@@ -1,5 +1,6 @@
 import math
-
+import common.encryption as enc
+import common.calculator as calc
 import flask
 import sqlalchemy.exc
 from flask import Flask, jsonify, request
@@ -14,6 +15,24 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['JSON_AS_ASCII'] = False
 app.config['SECRET_KEY'] = b'\xaa\x89u\xf7M\xf03\xcb\x1b\xc6#\xd2"\x8b\xf8\xb7'
+
+
+@app.route('/update-user', methods=['POST'])
+@cross_origin()
+def update_user():
+    try:
+        tmp = flask.request.json
+        user = DbUser().get_one_by_name(tmp["username"])
+        if user.password == str(tmp["passwordold"]):
+            user = DbUser().update_entity(tmp, 'change')
+            if user:
+                return jsonify({'result': True, 'message': 'Dane logowania zostały zmienione'})
+            else:
+                return jsonify({'result': False, 'message': 'Błąd podczas zmiany danych logowania'})
+        else:
+            return jsonify({'result': False, 'message': 'Niepoprawne hasło'})
+    except AttributeError:
+        return jsonify({'result': False, 'message': 'Błąd serwera'})
 
 
 @app.route('/edit-star', methods=['POST'])
@@ -160,7 +179,8 @@ def admin_to_user():
             tmp['rules'] = 'użytkownik'
             user = DbUser().update_entity(tmp, 'rules')
             if user:
-                return jsonify({'result': True, 'message': "Administrator " + tmp['username'] + " został użytkownikiem"})
+                return jsonify(
+                    {'result': True, 'message': "Administrator " + tmp['username'] + " został użytkownikiem"})
         return jsonify({'result': False, 'message': 'Błąd zmiany uprawnień'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Niepoprawne dane'})
@@ -196,9 +216,10 @@ def user_login():
             tmp = flask.request.json
             user = DbUser().get_one_by_name(tmp["username"])
             j = []
-            if user.password == str(tmp["password"]):
+            if enc.comparepassword(tmp["password"], user.password):
                 j.append({
-                    'id': str(user.id),
+                    'result': True,
+                    'id': user.id,
                     'firstname': str(user.name),
                     'lastname': str(user.surname),
                     'username': str(user.login),
@@ -206,7 +227,9 @@ def user_login():
                     'email': str(user.email),
                     'rules': str(user.rules)
                 })
-            return jsonify(j)
+                return jsonify(j)
+            else:
+                return jsonify({'result': False, 'message': "Niepoprawne hasło lub nazwa użytkownika"})
     except AttributeError:
         return jsonify({'id': None, 'message': "Niepoprawne dane logowania"})
 
@@ -223,11 +246,11 @@ def register_user():
             user.login = tmp['username']
             user.password = tmp['password']
             user.email = tmp['email']
-            user.rules = 'user'
+            user.rules = 'użytkownik'
             new_user = DbUser(user).add_entity()
             j = ({'id': new_user})
             return jsonify(j)
-    except sqlalchemy.exc.IntegrityError as e:
+    except sqlalchemy.exc.IntegrityError:
         return jsonify(({'id': None, 'message': "Nazwa użytkownika lub email już istnieje"}))
 
 
@@ -271,8 +294,8 @@ def get_star_by_name(star_name):
     try:
         stars = DBStars().get_one_by_name(star_name)
         j = []
-        if star_name in None:
-            return jsonify({'message': 'Wpisz nazwę gwiazdy'})
+        if star_name is None:
+            return jsonify({'result': False, 'message': "Proszę wpisać nazwę"})
         for s in stars:
             if s.confirmed == "YES":
                 if s.discaverer is None:
@@ -292,7 +315,7 @@ def get_star_by_name(star_name):
                               'mass': str(s.mass),
                               'greek_symbol': str(s.greek_symbol),
                               'discaverer_name': "Nie przypisano",
-                              'discaverer_lastname': "Nie przypisano",
+                              'discaverer_lastname': "",
                               'constellation_name': str(s.constellation.name),
                               })
                 else:
@@ -317,7 +340,7 @@ def get_star_by_name(star_name):
                               })
         return jsonify(j)
     except TypeError:
-        return jsonify({None})
+        return jsonify({'result': False, 'message': "Błąd nazwy gwiazdy"})
 
 
 @app.route('/image-data-const/<id_cons>', methods=['GET'])
@@ -331,16 +354,20 @@ def data_for_image(id_cons):
         for dcc in dc:
             dsi = s.get(dcc.star_name_in)
             dso = s.get(dcc.star_name_out)
-
-            xstarin = float(dsi.distance) * math.cos((15 * dsi.rectascensionh) + (dsi.rectascensionm/4) + (dsi.rectascensions/240)) * math.cos(dsi.declinationh + (dsi.declinationm/60) + (dsi.declinations/3600))
-            ystarin = float(dsi.distance) * math.sin((15 * dsi.rectascensionh) + (dsi.rectascensionm/4) + (dsi.rectascensions/240)) * math.cos(dsi.declinationh + (dsi.declinationm/60) + (dsi.declinations/3600))
-            zstarin = math.sin(dsi.declinationh + dsi.declinationm/60 + dsi.declinations/3600)
-
-
-            xstarout = math.cos(dso.rectascensionh + dso.rectascensionm /60 + dso.rectascensions/3600) * math.cos(dso.declinationh + dso.declinationm/60 + dso.declinations/3600)
-            ystarout = math.sin(dso.rectascensionh + dso.rectascensionm/60 + dso.rectascensions/3600) * math.cos(dso.declinationh + dso.declinationm/60 + dso.declinations/3600)
-            zstarout = math.sin(dso.declinationh + dso.declinationm/60 + dso.declinations/3600)
-            print(ystarin, xstarin)
+            sign = 1
+            if dsi.declinationh < 0:
+                sign = (-1)
+            din = abs(dsi.declinationh) + (dsi.declinationm/60) + (dsi.declinations/3600)
+            din = sign * din
+            rin = dsi.rectascensionh + (dsi.rectascensionm/60) + (dsi.rectascensions/3600)
+            result_calc = calc.draw_const(din, rin, c.declination, c.rectascension)
+            sign = 1
+            if dso.declinationh < 0:
+                sign = (-1)
+            dout = abs(dso.declinationh) + (dso.declinationm/60) + (dso.declinations/3600)
+            dout = dout * sign
+            rout = dso.rectascensionh + (dso.rectascensionm/60) + (dso.rectascensions/3600)
+            result_calcout = calc.draw_const(dout, rout, c.declination,c.rectascension)
             j.append({
                 'id': str(dcc.id),
                 'star_name_in': str(dcc.star_name_in),
@@ -349,11 +376,12 @@ def data_for_image(id_cons):
                 'constellation_rec': str(c.rectascension),
                 'constellation_dec': str(c.declination),
                 'inbrightness': dsi.brightness,
-                'xstarin': xstarin,
-                'ystarin': ystarin,
+                'indistance': dsi.distance,
+                'xstarin': float(result_calc['x']),
+                'ystarin': float(result_calc['y']),
                 'outbrightness': dso.brightness,
-                'xstarout': xstarout,
-                'ystarout': ystarout,
+                'xstarout': float(result_calcout['x']),
+                'ystarout': float(result_calcout['x']),
             })
         return jsonify(j)
     except:
@@ -381,17 +409,6 @@ def all_constellations():
         return jsonify({'result': False, 'message': 'Bład pobierania gwiazdozbiorów'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Błąd danych'})
-
-
-@app.route('/number_of_star/<const_id>', methods=['GET'])
-@cross_origin()
-def number_of_star(const_id):
-    star = DBStars().get_all()
-    j = 0
-    for s in star:
-        if int(s.constellation.id) == int(const_id):
-            j = j + 1
-    return jsonify({'numb': j})
 
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])

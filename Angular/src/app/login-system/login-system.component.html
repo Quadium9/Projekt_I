@@ -4,7 +4,7 @@
             <label for="username">Nazwa użytkownika</label>
             <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required
                 #username="ngModel" />
-            <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">
+            <div class="alert-danger bg-danger rounded-pill" role="alert" *ngIf="username.errors && f.submitted">
                 Nazwa użytkownika jest wymagana!
             </div>
         </div>
@@ -12,7 +12,7 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
                 minlength="8" #password="ngModel" />
-            <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
+            <div class="alert-danger bg-danger rounded-pill" role="alert" *ngIf="password.errors && f.submitted">
                 <div *ngIf="password.errors.required">Hasło jest wymagane!</div>
                 <div *ngIf="password.errors.minlength" class="m-1">
                     Hasło musi składać się z minimum 8 znaków!
@@ -25,7 +25,7 @@
             </button>
         </div>
         <div class="m-1">
-            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+            <div class="alert-danger bg-danger rounded-pill" role="alert" *ngIf="f.submitted && isLoginFailed">
                 Logowanie niudane: {{ errorMessage }}
             </div>
         </div>

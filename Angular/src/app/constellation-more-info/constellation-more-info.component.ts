@@ -35,20 +35,20 @@ export class ConstellationMoreInfoComponent implements OnInit {
       let i = 0;
       for (i; i < resu.length; i++) {
         var br: number = +resu[i].inbrightness;
+        var dist: number = +resu[i].indistance;
+        br = dist/br*1.5;
         let decin: number;
         let recin: number;
         let decout: number;
         let recout: number;
         //Star in
-        decin = 500 + (resu[i].xstarin)
-        if (resu[i].ystarin < 0) {
-          recin = 1000 + (resu[i].ystarin)
-        } else {
-          recin = 500 + resu[i].ystarin;
-        }
+        decin = 3 * resu[i].xstarin + i * 25
+        recin = 3 * resu[i].ystarin + i * 25
+        decout = 3 * resu[i].xstarout + i * 25
+        recout = 3 * resu[i].ystarout + i * 25
         console.log(decin, recin)
-        this.circle(br / 30, decin, recin);
-        //this.line(decin,recin, decout, recout)
+        this.circle(br, decin, recin);
+        //this.line(decin, recin, decout, recout)
       }
     })
   }

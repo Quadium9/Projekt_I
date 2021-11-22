@@ -22,10 +22,13 @@ class DbUser(DB):
 
     def add_entity(self):
         try:
-            if cv.email_validation(self.user.email) and cv.password_validation(self.user.password):
-                self.util.get_session().add(self.user)
-                self.util.get_session().commit()
-                return self.user.id
+            if cv.validationNone(self.user.password) and cv.validationNone(self.user.login) \
+                    and cv.validationNone(self.user.email) and cv.validationNone(self.user.surname) \
+                    and cv.validationNone(self.user.name):
+                if cv.email_validation(self.user.email) and cv.password_validation(self.user.password):
+                    self.util.get_session().add(self.user)
+                    self.util.get_session().commit()
+                    return self.user.id
             return None
         except Response:
             self.util.session_rollback()
@@ -49,10 +52,19 @@ class DbUser(DB):
         try:
             if option == 'rules':
                 self.util.get_session().query(User).filter(User.id == ids['id']).update({User.rules: ids['rules']},
-                                                                                    synchronize_session=False)
-
-            self.util.get_session().commit()
-            return True
+                                                                                        synchronize_session=False)
+                self.util.get_session().commit()
+                return True
+            if option == 'change':
+                if cv.validationNone(str(ids['username'])) and cv.validationNone(str(ids['passwordnew']))\
+                        and len(str(ids['passwordnew'])) >= 8:
+                    self.util.get_session().query(User).filter(User.id == ids['id']).update({
+                        User.login: ids['username'],
+                        User.password: ids['passwordnew']
+                    }, synchronize_session=False)
+                    self.util.get_session().commit()
+                    return True
+            return False
         except Response:
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')

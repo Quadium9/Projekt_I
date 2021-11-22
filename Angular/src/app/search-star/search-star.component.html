@@ -1,43 +1,43 @@
 <div class="main">
-    <form (ngSubmit)="getStar(value.value)" name="form"  #f="ngForm" novalidate>
-        <div class="Field text-center">
-            <div id="title1" style="margin-bottom: 2%;">
-                <div id="title1">Wyszukaj gwiazdę</div>
-            </div>
-            <label class="input">
-                <input class="input__field" type="text" placeholder=" " #value required/>
-                <span class="input__label">Podaj nazwę gwiazdy</span>
-            </label>
-            <button class="button button-white button-border przycizg" id
-                (click)="getStar(value.value)">Szukaj</button>
-                <div class="alert-danger" *ngIf="noStar">
-                    {{errorMessage}}
-                </div>
-        </div>
-    </form>
-    <app-under-line></app-under-line>
+  <form (ngSubmit)="getStar(value.value)" name="form" #f="ngForm" novalidate>
+    <div class="Field text-center">
+      <div id="title1" style="margin-bottom: 2%;">
+        <div id="title1">Wyszukaj gwiazdę</div>
+      </div>
+      <label class="input">
+        <input class="input__field" type="text" placeholder=" " #value required />
+        <span class="input__label">Podaj nazwę gwiazdy</span>
+      </label>
+      <button class="button button-white button-border przycizg" id (click)="getStar(value.value)">Szukaj</button>
+    </div>
+    <div class="alert-danger bg-danger rounded-pill" *ngIf="noStar">
+      {{errorMessage}}
+    </div>
+  </form>
+  <app-under-line></app-under-line>
 
 
-    <table class="table table-dark" id="table">
-        <thead>
-          <tr id="theader">
-            <th scope="col">Nazwa gwiazdy</th>
-            <th scope="col">Gwiazdozbiór</th>
-            <th scope="col">Typ widmowy</th>
-            <th scope="col">Rektascencja</th>
-            <th scope="col">Deklinacja</th>
-            <th scope="col" style="text-align: center;">Więcej informacji</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="starData != null">
-          <tr *ngFor="let row of starData" id="data">
-            <td>{{row.name}}</td>
-            <td>{{row.constellation_name}}</td>
-            <td>{{row.star_type}}</td>
-            <td>{{row.rectascensionh}}° {{row.rectascensionm}}′ {{row.rectascensions}}″</td>
-            <td>{{row.declinationh}}h {{row.declinationm}}m {{row.declinations}}s</td>
-            <td style="max-height: fit-content; text-align: center;"><button type="button" class="btn btn-secondary text-white bg-dark" (click)="moreInfo(row)">Szczegóły</button></td>
-          </tr>
-        </tbody>
-      </table>
+  <table class="table table-dark" id="table" *ngIf="starData != null">
+    <thead>
+      <tr id="theader">
+        <th scope="col">Nazwa gwiazdy</th>
+        <th scope="col">Gwiazdozbiór</th>
+        <th scope="col">Typ widmowy</th>
+        <th scope="col">Rektascencja</th>
+        <th scope="col">Deklinacja</th>
+        <th scope="col" style="text-align: center;">Więcej informacji</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="starData != null">
+      <tr *ngFor="let row of starData" id="data">
+        <td>{{row.name}}</td>
+        <td>{{row.constellation_name}}</td>
+        <td>{{row.star_type}}</td>
+        <td>{{row.rectascensionh}}° {{row.rectascensionm}}′ {{row.rectascensions}}″</td>
+        <td>{{row.declinationh}}h {{row.declinationm}}m {{row.declinations}}s</td>
+        <td style="max-height: fit-content; text-align: center;"><button type="button"
+            class="btn btn-secondary text-white bg-dark" (click)="moreInfo(row)">Szczegóły</button></td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -33,18 +33,16 @@ export class LoginSystemComponent implements OnInit {
 
     this.authService.login(username, password).subscribe(
       data => {
-        console.log(data)
-        if (data.id == null) {
+        if (data.result == "false") {
           this.errorMessage = data.message;
           this.isLoginFailed = true;
-        } 
-        if (data[0].id != null) {
-          this.tokenStorage.saveToken(data.accessToken);
-          this.tokenStorage.saveUser(data);
-          this.isLoginFailed = false;
-          this.isLoggedIn = true;
-          this.roles = this.tokenStorage.getUser()[0].rules;
-          this.reloadPage();
+        } else {
+            this.tokenStorage.saveToken(data.accessToken);
+            this.tokenStorage.saveUser(data);
+            this.isLoginFailed = false;
+            this.isLoggedIn = true;
+            this.roles = this.tokenStorage.getUser()[0].rules;
+            this.reloadPage();
         }
       },
       err => {

@@ -25,7 +25,6 @@ def email_validation(value):
 
 
 def validationNone(value):
-    for v in value:
-        if v is None:
-            return False
+    if value is None or value == "":
+        return False
     return True

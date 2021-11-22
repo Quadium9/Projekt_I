@@ -21,15 +21,21 @@ export class SearchStarComponent implements OnInit {
   }
 
   getStar(name: string) {
-    this.api.getStarByName(name).subscribe(res => {
-      if (res == null) {
-        this.errorMessage = "Bląd wyszukania gwiazdy"
-      } else {
-        this.starData = res;
-      }
-    })
+    if (name == "") {
+      this.noStar = true;
+      this.errorMessage = "Proszę wpisać nazwę gwiazdy";
+    } else {
+      this.noStar = false;
+      this.api.getStarByName(name).subscribe(res => {
+        if (res.result) {
+          this.errorMessage = res.message;
+        } else {
+          this.starData = res;
+        }
+      })
+    }
   }
-  moreInfo(row:any) {
+  moreInfo(row: any) {
     this.cookieService.set("STAR-id", row.id);
     this.cookieService.set("STAR-name", row.name);
     this.cookieService.set("STAR-confirmed", row.confirmed);

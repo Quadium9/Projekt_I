@@ -59,7 +59,7 @@ export class FormComponent implements OnInit {
     this.starModelObj.rectascensionm = this.formValue.value.inputrectm;
     this.starModelObj.rectascensions = this.formValue.value.inputrects;
     this.starModelObj.distance = this.formValue.value.inputdistance;
-    this.starModelObj.discavererid = this.tokenStorage.getUser()[0].id
+    this.starModelObj.discavererid = this.tokenStorage.getUser()[0].id;
     this.starModelObj.mass = this.formValue.value.inputmass;
     this.starModelObj.radial_speed = this.formValue.value.inputspeed;
     this.starModelObj.star_type = this.formValue.value.inputtype;
