@@ -27,7 +27,7 @@ export class EditFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken() == null) {
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }
     if (this.api.STAR == null){
       this.router.navigate(['/form-list']);
@@ -71,6 +71,7 @@ export class EditFormComponent implements OnInit {
     this.starModelObj.mass = this.formValue.value.inputmass;
     this.starModelObj.radial_speed = this.formValue.value.inputspeed;
     this.starModelObj.star_type = this.formValue.value.inputtype;
+    this.starModelObj.username = this.tokenStorage.getUser()[0].username
 
     if (this.formValue.value.inputname == null) {
       alert("Nazwa jest wymagana");

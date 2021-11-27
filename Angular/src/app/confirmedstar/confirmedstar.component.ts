@@ -20,17 +20,16 @@ export class ConfirmedstarComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.tokenStorage.getToken() == null){
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }else{
       this.getStar()
     }
   }
   getStar() {
-    this.api.getFormListYES().subscribe(res => {
+    this.api.getFormListYES(this.tokenStorage.getUser()[0].username).subscribe(res => {
       if (res == null) {
         this.errorMessage = "Bląd wyszukiwania"
       } else {
-        console.log(res)
         this.starData = res;
       }
     })
@@ -59,7 +58,7 @@ export class ConfirmedstarComponent implements OnInit {
   }
 
   deletestar(row:any){
-    this.api.deletestar(row).subscribe(res=>{
+    this.api.deletestar(row, this.tokenStorage.getUser()[0].username).subscribe(res=>{
       if(res.result){
         alert(res.message)
         this.getStar()

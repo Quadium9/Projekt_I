@@ -1,5 +1,4 @@
 from models.orm import *
-from database.db_drawingconstellation import DbDrawingConstellation
 from database.db_stars import DBStars
 from database.db_user import DbUser
 from database.db_constelations import DBConstellations
@@ -77,20 +76,6 @@ class TestStar(unittest.TestCase):
         self.assertTrue(dbstars.delete_id(11))
 
 
-class TestDrawingConstellation(unittest.TestCase):
-
-    def testadddrawingconstellation(self):
-        drawingconstellation = DrawingConstellation()
-        drawingconstellation.connected_Star = 12
-        dbdrawingconstellation = DbDrawingConstellation(drawingconstellation)
-        self.assertIsNotNone(dbdrawingconstellation.add_entity())
-
-    def testgetdrawingconstellation(self):
-        drawingconstellation = DbDrawingConstellation()
-        res = drawingconstellation.get_all()
-        self.assertIsNotNone(res)
-
-
 class ValidationTest(unittest.TestCase):
 
     def testvalidation(self):
@@ -98,7 +83,7 @@ class ValidationTest(unittest.TestCase):
         print(res)
 
     def testcreatehash(self):
-        result = enc.createhash('adminadmin')
+        result = enc.createhash('admin_token')
         print(result)
 
     def testcomparehash(self):

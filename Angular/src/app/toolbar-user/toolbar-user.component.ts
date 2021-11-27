@@ -14,7 +14,7 @@ export class ToolbarUserComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.tokenStorage.getToken() == null){
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }
   }
   logout(): void {

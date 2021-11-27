@@ -1,7 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApiService } from '../shared/api.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
 
@@ -20,7 +17,7 @@ export class FormListComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.tokenStorage.getToken() == null){
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }
     this.shownonconfirmed()
   }

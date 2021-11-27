@@ -27,7 +27,7 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken() == null) {
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }
     this.formValue = this.formBuilder.group({
       inputname: null,
@@ -80,7 +80,7 @@ export class FormComponent implements OnInit {
       alert("Gwiazdozbiór jest wymagany");
       return 0;
     }
-    this.api.postAddStar(this.starModelObj).subscribe(res => {
+    this.api.postAddStar(this.starModelObj, this.tokenStorage.getUser()[0].username).subscribe(res => {
       if (res.result) {
         alert("Wysłano formularz o nowej gwieżdzie");
         this.formValue.reset();

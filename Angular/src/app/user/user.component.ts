@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.tokenStorage.getToken() == null){
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }else{
       this.getUser()
     }
@@ -34,14 +34,14 @@ export class UserComponent implements OnInit {
   }
 
   userToAdmin(row:any){
-    this.api.userToAdmin(row).subscribe(res =>{
+    this.api.userToAdmin(row, this.tokenStorage.getUser()[0].username).subscribe(res =>{
       alert(res.message)
       this.getUser()
     })
   }
 
   adminToUser(row:any){
-    this.api.adminToUser(row).subscribe(res =>{
+    this.api.adminToUser(row, this.tokenStorage.getUser()[0].username).subscribe(res =>{
       alert(res.message)
       this.getUser()
     })

@@ -15,4 +15,5 @@ export class StarModel{
     greek_symbol: string = '';
     constellation: string = '';
     discavererid: number = 0;
+    username: string = null;
 }

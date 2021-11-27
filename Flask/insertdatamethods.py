@@ -1,8 +1,10 @@
+import base64
+import io
 from database.db_constelations import DBConstellations, Constellations
 from database.db_stars import DBStars, Stars
-from database.db_drawingconstellation import  DrawingConstellation, DbDrawingConstellation
 import pandas as pd
 import common.cardinal_direction as cd
+from PIL import Image
 
 
 def importconstelations():
@@ -53,22 +55,10 @@ def importstar():
             i = i + 1
 
 
-def drawnigconst():
-    file = pd.read_excel('../Mariadb/RysowanieID.xlsx')
-    i = 0
+def picture():
+    image = open('pict.jpeg', 'rb')
+    image_read = image.read()
+    image_base64 = base64.encodebytes(image_read)
+    print(str(image_base64))
 
-    while i < file.inID.size:
-        inid = DBStars().get_one_by_name(file.inID[i])
-        outid = DBStars().get_one_by_name(file.outID[i])
-        const_id = DBConstellations().get_one_by_name(file.constellationID[i])
-        drstar = DrawingConstellation()
-        drstar.star_name_in = inid[0].id
-        drstar.star_name_out = outid[0].id
-        drstar.constellation_id = const_id.id
-        print(drstar.star_name_out, drstar.star_name_in, drstar.constellation_id)
-        res = DbDrawingConstellation(drstar).add_entity()
-        print(res)
-        i = i + 1
-
-
-importconstelations()
+picture()

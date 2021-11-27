@@ -13,7 +13,7 @@ export class ToolbarAdminComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.tokenStorageService.getToken() == null){
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }
   }
 

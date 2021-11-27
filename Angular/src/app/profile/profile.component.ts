@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.token.getToken() == null) {
-      window.location.replace("/")
+      window.location.replace("/login-system")
     }
     this.currentUser = this.token.getUser()[0];
   }

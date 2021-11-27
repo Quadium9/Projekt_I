@@ -1,13 +1,11 @@
-import math
+import base64
 import common.encryption as enc
-import common.calculator as calc
 import flask
 import sqlalchemy.exc
 from flask import Flask, jsonify, request
 from database.db_stars import DBStars, Stars
 from flask_cors import cross_origin
 from database.db_user import DbUser, User
-from database.db_drawingconstellation import DbDrawingConstellation
 from database.db_constelations import DBConstellations
 
 app = Flask(__name__)
@@ -40,6 +38,10 @@ def update_user():
 def edit_star():
     try:
         tmp = flask.request.json
+        trueadmin = DbUser().get_one_by_name(tmp['username'])
+        if trueadmin.rules != 'administrator':
+            return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
+
         cons = DBConstellations().get_one_by_name(tmp['constellation'])
         tmp['constellation'] = cons.id
         star = DBStars().update_entity(tmp, "edit")
@@ -50,23 +52,32 @@ def edit_star():
         return jsonify({'result': False, 'message': 'Błąd w parametrach gwiazdy'})
 
 
-@app.route('/confirmed-star/<ids>', methods=['GET'])
+@app.route('/confirmed-star/<id>/<username>', methods=['GET'])
 @cross_origin()
-def confirmed_star(ids):
+def confirmed_star(id, username):
     try:
         if request.method == 'GET':
-            if DBStars().update_entity(ids, "confirm"):
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
+
+            if DBStars().update_entity(id, "confirm"):
                 return jsonify({'result': True, 'message': 'Gwiazda została potwierdzona'})
             return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
+
     except AttributeError:
         return jsonify({'result': False, 'message': 'Błąd potwierdzenia gwiazdy'})
 
 
-@app.route('/delete-star', methods=['POST'])
+@app.route('/delete-star/<username>', methods=['POST'])
 @cross_origin()
-def delete_star():
+def delete_star(username):
     try:
         if request.method == 'POST':
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
+
             tmp = flask.request.json
             star = DBStars().delete_id(tmp['id'])
             if star:
@@ -76,11 +87,14 @@ def delete_star():
         return jsonify({'result': False, 'message': "Błąd usuwania gwiazdy"})
 
 
-@app.route('/form-list-admin-NO', methods=['GET'])
+@app.route('/form-list-admin-NO/<username>', methods=['GET'])
 @cross_origin()
-def form_list_admin_NO():
+def form_list_admin_NO(username):
     try:
         if request.method == 'GET':
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
             stars = DBStars().get_all()
             j = []
             for s in stars:
@@ -115,11 +129,14 @@ def form_list_admin_NO():
         return jsonify({'result': False, 'message': "Błąd pobierania"})
 
 
-@app.route('/form-list-admin-YES', methods=['GET'])
+@app.route('/form-list-admin-YES/<username>', methods=['GET'])
 @cross_origin()
-def form_list_admin_YES():
+def form_list_admin_YES(username):
     try:
         if request.method == 'GET':
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
             stars = DBStars().get_all()
             j = []
             for s in stars:
@@ -155,11 +172,14 @@ def form_list_admin_YES():
         return jsonify({'result': False, 'message': "Błąd pobierania"})
 
 
-@app.route('/user-to-admin', methods=['POST'])
+@app.route('/user-to-admin/<username>', methods=['POST'])
 @cross_origin()
-def user_to_admin():
+def user_to_admin(username):
     try:
         if request.method == 'POST':
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
             tmp = flask.request.json
             tmp['rules'] = 'administrator'
             user = DbUser().update_entity(tmp, 'rules')
@@ -170,11 +190,14 @@ def user_to_admin():
         return jsonify({'result': False, 'message': 'Niepoprawne dane'})
 
 
-@app.route('/admin-to-user', methods=['POST'])
+@app.route('/admin-to-user/<username>', methods=['POST'])
 @cross_origin()
-def admin_to_user():
+def admin_to_user(username):
     try:
         if request.method == 'POST':
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
             tmp = flask.request.json
             tmp['rules'] = 'użytkownik'
             user = DbUser().update_entity(tmp, 'rules')
@@ -244,7 +267,8 @@ def register_user():
             user.name = tmp['firstname']
             user.surname = tmp['lastname']
             user.login = tmp['username']
-            user.password = tmp['password']
+            password = enc.createhash(tmp['password'])
+            user.password = str(password)
             user.email = tmp['email']
             user.rules = 'użytkownik'
             new_user = DbUser(user).add_entity()
@@ -254,11 +278,14 @@ def register_user():
         return jsonify(({'id': None, 'message': "Nazwa użytkownika lub email już istnieje"}))
 
 
-@app.route('/add_new_star', methods=['POST'])
+@app.route('/add_new_star/<username>', methods=['POST'])
 @cross_origin()
-def add_new_star():
+def add_new_star(username):
     try:
         if request.method == 'POST':
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
             tmp = flask.request.json
             star = Stars()
             cons = DBConstellations().get_one_by_name(tmp['constellation'])
@@ -343,51 +370,6 @@ def get_star_by_name(star_name):
         return jsonify({'result': False, 'message': "Błąd nazwy gwiazdy"})
 
 
-@app.route('/image-data-const/<id_cons>', methods=['GET'])
-@cross_origin()
-def data_for_image(id_cons):
-    try:
-        dc = DbDrawingConstellation().get_all()
-        s = DBStars()
-        c = DBConstellations().get(id_cons)
-        j = []
-        for dcc in dc:
-            dsi = s.get(dcc.star_name_in)
-            dso = s.get(dcc.star_name_out)
-            sign = 1
-            if dsi.declinationh < 0:
-                sign = (-1)
-            din = abs(dsi.declinationh) + (dsi.declinationm/60) + (dsi.declinations/3600)
-            din = sign * din
-            rin = dsi.rectascensionh + (dsi.rectascensionm/60) + (dsi.rectascensions/3600)
-            result_calc = calc.draw_const(din, rin, c.declination, c.rectascension)
-            sign = 1
-            if dso.declinationh < 0:
-                sign = (-1)
-            dout = abs(dso.declinationh) + (dso.declinationm/60) + (dso.declinations/3600)
-            dout = dout * sign
-            rout = dso.rectascensionh + (dso.rectascensionm/60) + (dso.rectascensions/3600)
-            result_calcout = calc.draw_const(dout, rout, c.declination,c.rectascension)
-            j.append({
-                'id': str(dcc.id),
-                'star_name_in': str(dcc.star_name_in),
-                'star_name_out': str(dcc.star_name_out),
-                'constellation_id': str(dcc.constellation_id),
-                'constellation_rec': str(c.rectascension),
-                'constellation_dec': str(c.declination),
-                'inbrightness': dsi.brightness,
-                'indistance': dsi.distance,
-                'xstarin': float(result_calc['x']),
-                'ystarin': float(result_calc['y']),
-                'outbrightness': dso.brightness,
-                'xstarout': float(result_calcout['x']),
-                'ystarout': float(result_calcout['x']),
-            })
-        return jsonify(j)
-    except:
-        return jsonify({'res': False})
-
-
 @app.route('/all-constellations', methods=['GET'])
 @cross_origin()
 def all_constellations():
@@ -403,12 +385,24 @@ def all_constellations():
                     'rectascension': str(c.rectascension),
                     'symbolism': str(c.symbolism),
                     'sky_side': str(c.sky_side),
-                    'area': str(c.area)
+                    'area': str(c.area),
+                    'picture': str(c.picture)
                 })
             return jsonify(j)
         return jsonify({'result': False, 'message': 'Bład pobierania gwiazdozbiorów'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Błąd danych'})
+
+
+@app.route('/constellation_image/<constellation_id>', methods=['GET'])
+@cross_origin()
+def constellation_image(constellation_id):
+    c = DBConstellations().get(constellation_id)
+    j = ({
+        'id': c.id,
+        'picture': str(c.picture)
+    })
+    return jsonify(j)
 
 
 @app.route('/get_one_star/<star_id>', methods=['GET'])

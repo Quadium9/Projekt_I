@@ -13,7 +13,8 @@ export class RegisterComponent implements OnInit {
     lastname: null,
     username: null,
     email: null,
-    password: null
+    password: null,
+    password2: null
   };
   isSuccessful = false;
   isSignUpFailed = false;
@@ -25,7 +26,12 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { firstname, lastname, username, email, password } = this.form;
+    const { firstname, lastname, username, email, password, password2 } = this.form;
+
+    if (password != password2){
+      this.isSignUpFailed = true;
+      this.errorMessage = "Hasła są niezgodne";
+    }
 
     this.authService.register(firstname, lastname, username, email, password).subscribe(
       data => {

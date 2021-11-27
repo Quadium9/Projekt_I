@@ -20,12 +20,12 @@ export class MoreInfoStarComponent implements OnInit {
     document.getElementById("starname").textContent = this.cookieService.get("STAR-name");
     document.getElementById("starid").textContent = this.cookieService.get("STAR-id");
     document.getElementById("starconstellation").textContent =  this.cookieService.get("STAR-constellation_name");
-    document.getElementById("starbrightness").textContent = this.cookieService.get("STAR-brightness") + " L☉";
-    document.getElementById("stardeclination").textContent = this.cookieService.get("STAR-declinationh") + "h " + this.cookieService.get("STAR-declinationm") + "m " + this.cookieService.get("STAR-declinations") + "s";
+    document.getElementById("starbrightness").textContent = this.cookieService.get("STAR-brightness") + " L[☉]";
+    document.getElementById("stardeclination").textContent = this.cookieService.get("STAR-declinationh") + "[h] " + this.cookieService.get("STAR-declinationm") + "[m] " + this.cookieService.get("STAR-declinations") + "[s]";
     document.getElementById("stardiscaverer").textContent = this.cookieService.get("STAR-discaverer_name") + " " + this.cookieService.get("STAR-discaverer_lastname");
     document.getElementById("stardistance").textContent = this.cookieService.get("STAR-distance") + " l.y.";
     document.getElementById("starsymbol").textContent = this.cookieService.get("STAR-greek_symbol");
-    document.getElementById("starmass").textContent = this.cookieService.get("STAR-mass") + " M☉";
+    document.getElementById("starmass").textContent = this.cookieService.get("STAR-mass") + " M[☉]";
     document.getElementById("starspeed").textContent = this.cookieService.get("STAR-radial_speed") + " km/s";
     document.getElementById("starrectascension").textContent = this.cookieService.get("STAR-rectascensionh") + "° " + this.cookieService.get("STAR-rectascensionm")  + "′ " + this.cookieService.get("STAR-rectascensions") + "″";
     document.getElementById("startype").textContent = this.cookieService.get("STAR-star_type");

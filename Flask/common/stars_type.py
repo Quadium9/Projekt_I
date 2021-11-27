@@ -2,14 +2,14 @@ import enum
 
 
 class StarsType(enum.Enum):
-    hypergiants = 'Hypergiants',
-    supergiants = 'Supergiants',
-    brightgiants = 'Bright giants',
-    giants = 'Giants',
-    subgiants = 'Subgiants',
-    dwarf = 'Dwarf',
-    subdwarf = 'Subdwarf',
-    reddwarf = 'Red dwarf',
-    whitedwarf = 'White dwarf',
-    browndwarf = 'Brown dwarf',
-    unknown = 'Unknown'
+    hypergiants = 'Hiper Gigant',
+    supergiants = 'Super Gigant',
+    brightgiants = 'Żółty Olbrzym',
+    giants = 'Olbrzym',
+    subgiants = 'Subolbrzym',
+    dwarf = 'Karzeł',
+    subdwarf = 'Podkarzeł',
+    reddwarf = 'Czerwony Karzeł',
+    whitedwarf = 'Biały Karzeł',
+    browndwarf = 'Brązowy Karzeł',
+    unknown = 'Nieznana'

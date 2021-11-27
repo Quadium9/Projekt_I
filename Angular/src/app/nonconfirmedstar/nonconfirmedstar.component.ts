@@ -15,17 +15,17 @@ export class NonconfirmedstarComponent implements OnInit {
   noStar = false;
   starData !: any;
 
-  constructor(private api: ApiService, private router: Router, private tokenStorage:TokenStorageService, private cookieService: CookieService) { }
+  constructor(private api: ApiService, private router: Router, private tokenStorage: TokenStorageService, private cookieService: CookieService) { }
 
   ngOnInit(): void {
-    if(this.tokenStorage.getToken() == null){
-      window.location.replace("/")
-    }else{
+    if (this.tokenStorage.getToken() == null) {
+      window.location.replace("/login-system")
+    } else {
       this.getStar()
     }
   }
   getStar() {
-    this.api.getFormListNO().subscribe(res => {
+    this.api.getFormListNO(this.tokenStorage.getUser()[0].username).subscribe(res => {
       if (res == null) {
         this.errorMessage = "Bląd wyszukiwania"
       } else {
@@ -34,7 +34,7 @@ export class NonconfirmedstarComponent implements OnInit {
     })
   }
 
-  moreInfo(row:any) {
+  moreInfo(row: any) {
     this.cookieService.set("STAR-id", row.id);
     this.cookieService.set("STAR-name", row.name);
     this.cookieService.set("STAR-confirmed", row.confirmed);
@@ -56,23 +56,27 @@ export class NonconfirmedstarComponent implements OnInit {
     this.router.navigate(['/star-more-info']);
   }
 
-  confirmedstar(row:any) {
-    this.api.confirmedstar(row.id).subscribe(res=>{
-      if (res.result){
+  confirmedstar(row: any) {
+    this.api.confirmedstar(row.id, this.tokenStorage.getUser()[0].username).subscribe(res => {
+      if (res.result) {
         alert(res.message);
         this.getStar()
-      }else{
+      } else {
         alert(res.message);
       }
     })
   }
-  
-  deletestar(row:any){
-    this.api.deletestar(row).subscribe(res=>{
-      if(res.result){
+
+  deletestar(row: any) {
+    let obj = {
+      id: row.id,
+      name: row.name
+    }
+    this.api.deletestar(obj, this.tokenStorage.getUser()[0].username).subscribe(res => {
+      if (res.result) {
         alert(res.message)
         this.getStar()
-      }else{
+      } else {
         alert(res.message)
       }
     })

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import BLOB
 from sqlalchemy.ext.declarative import declarative_base
 import common.stars_type as stars_type
 
@@ -82,10 +83,14 @@ class Constellations(Base):
     symbolism = Column('symbolism', String(2000))
     sky_side = Column('sky_side', String(50))
     area = Column('area', Float)
+    picture = Column('picture', BLOB)
 
     def __repr__(self):
-        return str(self.id) + ', ' + str(self.name) + ', ' + str(float(self.declination)) + ', ' + str(float(self.rectascension))\
-               + ', ' + str(self.symbolism) + ', ' + str(self.sky_side) + ', ' + str(float(self.area))
+        if self.picture is None:
+            self.picture = ""
+        return str(self.id) + ', ' + str(self.name) + ', ' + str(float(self.declination)) + ', ' + str(
+            float(self.rectascension)) + ', ' + str(self.symbolism) + ', ' + str(self.sky_side) + ', ' + str(
+            float(self.area)) + self.BLOB
 
 
 class User(Base):
@@ -101,16 +106,3 @@ class User(Base):
     def __repr__(self):
         return str(self.id) + ', ' + str(self.name) + ', ' + str(self.surname) + ', ' + str(self.login) + ', ' + \
                str(self.password) + ', ' + str(self.email) + ', ' + str(self.rules)
-
-
-class DrawingConstellation(Base):
-    __tablename__ = "drawing_constellation"
-    id = Column('id', Integer, primary_key=True, nullable=False, autoincrement=True)
-    star_name_in = Column('star_name_in', Integer, nullable=False)
-    star_name_out = Column('star_name_out', Integer, nullable=False)
-    constellation_id = Column('constellation_id', Integer,
-                              ForeignKey('constellations.id', ondelete="CASCADE"), nullable=False)
-
-    def __repr__(self):
-        return str(self.id) + ', ' + str(self.star_name_in) + ', ' + str(self.star_name_out)\
-               + ', ' + str(self.constellation_id)

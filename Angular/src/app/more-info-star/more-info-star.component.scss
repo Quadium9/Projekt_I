@@ -1,15 +1,15 @@
 #table{
   background-color: #2a3035;;
-    width: 40%;
+    width: 50%;
   }
 #theader{
-    background-color: #3a0ca3;
+    background-color: #0B7A75;
   }
   .slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #4895ef;
+    background: #FDCA40;
     cursor: pointer;
   }
   .slider:hover {
@@ -18,7 +18,7 @@
   .slider {
     -webkit-appearance: none;
     width: 100%;
-    height: 15px;
+    height: 5px;
     border-radius: 5px;  
     background: #d3d3d3;
     outline: none;
@@ -32,6 +32,6 @@
     width: 25px;
     height: 25px;
     border-radius: 50%; 
-    background: #4895ef;
+    background: #FDCA40;
     cursor: pointer;
   }

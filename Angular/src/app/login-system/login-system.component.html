@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="Field form-group">
-            <label for="password">Password</label>
+            <label for="password">Hasło</label>
             <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required
                 minlength="8" #password="ngModel" />
             <div class="alert-danger bg-danger rounded-pill" role="alert" *ngIf="password.errors && f.submitted">
