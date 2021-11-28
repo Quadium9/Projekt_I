@@ -83,14 +83,14 @@ class Constellations(Base):
     symbolism = Column('symbolism', String(2000))
     sky_side = Column('sky_side', String(50))
     area = Column('area', Float)
-    picture = Column('picture', BLOB)
+    picture = Column('picture', String(50))
 
     def __repr__(self):
         if self.picture is None:
             self.picture = ""
         return str(self.id) + ', ' + str(self.name) + ', ' + str(float(self.declination)) + ', ' + str(
             float(self.rectascension)) + ', ' + str(self.symbolism) + ', ' + str(self.sky_side) + ', ' + str(
-            float(self.area)) + self.BLOB
+            float(self.area)) + self.picture
 
 
 class User(Base):

@@ -54,6 +54,7 @@ export class SearchStarComponent implements OnInit {
     this.cookieService.set("STAR-discaverer_name", row.discaverer_name);
     this.cookieService.set("STAR-discaverer_lastname", row.discaverer_lastname);
     this.cookieService.set("STAR-constellation_name", row.constellation_name);
+    this.cookieService.set("STAR-constellation_picture", row.picture);
     this.router.navigate(['/star-more-info']);
   }
 }

@@ -1,5 +1,5 @@
 <div class="">
-    <table class="table table-dark" style="width: 50%; float: right;">
+    <table class="table table-dark" style="width: 100%;">
         <thead>
             <th scope="col"></th>
             <th scope="col">Wartości</th>
@@ -25,11 +25,23 @@
                 <td>Półkula nieba</td>
                 <td id="skyside"></td>
             </tr>
+            <tr>
+                <td>Liczba gwiazd*</td>
+                <td id="star_number"></td>
+            </tr>
         </tbody>
     </table>
-    <div id="symbolism" style="width: 50%; padding: 12px;">
+    <div class="m-5" id="symbolism" style="font-size: 20px;">
     </div>
 </div>
-<div id ="picture">
-    <img id="image" [src]="image" >
+<div class="text-center" id="picture">
+    <img id="image" [src]="image">
+</div>
+<div class="m-5">
+    <button type="button" class="btn btn-light text-black btn-lg btn-block" (click)="star_list()">Zobacz obszary z utrudnioną obserwacją nocnego nieba</button>
+</div>
+<div class="m-5" id="info">
+    (*)Liczba gwiazd znajdująca się w bazie danych oraz należącyc do gwiazdozbioru. Podana wartość może nie
+    pokrywać się z
+    rzeczywistą liczbą gwiazd. Jęśli chcesz zwiększyć liczbę zapisanych gwiazd zaloguj się i odkrywaj z nami!
 </div>

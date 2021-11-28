@@ -1,0 +1,27 @@
+<div class="m-3">
+    <input type="text" id="inputName" (keyup)='searchStar()' placeholder="Przeszukaj listę po nazwie"
+        style="width: 100%;">
+</div>
+<table class="table table-dark mt-3" id="table">
+    <thead>
+        <tr id="theader">
+            <th scope="col">Nazwa gwiazdy</th>
+            <th scope="col">Gwiazdozbiór</th>
+            <th scope="col">Typ widmowy</th>
+            <th scope="col">Rektascencja</th>
+            <th scope="col">Deklinacja</th>
+            <th scope="col" style="text-align: center;">Więcej informacji</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of starData" id="data">
+            <td>{{row.name}}</td>
+            <td>{{row.constellation_name}}</td>
+            <td>{{row.star_type}}</td>
+            <td>{{row.rectascensionh}}° {{row.rectascensionm}}′ {{row.rectascensions}}″</td>
+            <td>{{row.declinationh}}<sup>h</sup> {{row.declinationm}}<sup>m</sup> {{row.declinations}}<sup>s</sup></td>
+            <td style="max-height: fit-content; text-align: center;"><button type="button"
+                    class="btn btn-secondary text-white bg-dark" (click)="moreInfo(row)">Szczegóły</button></td>
+        </tr>
+    </tbody>
+</table>

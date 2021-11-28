@@ -17,25 +17,27 @@ import { ProfileComponent } from './profile/profile.component';
 import { MoreInfoStarComponent } from './more-info-star/more-info-star.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
 import { ConstellationMoreInfoComponent } from './constellation-more-info/constellation-more-info.component';
+import { StarListComponent } from './star-list/star-list.component';
 
 const routes: Routes = [
-  { path: 'constellation-more-info', component: ConstellationMoreInfoComponent},
-  { path: 'edit-form', component: EditFormComponent},
-  { path: 'search-star', component: SearchStarComponent},
-  { path: 'constellation-list', component: ConstellationListComponent},
-  { path: 'login-system', component: LoginSystemComponent},
-  { path: 'register', component: RegisterComponent},
-  { path: 'email', component:EmailComponent},
-  { path: 'constellation', component:ConstellationInfoComponent},
-  { path: 'facts', component:FactsComponent},
-  { path: 'form', component:FormComponent},
-  { path: 'default-toolbar', component:ToolbarComponent},
-  { path: 'user-toolbar', component:ToolbarUserComponent},
-  { path: 'admin-toolbar', component:ToolbarAdminComponent},
-  { path: 'form-list', component:FormListComponent},
-  { path: 'profil', component:ProfileComponent},
-  { path: 'star-more-info', component:MoreInfoStarComponent},
-  { path: '', component: WelcomeComponent},
+  { path: 'constellation-more-info', component: ConstellationMoreInfoComponent },
+  { path: 'star-list', component: StarListComponent },
+  { path: 'edit-form', component: EditFormComponent },
+  { path: 'search-star', component: SearchStarComponent },
+  { path: 'constellation-list', component: ConstellationListComponent },
+  { path: 'login-system', component: LoginSystemComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'email', component: EmailComponent },
+  { path: 'constellation', component: ConstellationInfoComponent },
+  { path: 'facts', component: FactsComponent },
+  { path: 'form', component: FormComponent },
+  { path: 'default-toolbar', component: ToolbarComponent },
+  { path: 'user-toolbar', component: ToolbarUserComponent },
+  { path: 'admin-toolbar', component: ToolbarAdminComponent },
+  { path: 'form-list', component: FormListComponent },
+  { path: 'profil', component: ProfileComponent },
+  { path: 'star-more-info', component: MoreInfoStarComponent },
+  { path: '', component: WelcomeComponent },
 ];
 
 @NgModule({

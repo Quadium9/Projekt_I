@@ -30,6 +30,7 @@ import { UserComponent } from './user/user.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
 import { ConstellationMoreInfoComponent } from './constellation-more-info/constellation-more-info.component';
 import { CookieService } from 'ngx-cookie-service';
+import { StarListComponent } from './star-list/star-list.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { CookieService } from 'ngx-cookie-service';
     UserComponent,
     EditFormComponent,
     ConstellationMoreInfoComponent,
+    StarListComponent,
   ],
   imports: [
     BrowserModule,

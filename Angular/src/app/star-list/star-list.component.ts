@@ -2,40 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../shared/api.service';
-import { TokenStorageService } from '../_services/token-storage.service';
-
-const STAR = "";
 
 @Component({
-  selector: 'app-confirmedstar',
-  templateUrl: './confirmedstar.component.html',
-  styleUrls: ['./confirmedstar.component.scss']
+  selector: 'app-star-list',
+  templateUrl: './star-list.component.html',
+  styleUrls: ['./star-list.component.scss']
 })
-export class ConfirmedstarComponent implements OnInit {
+export class StarListComponent implements OnInit {
 
-  errorMessage = "";
   starData !: any;
 
-  constructor(private api: ApiService, private router: Router, private tokenStorage:TokenStorageService, private cookieService: CookieService) { }
+  constructor(private api: ApiService, private cookieService: CookieService, private router: Router) { }
 
   ngOnInit(): void {
-    if(this.tokenStorage.getToken() == null){
-      window.location.replace("/login-system")
-    }else{
-      this.getStar()
-    }
-  }
-  getStar() {
-    this.api.getFormListYES(this.tokenStorage.getUser()[0].username).subscribe(res => {
-      if (res == null) {
-        this.errorMessage = "Bląd wyszukiwania"
-      } else {
-        this.starData = res;
-      }
+    let const_name = this.cookieService.get("CONSTELLATION-name")
+    this.api.getstarbyconstellation(const_name).subscribe( res =>{
+      this.starData = res;
     })
   }
 
-  moreInfo(row:any) {
+  moreInfo(row: any) {
     this.cookieService.set("STAR-id", row.id);
     this.cookieService.set("STAR-name", row.name);
     this.cookieService.set("STAR-confirmed", row.confirmed);
@@ -55,22 +41,6 @@ export class ConfirmedstarComponent implements OnInit {
     this.cookieService.set("STAR-discaverer_lastname", row.discaverer_lastname);
     this.cookieService.set("STAR-constellation_name", row.constellation_name);
     this.router.navigate(['/star-more-info']);
-  }
-
-  deletestar(row:any){
-    this.api.deletestar(row, this.tokenStorage.getUser()[0].username).subscribe(res=>{
-      if(res.result){
-        alert(res.message)
-        this.getStar()
-      }else{
-        alert(res.message)
-      }
-    })
-  }
-
-  edit(row:any){
-    this.api.STAR = row;
-    this.router.navigate(['/edit-form']);
   }
 
   searchStar() {
