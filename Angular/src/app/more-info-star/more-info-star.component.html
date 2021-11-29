@@ -1,93 +1,102 @@
-<div class="">
-    <div style="width:50%; float: left;">
-    <table class="table table-dark mt-4" id="table">
-        <thead>
-            <tr id="theader">
-                <td>#</td>
-                <td>Wartości</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ID gwiazdy</td>
-                <td id="starid"></td>
-            </tr>
-            <tr>
-                <td>Nazwa gwiazdy</td>
-                <td id="starname"></td>
-            </tr>
-            <tr>
-                <td>Gwiazdozbiór</td>
-                <td id="starconstellation"></td>
-            </tr>
-            <tr>
-                <td>Deklinacja</td>
-                <td>{{declinationh}} <sup>h</sup> {{declinationm}} <sup>m</sup> {{declinations}} <sup>s</sup></td>
-            </tr>
-            <tr>
-                <td>Rektascencja</td>
-                <td id="starrectascension"></td>
-            </tr>
-            <tr>
-                <td>Typ widmowy</td>
-                <td id="startype"></td>
-            </tr>
-            <tr>
-                <td>Odkrywca</td>
-                <td id="stardiscaverer"></td>
-            </tr>
-            <tr>
-                <td>Dystans od Słońca</td>
-                <td id="stardistance"></td>
-            </tr>
-            <tr>
-                <td>Jasność</td>
-                <td>{{brightness}} L<sub>☉</sub></td>
-
-            </tr>
-            <tr>
-                <td>Symbol gwiazdy</td>
-                <td id="starsymbol"></td>
-            </tr>
-            <tr>
-                <td>Masa</td>
-                <td>{{mass}} M<sub>☉</sub></td>
-            </tr>
-            <tr>
-                <td>Prędkość radialna</td>
-                <td id="starspeed"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-</div>
-
-<div class="text-center mt-4" id="picture" style="width: 50%; float: left;" >
-    <img id="image" [src]="image" width="70%">
-</div>
-<form style="clear: both;">
-    <div style="text-align: center; padding-top: 32px;">
-        <h3 style="color: #FDCA40;">Procent wartości prędkości światła</h3>
-    </div>
-    <div class="slidecontainer" style="text-align: center;">
-        <input type="range" min="1" max="100" value="50" class="slider" id="myrange" style="width: 40%;"
-            (change)="getSliderValue($event)" (oninput)="getSliderValue($event)">
-        <p id="num"></p>
-    </div>
-    <div style="padding: 16px; background-color: #2a3035 ;">
-        <h4>
-            Teoretyczny czas lotu statku kosmicznego: {{result}} lat <br>
-            Prędkość statku kosmicznego: {{km}} km/h
-        </h4>
-    </div>
-</form>
 <div>
-    <div style="padding: 24px; margin-top: 32px;">
-        <button type="button" class="btn btn-light text-black btn-lg btn-block" (click)="showMap()">Zobacz obszary z utrudnioną obserwacją nocnego nieba</button>
+    <div>
+        <div style="width:50%; float: left;">
+            <table class="table table-dark mt-4" id="table">
+                <thead>
+                    <tr id="theader">
+                        <td>#</td>
+                        <td>Wartości</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ID gwiazdy</td>
+                        <td id="starid"></td>
+                    </tr>
+                    <tr>
+                        <td>Nazwa gwiazdy</td>
+                        <td id="starname"></td>
+                    </tr>
+                    <tr>
+                        <td>Gwiazdozbiór</td>
+                        <td id="starconstellation"></td>
+                    </tr>
+                    <tr>
+                        <td>Deklinacja</td>
+                        <td>{{declinationh}} <sup>h</sup> {{declinationm}} <sup>m</sup> {{declinations}} <sup>s</sup>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Rektascencja</td>
+                        <td id="starrectascension"></td>
+                    </tr>
+                    <tr>
+                        <td>Typ widmowy</td>
+                        <td id="startype"></td>
+                    </tr>
+                    <tr>
+                        <td>Odkrywca</td>
+                        <td id="stardiscaverer"></td>
+                    </tr>
+                    <tr>
+                        <td>Dystans od Słońca</td>
+                        <td id="stardistance"></td>
+                    </tr>
+                    <tr>
+                        <td>Jasność</td>
+                        <td>{{brightness}} L<sub>☉</sub></td>
+
+                    </tr>
+                    <tr>
+                        <td>Symbol gwiazdy</td>
+                        <td id="starsymbol"></td>
+                    </tr>
+                    <tr>
+                        <td>Masa</td>
+                        <td>{{mass}} M<sub>☉</sub></td>
+                    </tr>
+                    <tr>
+                        <td>Prędkość radialna</td>
+                        <td id="starspeed"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div *ngIf="mapdiv">
-    <iframe src="https://www.lightpollutionmap.info/#zoom=4.00&lat=45.8720&lon=14.5470&layers=B0FFFFFFFTFFFFFFFFFF"
-        width="100%" height="720px" style="margin-top: 50px"></iframe>
+
+    <div class="text-center" id="picture" style="width: 50%; float: left;">
+        <div class="text-center">
+            <h3 class="mt-4" style="color: #FDCA40;">Gwiazdozbiór</h3>
+        </div>
+        <img id="image" [src]="image" width="70%">
+    </div>
+
+    <form style="clear: both;">
+        <div style="text-align: center; padding-top: 32px;">
+            <h3 class="mt-5" style="color: #FDCA40;">Procent wartości prędkości światła</h3>
+        </div>
+        <div class="slidecontainer" style="text-align: center;">
+            <input type="range" min="1" max="100" value="50" class="slider" id="myrange" style="width: 40%;"
+                (change)="getSliderValue($event)" (oninput)="getSliderValue($event)">
+            <p id="num"></p>
+        </div>
+        <div style="padding: 16px; background-color: #2a3035 ;">
+            <h4>
+                Teoretyczny czas lotu statku kosmicznego: {{result}} lat <br>
+                Prędkość statku kosmicznego: {{km}} km/h
+            </h4>
+        </div>
+    </form>
+
+    <div>
+        <div style="padding: 24px; margin-top: 32px;">
+            <button type="button" class="btn btn-light text-black btn-lg btn-block" (click)="showMap()">Zobacz obszary z
+                utrudnioną obserwacją nocnego nieba</button>
+        </div>
+        <div *ngIf="mapdiv">
+            <iframe
+                src="https://www.lightpollutionmap.info/#zoom=4.00&lat=45.8720&lon=14.5470&layers=B0FFFFFFFTFFFFFFFFFF"
+                width="100%" height="720px" style="margin-top: 50px"></iframe>
+        </div>
     </div>
 </div>
