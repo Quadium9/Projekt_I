@@ -4,6 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../shared/api.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
+let x = 1
+
 @Component({
   selector: 'app-nonconfirmedstar',
   templateUrl: './nonconfirmedstar.component.html',
@@ -11,13 +13,16 @@ import { TokenStorageService } from '../_services/token-storage.service';
 })
 export class NonconfirmedstarComponent implements OnInit {
 
-  errorMessage = "";
+  errorMessage: string = "";
   noStar = false;
   starData !: any;
+  endData: boolean = false;
+  message: string = null;
 
   constructor(private api: ApiService, private router: Router, private tokenStorage: TokenStorageService, private cookieService: CookieService) { }
 
   ngOnInit(): void {
+    x = 1
     if (this.tokenStorage.getToken() == null) {
       window.location.replace("/login-system")
     } else {
@@ -25,9 +30,48 @@ export class NonconfirmedstarComponent implements OnInit {
     }
   }
   getStar() {
-    this.api.getFormListNO(this.tokenStorage.getUser()[0].username).subscribe(res => {
+    this.endData = false;
+    this.api.getFormListNO(this.tokenStorage.getUser()[0].username, 1).subscribe(res => {
       if (res == null) {
         this.errorMessage = "Bląd wyszukiwania"
+      } else {
+        if (res[0] == null) {
+          this.message = "Koniec danych"
+          this.endData = true;
+      }
+        this.starData = res;
+      }
+    })
+  }
+
+  nextpage() {
+    this.endData = false;
+    let page = x + 1
+    x = x + 1
+    this.api.getFormListNO(this.tokenStorage.getUser()[0].username, page).subscribe(res => {
+      if (res.result == false) {
+        alert(res.message);
+        x = 1
+      } else {
+        if (res[0] == null) {
+            this.message = "Koniec danych"
+            this.endData = true;
+        }
+        this.starData = res;
+      }
+    })
+  }
+  previouspage() {
+    this.message = null;
+    this.endData = false;
+    let page = x - 1
+    x = x - 1
+    this.api.getFormListNO(this.tokenStorage.getUser()[0].username, page).subscribe(res => {
+      if (res.result == false) {
+        this.message = "Koniec danych"
+        this.endData = true;
+        alert(res.message);
+        x = 1
       } else {
         this.starData = res;
       }

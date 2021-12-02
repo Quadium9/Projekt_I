@@ -1,4 +1,3 @@
-import base64
 import common.encryption as enc
 import flask
 import sqlalchemy.exc
@@ -41,12 +40,29 @@ def edit_star():
         trueadmin = DbUser().get_one_by_name(tmp['username'])
         if trueadmin.rules != 'administrator':
             return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
-
+        # None values
+        if tmp['rectascensionh'] is None or tmp['rectascensionm'] is None or tmp['rectascensions'] is None:
+            return jsonify({'result': False, 'message': "Rektascencja jest wymagana"})
+        if tmp['declinationh'] is None or tmp['declinationm'] is None or tmp['declinations'] is None:
+            return jsonify({'result': False, 'message': "Deklinacja jest wymagana"})
+        # Limited values
+        if tmp['rectascensionh'] == 24 and tmp['rectascensionm'] != 0 and tmp['rectascensions'] != 0:
+            return jsonify({'result': False, 'message': "Rektascencja nie może przyjąć podanych wartości"})
+        if tmp['declinationh'] == 90 and tmp['declinationm'] != 0 and tmp['declinations'] > 60:
+            return jsonify({'result': False, 'message': "Deklinacja nie może przyjąć podanych wartości"})
+        if tmp['rectascensionh'] > 24 or tmp['rectascensionm'] > 60 or tmp['rectascensions'] > 60:
+            return jsonify({'result': False, 'message': "Rektascencja ma nieprawidłowe wartości"})
+        if tmp['rectascensionh'] < 0 or tmp['rectascensionm'] < 0 or tmp['rectascensions'] < 0:
+            return jsonify({'result': False, 'message': "Rektascencja ma nieprawidłowe wartości"})
+        if tmp['declinationh'] > 90 or tmp['declinationm'] > 60 or tmp['declinations'] > 60:
+            return jsonify({'result': False, 'message': "Deklinacja ma nieprawidłowe wartości"})
+        if tmp['declinationh'] < -90 or tmp['declinationm'] < -60 or tmp['declinations'] < -60:
+            return jsonify({'result': False, 'message': "Deklinacja ma nieprawidłowe wartości"})
         cons = DBConstellations().get_one_by_name(tmp['constellation'])
         tmp['constellation'] = cons.id
         star = DBStars().update_entity(tmp, "edit")
         if star:
-            return jsonify({'result': True, 'message': 'Dane gwiazdy został zmienione'})
+            return jsonify({'result': True, 'message': 'Dane gwiazdy zostały zmienione'})
         return jsonify({'result': False, 'message': 'Błąd edycji gwiazdy'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Błąd w parametrach gwiazdy'})
@@ -87,24 +103,31 @@ def delete_star(username):
         return jsonify({'result': False, 'message': "Błąd usuwania gwiazdy"})
 
 
-@app.route('/form-list-admin-NO/<username>', methods=['GET'])
+@app.route('/form-list-admin-NO/<username>/<nrpage>', methods=['GET'])
 @cross_origin()
-def form_list_admin_NO(username):
+def form_list_admin_NO(username, nrpage):
     try:
         if request.method == 'GET':
             trueadmin = DbUser().get_one_by_name(username)
             if trueadmin.rules != 'administrator':
                 return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
-            stars = DBStars().get_all()
+            query = DBStars().get_query()
+            if int(nrpage) <= 0:
+                return jsonify({'result': False, 'message': "Numer strony nie może być ujemny"})
+            items = query.limit(10).offset((int(nrpage) - 1) * 10).all()
             j = []
-            for s in stars:
+            for st in items:
+                s = DBStars().get(st.id)
+                if s is None:
+                    return jsonify(j)
                 if s.confirmed == "NO":
-                    if s.discaverer == None:
+                    if s.discaverer is None:
                         disn = "Nie przypisano"
                         disl = ""
                     else:
                         disn = str(s.discaverer.name)
                         disl = str(s.discaverer.surname)
+                    print(s)
                     j.append({'id': str(s.id),
                               'confirmed': str(s.confirmed),
                               'name': str(s.name),
@@ -129,24 +152,31 @@ def form_list_admin_NO(username):
         return jsonify({'result': False, 'message': "Błąd pobierania"})
 
 
-@app.route('/form-list-admin-YES/<username>', methods=['GET'])
+@app.route('/form-list-admin-YES/<username>/<nrpage>', methods=['GET'])
 @cross_origin()
-def form_list_admin_YES(username):
+def form_list_admin_YES(username, nrpage):
     try:
         if request.method == 'GET':
             trueadmin = DbUser().get_one_by_name(username)
             if trueadmin.rules != 'administrator':
                 return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
-            stars = DBStars().get_all()
+            query = DBStars().get_query()
+            if int(nrpage) <= 0:
+                return jsonify({'result': False, 'message': "Numer strony nie może być ujemny"})
+            items = query.limit(10).offset((int(nrpage) - 1) * 10).all()
             j = []
-            for s in stars:
+            for st in items:
+                s = DBStars().get(st.id)
+                if s is None:
+                    return jsonify(j)
                 if s.confirmed == "YES":
-                    if s.discaverer == None:
+                    if s.discaverer is None:
                         disn = "Nie przypisano"
                         disl = ""
                     else:
                         disn = str(s.discaverer.name)
                         disl = str(s.discaverer.surname)
+                    print(s)
                     j.append({'id': str(s.id),
                               'confirmed': str(s.confirmed),
                               'name': str(s.name),
@@ -170,6 +200,8 @@ def form_list_admin_YES(username):
         return jsonify({'result': False, 'message': "Błąd pobierania"})
     except AttributeError:
         return jsonify({'result': False, 'message': "Błąd pobierania"})
+    except IndexError:
+        return jsonify({'result': False, 'message': "Nie istnieje w bazie więcej obiektów"})
 
 
 @app.route('/user-to-admin/<username>', methods=['POST'])
@@ -290,10 +322,24 @@ def add_new_star(username):
             star = Stars()
             cons = DBConstellations().get_one_by_name(tmp['constellation'])
             star.name = tmp['name']
-            if tmp['rectascensionh'] > 60 or tmp['rectascensionm'] > 60 or tmp['rectascensions'] > 60:
-                return jsonify({'result': False, 'message': "Rektascencja nie może przekroczyć 60"})
-            if tmp['declinationh'] > 60 or tmp['declinationm'] > 60 or tmp['declinations'] > 60:
-                return jsonify({'result': False, 'message': "Deklinacja nie może przekroczyć 60"})
+            # None values
+            if tmp['rectascensionh'] is None or tmp['rectascensionm'] is None or tmp['rectascensions'] is None:
+                return jsonify({'result': False, 'message': "Rektascencja jest wymagana"})
+            if tmp['declinationh'] is None or tmp['declinationm'] is None or tmp['declinations'] is None:
+                return jsonify({'result': False, 'message': "Deklinacja jest wymagana"})
+            # Limited values
+            if tmp['rectascensionh'] == 24 and tmp['rectascensionm'] != 0 and tmp['rectascensions'] != 0:
+                return jsonify({'result': False, 'message': "Rektascencja nie może przyjąć podanych wartości"})
+            if tmp['declinationh'] == 90 and tmp['declinationm'] != 0 and tmp['declinations'] > 60:
+                return jsonify({'result': False, 'message': "Deklinacja nie może przyjąć podanych wartości"})
+            if tmp['rectascensionh'] > 24 or tmp['rectascensionm'] > 60 or tmp['rectascensions'] > 60:
+                return jsonify({'result': False, 'message': "Rektascencja ma nieprawidłowe wartości"})
+            if tmp['rectascensionh'] < 0 or tmp['rectascensionm'] < 0 or tmp['rectascensions'] < 0:
+                return jsonify({'result': False, 'message': "Rektascencja ma nieprawidłowe wartości"})
+            if tmp['declinationh'] > 90 or tmp['declinationm'] > 60 or tmp['declinations'] > 60:
+                return jsonify({'result': False, 'message': "Deklinacja ma nieprawidłowe wartości"})
+            if tmp['declinationh'] < -90 or tmp['declinationm'] < -60 or tmp['declinations'] < -60:
+                return jsonify({'result': False, 'message': "Deklinacja ma nieprawidłowe wartości"})
             star.rectascensionh = tmp['rectascensionh']
             star.rectascensionm = tmp['rectascensionm']
             star.rectascensions = tmp['rectascensions']
@@ -368,7 +414,7 @@ def get_star_by_name(star_name):
                               'picture': str(s.constellation.name + s.constellation.picture),
                               })
             if len(j) >= 25:
-                 break
+                break
         return jsonify(j)
     except TypeError:
         return jsonify({'result': False, 'message': "Błąd nazwy gwiazdy"})

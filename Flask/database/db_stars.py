@@ -3,8 +3,6 @@ from models.orm import Stars
 from flask import Response
 from common import validation
 from Exceptions import Exceptions
-
-
 class DBStars(DB):
 
     def __init__(self, stars=Stars.__class__):
@@ -13,13 +11,20 @@ class DBStars(DB):
 
     def get_all(self):
         try:
+            # qu = self.util.get_session().query(Stars).slice(nrpage * 5, nrpage * 5 + 5)
+            # cur = self.util.get_session().execute(qu).fetchall()
+            # return cur
             return self.util.get_session().query(Stars).all()
         except Response:
             self.util.session_rollback()
             raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get_query(self):
-        pass
+        try:
+            return self.util.get_session().query(Stars)
+        except Response:
+            self.util.session_rollback()
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def add_entity(self):
         try:

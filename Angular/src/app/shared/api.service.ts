@@ -38,13 +38,13 @@ export class ApiService {
       return res;
     }))
   }
-  getFormListNO(data: string) {
-    return this.httpclient.get<any>(this.url_get_form_list_NO + data).pipe(map((res: any) => {
+  getFormListNO(data: string, nrpage: number) {
+    return this.httpclient.get<any>(this.url_get_form_list_NO + data + '/' + nrpage).pipe(map((res: any) => {
       return res;
     }))
   }
-  getFormListYES(data: string) {
-    return this.httpclient.get<any>(this.url_get_form_list_YES + data).pipe(map((res: any) => {
+  getFormListYES(data: string, nrpage: number) {
+    return this.httpclient.get<any>(this.url_get_form_list_YES + data + '/' + nrpage).pipe(map((res: any) => {
       return res;
     }))
   }

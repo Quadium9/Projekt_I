@@ -1,84 +1,122 @@
 <form [formGroup]="formValue">
-    <div class="d-block p-3">
-        <h4>Pola wymagane</h4>
-        <div class="form-group p-2">
-            <label for="starname">Nazwa gwiazdy</label>
-            <input type="text" class="form-control" formControlName="inputname" required placeholder="Podaj nazwę gwiazdy">
+  <div class="d-block p-3">
+    <h4>Pola wymagane</h4>
+    <div class="p-2">
+      <div class="form-group">
+        <label for="starname">Nazwa gwiazdy</label>
+        <input type="text" class="form-control" formControlName="inputname" required placeholder="Podaj nazwę gwiazdy">
+      </div>
+      <div *ngIf="!nameNull" class="alert-danger bg-danger rounded-pill">
+        <div id="alert_text">
+          Nazwa gwiazdy jest wymagana
         </div>
-        <div class="form-check-inline p-2">
-            <label for="starrectascension">Rektascencja</label>
-            <input type="number" class="form-control mx-2"  formControlName="inputrecth" required max="60" placeholder="XX">h
-            <input type="number" class="form-control mx-2" formControlName="inputrectm" required max="60" placeholder="YY">m
-            <input type="number" class="form-control mx-2" formControlName="inputrects" required max="60" placeholder="ZZ">s
-        </div>
-        <div class="form-check-inline p-2">
-            <label for="stardeklination">Deklinacja</label>
-            <input type="number" class="form-control ml-4 mr-2" formControlName="inputdeclh" required max="60" placeholder="XX">°
-            <input type="number" class="form-control mx-2" formControlName="inputdeclm" required max="60" placeholder="YY">′
-            <input type="number" class="form-control mx-2" formControlName="inputdecls" required max="60" placeholder="ZZ">″
-        </div>
-
-        <div class="form-group p-2">
-            <label for="starconstellation">Gwiazdozbiór</label>
-            <input type="text" class="form-control" formControlName="inputconstellation" required placeholder="Podaj nazwę gwiazdozbioru">
-        </div>
-        <div class="form-group pl-2">
-            <label>Imię i nazwisko odkrywcy</label>
-            <p style="font-size: large; text-align: center;">{{firstname}} {{lastname}}</p>
-        </div>
+      </div>
     </div>
-    <div class="d-block p-3">
-        <h4>Pola opcjonalne</h4>
-        <div class="form-group pl-2">
-            <label for="startype">Typ widmowy</label>
-            <select class="custom-select" formControlName="inputtype">
-                <option value="Hyper giants">Hiper Gigant</option>
-                <option value="Super giants">Super Gigant</option>
-                <option value="Bright giants">Żółty Olbrzym</option>
-                <option value="Giants">Olbrzym</option>
-                <option value="Subgiants">Subolbrzym</option>
-                <option value="Dwarf">Karzeł</option>
-                <option value="Subdwarf">Subkarzeł</option>
-                <option value="Red dwarf">Czerwony Karzeł</option>
-                <option value="White dwarf">Biały Karzeł</option>
-                <option value="Brown dwarf">Brązowy Karzeł</option>
-                <option value="Unknown">Nieznana</option>
-            </select>
+    <div class="p-2">
+      <div class="form-check-inline">
+        <label for="starrectascension">Rektascencja</label>
+        <input type="number" class="form-control mx-2" formControlName="inputrecth" required max="24" min="0" placeholder="XX">h
+        <input type="number" class="form-control mx-2" formControlName="inputrectm" required max="60" min="0" placeholder="YY">m
+        <input type="number" class="form-control mx-2" formControlName="inputrects" required max="60" min="0" placeholder="ZZ">s
+      </div>
+      <div class="form-check-inline p-2">
+        <label for="stardeklination">Deklinacja</label>
+        <input type="number" class="form-control ml-4 mr-2" formControlName="inputdeclh" required max="90" min="-90"
+          placeholder="XX">°
+        <input type="number" class="form-control mx-2" formControlName="inputdeclm" required max="60" min="-60" placeholder="YY">′
+        <input type="number" class="form-control mx-2" formControlName="inputdecls" required max="60" min="-60" placeholder="ZZ">″
+      </div>
+      <div *ngIf="!recNull" class="alert-danger bg-danger rounded-pill">
+        <div id="alert_text">
+          Pola rektascencji nie mogą być puste
         </div>
-        <label for="starspeed" class="mt-1 pl-2">Prędkość radialna</label>
-        <div class="input-group pl-2">
-            <input type="number" class="form-control" formControlName="inputspeed" min="0" placeholder="Podaj prędkość radialną gwiazdy"
-                aria-label="Podaj prędkość radialną gwiazdy">
-            <div class="input-group-append">
-                <span class="input-group-text">km/s</span>
-            </div>
+      </div>
+      <div *ngIf="!recError" class="alert-danger bg-danger rounded-pill">
+        <div id="alert_text">
+          Rektascencjia przekracza dowzwolone wartości, musi być w przedziale do 24 <sup>h</sup> do 0 <sup>h</sup>
         </div>
-        <label for="stardistnace" class="mt-1 pl-2">Odległość od słońca</label>
-        <div class="input-group pl-2">
-            <input type="number" class="form-control" formControlName="inputdistance" min="0" placeholder="Podaj odległość od słońca"
-                aria-label="Podaj odległość od słońca">
-            <div class="input-group-append">
-                <span class="input-group-text" id="basic-addon2"> l.y.</span>
-            </div>
+      </div>
+      <div class="m-2"></div>
+      <div *ngIf="!decNull" class="alert-danger bg-danger rounded-pill">
+        <div id="alert_text">
+          Pola deklinacji nie mogą być puste
         </div>
-        <label for="starbrightness" class="mt-1 pl-2">Jasność</label>
-        <div class="input-group pl-2">
-            <input type="number" class="form-control" formControlName="inputbrightness" min="0" placeholder="Podaj jasność gwiazdy"
-                aria-label="Podaj jasność gwiazdy">
-            <div class="input-group-append">
-                <span class="input-group-text" id="basic-addon2">L☉</span>
-            </div>
+      </div>
+      <div *ngIf="!decError" class="alert-danger bg-danger rounded-pill">
+        <div id="alert_text">
+          Deklinacjia przekracza dowzwolone wartości, musi być w przedziale od 90° do -90° 
         </div>
-        <label for="starmass" class="mt-1 pl-2">Masa</label>
-        <div class="input-group pl-2">
-            <input type="number" class="form-control" formControlName="inputmass" min="0" placeholder="Podaj masę gwiazdy"
-                aria-label="Podaj masę gwiazdy">
-            <div class="input-group-append">
-                <span class="input-group-text" id="basic-addon2">M☉</span>
-            </div>
-        </div>
+      </div>
     </div>
-    <div style="width: 100%; height: 120px; text-align: center;">
-        <button type="submit" class="btn btn-primary mt-5" (click)="postStarDetails()">Potwierdź i wyśli</button>
+    <div class="p-2">
+    <div class="form-group">
+      <label for="starconstellation">Gwiazdozbiór</label>
+      <input type="text" class="form-control" formControlName="inputconstellation" required
+        placeholder="Podaj nazwę gwiazdozbioru">
     </div>
+    <div *ngIf="!cosntellationNull" class="alert-danger bg-danger rounded-pill">
+      <div id="alert_text">
+        Gwiazda musi należeć do gwiazdozbioru
+      </div>
+    </div>
+</div>
+    <div class="form-group p-2">
+      <label>Imię i nazwisko odkrywcy</label>
+      <p style="font-size: large; text-align: center;">{{firstname}} {{lastname}}</p>
+    </div>
+  </div>
+  <div class="d-block p-3">
+    <h4>Pola opcjonalne</h4>
+    <div class="form-group pl-2">
+      <label for="startype">Typ widmowy</label>
+      <select class="custom-select" formControlName="inputtype">
+        <option value="Hyper giants">Hiper Gigant</option>
+        <option value="Super giants">Super Gigant</option>
+        <option value="Bright giants">Żółty Olbrzym</option>
+        <option value="Giants">Olbrzym</option>
+        <option value="Subgiants">Podolbrzym</option>
+        <option value="Dwarf">Karzeł</option>
+        <option value="Subdwarf">Podkarzeł</option>
+        <option value="Red dwarf">Czerwony Karzeł</option>
+        <option value="White dwarf">Biały Karzeł</option>
+        <option value="Brown dwarf">Brązowy Karzeł</option>
+        <option value="Unknown">Nieznana</option>
+      </select>
+    </div>
+    <label for="starspeed" class="mt-1 pl-2">Prędkość radialna</label>
+    <div class="input-group pl-2">
+      <input type="number" class="form-control" formControlName="inputspeed" min="0"
+        placeholder="Podaj prędkość radialną gwiazdy" aria-label="Podaj prędkość radialną gwiazdy">
+      <div class="input-group-append">
+        <span class="input-group-text">km/s</span>
+      </div>
+    </div>
+    <label for="stardistnace" class="mt-1 pl-2">Odległość od słońca</label>
+    <div class="input-group pl-2">
+      <input type="number" class="form-control" formControlName="inputdistance" min="0"
+        placeholder="Podaj odległość od słońca" aria-label="Podaj odległość od słońca">
+      <div class="input-group-append">
+        <span class="input-group-text" id="basic-addon2"> l.y.</span>
+      </div>
+    </div>
+    <label for="starbrightness" class="mt-1 pl-2">Jasność</label>
+    <div class="input-group pl-2">
+      <input type="number" class="form-control" formControlName="inputbrightness" min="0"
+        placeholder="Podaj jasność gwiazdy" aria-label="Podaj jasność gwiazdy">
+      <div class="input-group-append">
+        <span class="input-group-text" id="basic-addon2">L☉</span>
+      </div>
+    </div>
+    <label for="starmass" class="mt-1 pl-2">Masa</label>
+    <div class="input-group pl-2">
+      <input type="number" class="form-control" formControlName="inputmass" min="0" placeholder="Podaj masę gwiazdy"
+        aria-label="Podaj masę gwiazdy">
+      <div class="input-group-append">
+        <span class="input-group-text" id="basic-addon2">M☉</span>
+      </div>
+    </div>
+  </div>
+  <div style="width: 100%; height: 120px; text-align: center;">
+    <button type="submit" class="btn btn-primary mt-5" (click)="postStarDetails()">Potwierdź i wyśli</button>
+  </div>
 </form>

@@ -11,18 +11,20 @@ import { TokenStorageService } from '../_services/token-storage.service';
 })
 export class FormComponent implements OnInit {
 
-  form: any = {
-    name: null,
-    recth: null,
-    rectm: null,
-    rects: null,
-  };
   formValue !: FormGroup;
   starModelObj: StarModel = new StarModel;
   firstname: string;
   lastname: string;
 
-  
+
+  // Error field
+  nameNull: boolean = true;
+  recNull: boolean = true;
+  decNull: boolean = true;
+  cosntellationNull: boolean = true;
+  recError: boolean = true;
+  decError: boolean = true;
+
   constructor(private tokenStorage: TokenStorageService, private formBuilder: FormBuilder, private api: ApiService) { }
 
   ngOnInit(): void {
@@ -49,6 +51,12 @@ export class FormComponent implements OnInit {
   }
 
   postStarDetails() {
+    this.nameNull = true;
+    this.recNull = true;
+    this.decNull = true;
+    this.recError = true;
+    this.decError = true;
+    this.cosntellationNull = true;
     this.starModelObj.name = this.formValue.value.inputname;
     this.starModelObj.brightness = this.formValue.value.inputbrightness;
     this.starModelObj.constellation = this.formValue.value.inputconstellation;
@@ -63,31 +71,49 @@ export class FormComponent implements OnInit {
     this.starModelObj.mass = this.formValue.value.inputmass;
     this.starModelObj.radial_speed = this.formValue.value.inputspeed;
     this.starModelObj.star_type = this.formValue.value.inputtype;
-    console.log(this.starModelObj)
     if (this.formValue.value.inputname == null) {
-      alert("Nazwa jest wymagana");
-      return 0;
+      this.nameNull = false;
     }
     if (this.formValue.value.inputrecth == null || this.formValue.value.inputrectm == null || this.formValue.value.inputrects == null) {
-      alert("Rektascencja jest wymagana");
-      return 0;
+      this.recNull = false;
     }
     if (this.formValue.value.inputdeclh == null || this.formValue.value.inputdeclm == null || this.formValue.value.inputdecls == null) {
-      alert("Deklinacja jest wymagana");
-      return 0;
+      this.decNull = false;
     }
-    if (this.formValue.value.inputconstellation == null) {
-      alert("Gwiazdozbiór jest wymagany");
-      return 0;
+    if (this.formValue.value.inputconstellation == null || this.formValue.value.inputconstellation == "Podaj nazwę gwiazdozbioru") {
+      this.cosntellationNull = false;
     }
-    this.api.postAddStar(this.starModelObj, this.tokenStorage.getUser()[0].username).subscribe(res => {
-      if (res.result) {
-        alert("Wysłano formularz o nowej gwieżdzie");
-        this.formValue.reset();
-      } else {
-        alert(res.message);
-      }
-    },
-    )
+    if (this.formValue.value.inputrecth == 24 && this.formValue.value.inputrectm > 0 || this.formValue.value.inputrects > 0){
+      this.recError = false;
+    }
+    if (this.formValue.value.inputrecth > 24 || this.formValue.value.inputrectm > 60 || this.formValue.value.inputrects > 60){
+      this.recError = false;
+    }
+    if (this.formValue.value.inputrecth < 0 || this.formValue.value.inputrectm < 0 || this.formValue.value.inputrects < 0){
+      this.recError = false;
+    }
+    if (this.formValue.value.inputdeclh > 90 || this.formValue.value.inputdeclm > 60 || this.formValue.value.inputdecls > 60) {
+      this.decError = false;
+    } 
+    if (this.formValue.value.inputdeclh < (-90) || this.formValue.value.inputdeclm < (-60) || this.formValue.value.inputdecls < (-60)) {
+      this.decError = false;
+    }
+    if (this.formValue.value.inputdeclh == (-90) && this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0) {
+      this.decError = false;
+    }
+    if (this.formValue.value.inputdeclh == 90 && this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0) {
+      this.decError = false;
+    }
+    if (this.cosntellationNull && this.nameNull && this.decNull && this.recNull) {
+      this.api.postAddStar(this.starModelObj, this.tokenStorage.getUser()[0].username).subscribe(res => {
+        if (res.result) {
+          alert("Wysłano formularz o nowej gwieżdzie");
+          this.formValue.reset();
+        } else {
+          alert(res.message)
+        }
+      },
+      )
+    }
   }
 }

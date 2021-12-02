@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
-from sqlalchemy.types import BLOB
 from sqlalchemy.ext.declarative import declarative_base
 import common.stars_type as stars_type
 
@@ -18,17 +17,17 @@ class Stars(Base):
     declinationm = Column('declinationm', Integer, nullable=False)
     declinations = Column('declinations', Integer, nullable=False)
     confirmed = Column('confirmed', String(3), nullable=False)
-    radial_speed = Column('radial_speed', String(20))
-    distance = Column('distance', String(20))
-    brightness = Column('brightness', String(20))
-    star_type = Column('star_type', String(50))
-    mass = Column('mass', String(20))
-    greek_symbol = Column('greek_symbols', String(1))
+    radial_speed = Column('radial_speed', String(20), nullable=True)
+    distance = Column('distance', String(20), nullable=True)
+    brightness = Column('brightness', String(20), nullable=True)
+    star_type = Column('star_type', String(50), nullable=True)
+    mass = Column('mass', String(20), nullable=True)
+    greek_symbol = Column('greek_symbols', String(1), nullable=True)
 
     constelation_id = Column('constellation_id', Integer,
                              ForeignKey('constellations.id', ondelete="CASCADE"), nullable=False)
     discaverer_id = Column('discaverer_id', Integer,
-                           ForeignKey('user.id', ondelete="CASCADE"))
+                           ForeignKey('user.id', ondelete="CASCADE"), nullable=True)
 
     constellation = relationship('Constellations', lazy='subquery')
     discaverer = relationship('User', lazy='subquery')
@@ -80,17 +79,15 @@ class Constellations(Base):
     name = Column('name', String(100), nullable=False)
     declination = Column('declination', Float, nullable=False)
     rectascension = Column('rectascension', Float, nullable=False)
-    symbolism = Column('symbolism', String(2000))
-    sky_side = Column('sky_side', String(50))
-    area = Column('area', Float)
-    picture = Column('picture', String(50))
+    symbolism = Column('symbolism', String(2000), nullable=False)
+    sky_side = Column('sky_side', String(50), nullable=False)
+    area = Column('area', Float, nullable=False)
+    picture = Column('picture', String(50), nullable=False)
 
     def __repr__(self):
-        if self.picture is None:
-            self.picture = ""
         return str(self.id) + ', ' + str(self.name) + ', ' + str(float(self.declination)) + ', ' + str(
             float(self.rectascension)) + ', ' + str(self.symbolism) + ', ' + str(self.sky_side) + ', ' + str(
-            float(self.area)) + self.picture
+            float(self.area)) + ', ' + self.picture
 
 
 class User(Base):

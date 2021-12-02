@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../shared/api.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
-const STAR = "";
+let x = 1
 
 @Component({
   selector: 'app-confirmedstar',
@@ -15,27 +15,61 @@ export class ConfirmedstarComponent implements OnInit {
 
   errorMessage = "";
   starData !: any;
+  endData: boolean = false;
+  message: string = null;
 
-  constructor(private api: ApiService, private router: Router, private tokenStorage:TokenStorageService, private cookieService: CookieService) { }
+  constructor(private api: ApiService, private router: Router, private tokenStorage: TokenStorageService, private cookieService: CookieService) { }
 
   ngOnInit(): void {
-    if(this.tokenStorage.getToken() == null){
+    x = 1
+    if (this.tokenStorage.getToken() == null) {
       window.location.replace("/login-system")
-    }else{
+    } else {
       this.getStar()
     }
   }
   getStar() {
-    this.api.getFormListYES(this.tokenStorage.getUser()[0].username).subscribe(res => {
+    this.api.getFormListYES(this.tokenStorage.getUser()[0].username, 1).subscribe(res => {
       if (res == null) {
         this.errorMessage = "Bląd wyszukiwania"
+      }
+      this.starData = res;
+    })
+  }
+
+  nextpage() {
+    this.endData = false
+    let page = x + 1
+    x = x + 1
+    this.api.getFormListYES(this.tokenStorage.getUser()[0].username, page).subscribe(res => {
+      if (res.result == false) {
+        alert(res.message);
+        x = 1
+      } else {
+        if (res[0] == null) {
+          this.message = "Koniec danych"
+          this.endData = true;
+        }
+        this.starData = res;
+      }
+    })
+  }
+  previouspage() {
+    this.message = null;
+    this.endData = false
+    let page = x - 1
+    x = x - 1
+    this.api.getFormListYES(this.tokenStorage.getUser()[0].username, page).subscribe(res => {
+      if (res.result == false) {
+        alert(res.message);
+        x = 1
       } else {
         this.starData = res;
       }
     })
   }
 
-  moreInfo(row:any) {
+  moreInfo(row: any) {
     this.cookieService.set("STAR-id", row.id);
     this.cookieService.set("STAR-name", row.name);
     this.cookieService.set("STAR-confirmed", row.confirmed);
@@ -57,18 +91,18 @@ export class ConfirmedstarComponent implements OnInit {
     this.router.navigate(['/star-more-info']);
   }
 
-  deletestar(row:any){
-    this.api.deletestar(row, this.tokenStorage.getUser()[0].username).subscribe(res=>{
-      if(res.result){
+  deletestar(row: any) {
+    this.api.deletestar(row, this.tokenStorage.getUser()[0].username).subscribe(res => {
+      if (res.result) {
         alert(res.message)
         this.getStar()
-      }else{
+      } else {
         alert(res.message)
       }
     })
   }
 
-  edit(row:any){
+  edit(row: any) {
     this.api.STAR = row;
     this.router.navigate(['/edit-form']);
   }
