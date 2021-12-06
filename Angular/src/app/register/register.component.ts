@@ -16,6 +16,8 @@ export class RegisterComponent implements OnInit {
     password: null,
     password2: null
   };
+
+  //Error field
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
@@ -26,28 +28,28 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.isSignUpFailed = false;
     const { firstname, lastname, username, email, password, password2 } = this.form;
 
-    if (password != password2){
+    if (password != password2) {
       this.isSignUpFailed = true;
       this.errorMessage = "Hasła są niezgodne";
     }
-
-    this.authService.register(firstname, lastname, username, email, password).subscribe(
-      data => {
-        if (data.id == null){
+    if (!this.isSignUpFailed) {
+      this.authService.register(firstname, lastname, username, email, password).subscribe(
+        data => {
+          if (data.result == false) {
+            this.isSignUpFailed = true;
+            this.errorMessage = data.message;
+          } else {
+            this.isSuccessful = true;
+          }
+        },
+        err => {
+          this.errorMessage = err.error.message;
           this.isSignUpFailed = true;
-          this.errorMessage = data.message;
         }
-        if (data[0].id != null){
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-        }
-      },
-      err => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    );
+      );
+    }
   }
 }

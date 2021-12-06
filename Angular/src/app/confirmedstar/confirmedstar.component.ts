@@ -17,6 +17,7 @@ export class ConfirmedstarComponent implements OnInit {
   starData !: any;
   endData: boolean = false;
   message: string = null;
+  noStar = false;
 
   constructor(private api: ApiService, private router: Router, private tokenStorage: TokenStorageService, private cookieService: CookieService) { }
 
@@ -107,22 +108,19 @@ export class ConfirmedstarComponent implements OnInit {
     this.router.navigate(['/edit-form']);
   }
 
-  searchStar() {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("inputName");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("table");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[0];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
+  searchStar(name:string) {
+    if (name == "") {
+      this.noStar = true;
+      this.errorMessage = "Proszę wpisać nazwę gwiazdy";
+    } else {
+      this.noStar = false;
+      this.api.getStarByName(name).subscribe(res => {
+        if (res.result) {
+          this.errorMessage = res.message;
         } else {
-          tr[i].style.display = "none";
+          this.starData = res;
         }
-      }
+      })
     }
-  }
+  } 
 }

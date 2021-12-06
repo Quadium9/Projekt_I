@@ -28,13 +28,11 @@ class DbUser(DB):
         try:
             if cv.validationNone(self.user.password) and cv.validationNone(self.user.login) \
                     and cv.validationNone(self.user.email) and cv.validationNone(self.user.surname) \
-                    and cv.validationNone(self.user.name) and cv.validate_text(self.user.name) and cv.validate_text(
-                    self.user.surname):
-                if cv.email_validation(self.user.email) and cv.password_validation(self.user.password):
-                    self.util.get_session().add(self.user)
-                    self.util.get_session().commit()
-                    return self.user.id
-            return None
+                    and cv.validationNone(self.user.name):
+                self.util.get_session().add(self.user)
+                self.util.get_session().commit()
+                return self.user.id
+            return False
         except Response:
             self.util.session_rollback()
             return Response('Server has found an error in database', 500, mimetype='application/json')

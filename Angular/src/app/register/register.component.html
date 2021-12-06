@@ -43,6 +43,7 @@
                 #email="ngModel" />
             <div class="alert-danger bg-danger rounded-pill" *ngIf="email.errors && f.submitted">
                 <div *ngIf="email.errors.required">Email jest wymagany!</div>
+                <div *ngIf="email.errors.Email">Niepoprawny</div>
                 <div *ngIf="email.errors.maxlength">
                     Email przekracza dozwoloną liczbę znaków: 40.
                 </div>
@@ -89,7 +90,7 @@
 
     </form>
 
-    <div class="alert alert-success" *ngIf="isSuccessful">
+    <div id="registrationsuc" class="alert alert-success" *ngIf="isSuccessful">
         Rejestracja udana.
     </div>
 </div>

@@ -3,6 +3,8 @@ from models.orm import Stars
 from flask import Response
 from common import validation
 from Exceptions import Exceptions
+
+
 class DBStars(DB):
 
     def __init__(self, stars=Stars.__class__):
@@ -11,9 +13,6 @@ class DBStars(DB):
 
     def get_all(self):
         try:
-            # qu = self.util.get_session().query(Stars).slice(nrpage * 5, nrpage * 5 + 5)
-            # cur = self.util.get_session().execute(qu).fetchall()
-            # return cur
             return self.util.get_session().query(Stars).all()
         except Response:
             self.util.session_rollback()
@@ -28,11 +27,17 @@ class DBStars(DB):
 
     def add_entity(self):
         try:
-            if validation.validationNone([self.stars.name, self.stars.rectascensionh,
-                                          self.stars.rectascensionm, self.stars.rectascensions,
-                                          self.stars.declinationh, self.stars.declinationm, self.stars.declinations]):
-                if validation.validate_text(self.stars.mass) and validation.validate_text(self.stars.brightness)\
-                        and validation.validate_text(self.stars.distance) and validation.validate_text(self.stars.radial_speed):
+            if validation.validationNone(self.stars.name) and \
+                    validation.validationNone(self.stars.rectascensionh) and \
+                    validation.validationNone(self.stars.rectascensionm) and \
+                    validation.validationNone(self.stars.rectascensions) and \
+                    validation.validationNone(self.stars.declinationh) and \
+                    validation.validationNone(self.stars.declinationm) and \
+                    validation.validationNone(self.stars.declinations):
+                if validation.validate_text(self.stars.mass) and \
+                        validation.validate_text(self.stars.brightness) and \
+                        validation.validate_text(self.stars.distance) and \
+                        validation.validate_text(self.stars.radial_speed):
                     self.util.get_session().add(self.stars)
                     self.util.get_session().commit()
                     return self.stars
@@ -63,7 +68,8 @@ class DBStars(DB):
     def update_entity(self, ids, option):
         try:
             if option == 'confirm':
-                self.util.get_session().query(Stars).filter(Stars.id == ids).update({Stars.confirmed: "YES"}, synchronize_session=False)
+                self.util.get_session().query(Stars).filter(Stars.id == ids).update({Stars.confirmed: "YES"},
+                                                                                    synchronize_session=False)
                 self.util.get_session().commit()
                 return True
             else:
@@ -71,22 +77,21 @@ class DBStars(DB):
                     if validation.validationNone([ids['name'], ids['rectascensionh'], ids['rectascensionm'],
                                                   ids['rectascensions'], ids['declinationh'], ids['constellation'],
                                                   ids['declinationm'], ids['declinations']]):
-
-                        self.util.get_session().query(Stars).filter(Stars.id == ids['id']).\
-                                                          update({Stars.name: ids['name'],
-                                                                  Stars.rectascensionh: ids['rectascensionh'],
-                                                                  Stars.rectascensionm: ids['rectascensionm'],
-                                                                  Stars.rectascensions: ids['rectascensions'],
-                                                                  Stars.declinationh: ids['declinationh'],
-                                                                  Stars.declinationm: ids['declinationm'],
-                                                                  Stars.declinations: ids['declinations'],
-                                                                  Stars.constelation_id: ids['constellation'],
-                                                                  Stars.star_type: ids['star_type'],
-                                                                  Stars.radial_speed: ids['radial_speed'],
-                                                                  Stars.distance: ids['distance'],
-                                                                  Stars.brightness: ids['brightness'],
-                                                                  Stars.mass: ids['mass'],
-                                                                  }, synchronize_session=False)
+                        self.util.get_session().query(Stars).filter(Stars.id == ids['id']). \
+                            update({Stars.name: ids['name'],
+                                    Stars.rectascensionh: ids['rectascensionh'],
+                                    Stars.rectascensionm: ids['rectascensionm'],
+                                    Stars.rectascensions: ids['rectascensions'],
+                                    Stars.declinationh: ids['declinationh'],
+                                    Stars.declinationm: ids['declinationm'],
+                                    Stars.declinations: ids['declinations'],
+                                    Stars.constelation_id: ids['constellation'],
+                                    Stars.star_type: ids['star_type'],
+                                    Stars.radial_speed: ids['radial_speed'],
+                                    Stars.distance: ids['distance'],
+                                    Stars.brightness: ids['brightness'],
+                                    Stars.mass: ids['mass'],
+                                    }, synchronize_session=False)
                         self.util.get_session().commit()
                         return True
             return False

@@ -27,7 +27,14 @@ export class ApiService {
   url_update_user = "http://127.0.0.1:5000/update-user";
   url_constellation_image = "http://127.0.0.1:5000/constellation_image/";
   url_get_star_by_constellation = "http://127.0.0.1:5000/get_star_by_constellation/";
+  url_get_user_by_name = "http://127.0.0.1:5000/get-user-by-name/";
 
+
+  getUserByName(username:string, loged:string){
+    return this.httpclient.get(this.url_get_user_by_name + username + "/" + loged).pipe(map((res:any) =>{
+      return res;
+    }))
+  }
   postAddStar(data: any, username:string) {
     return this.httpclient.post<any>(this.url_add_star + username, data).pipe(map((res: any) => {
       return res;

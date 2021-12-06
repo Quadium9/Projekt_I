@@ -1,32 +1,45 @@
 <div class="m-3">
-    <input type="text" id="inputName" (keyup)='searchStar()' placeholder="Przeszukaj listę po nazwie"
-        style="width: 100%;">
+  <input type="text" id="inputName" #value (keyup.enter)='searchUser(value.value)'
+    placeholder="Przeszukaj listę po nazwie" style="width: 100%;">
+  <div style="text-align: center;" class="m-3">
+    <button type="button" class="btn btn-secondary text-white bg-dark" (click)="searchUser(value.value)"
+      style="width: 200px;">Szukaj</button>
+  </div>
 </div>
 <h3 class="m-3" style="color: #FDCA40;">Użytkownicy</h3>
-<table class="table table-dark" id="table">
+<div style="min-height: 30%">
+  <table class="table table-dark" id="table">
     <thead>
-        <tr id="theader">
-            <th scope="col">Nazwa</th>
-            <th scope="col">Imię</th>
-            <th scope="col">Nazwisko</th>
-            <th scope="col">Email</th>
-            <th scope="col">Rola</th>
-            <th scope="col" style="text-align: center;">Rola administratora</th>
-        </tr>
+      <tr id="theader">
+        <th scope="col">Nazwa</th>
+        <th scope="col">Imię</th>
+        <th scope="col">Nazwisko</th>
+        <th scope="col">Email</th>
+        <th scope="col">Rola</th>
+        <th scope="col" style="text-align: center;">Rola administratora</th>
+      </tr>
     </thead>
     <tbody *ngIf="userData != null">
-        <tr *ngFor="let row of userData" id="data">
-            <td>{{row.username}}</td>
-            <td>{{row.firstname}}</td>
-            <td>{{row.lastname}}</td>
-            <td>{{row.email}}</td>
-            <td>{{row.rules}}</td>
-            <td *ngIf="row.rules == 'użytkownik'" style="max-height: fit-content; text-align: center;"><button
-                    type="button" class="btn btn-secondary text-white bg-dark" (click)="userToAdmin(row)">Nadaj</button>
-            </td>
-            <td *ngIf="row.rules == 'administrator'" style="max-height: fit-content; text-align: center;"><button
-                    type="button" class="btn btn-secondary text-white bg-dark" (click)="adminToUser(row)">Usuń</button>
-            </td>
-        </tr>
+      <tr *ngFor="let row of userData" id="data">
+        <td>{{row.username}}</td>
+        <td>{{row.firstname}}</td>
+        <td>{{row.lastname}}</td>
+        <td>{{row.email}}</td>
+        <td>{{row.rules}}</td>
+        <td *ngIf="row.rules == 'użytkownik'" style="max-height: fit-content; text-align: center;"><button type="button"
+            class="btn btn-secondary text-white bg-dark" (click)="userToAdmin(row)">Nadaj</button>
+        </td>
+        <td *ngIf="row.rules == 'administrator'" style="max-height: fit-content; text-align: center;"><button
+            type="button" class="btn btn-secondary text-white bg-dark" (click)="adminToUser(row)">Usuń</button>
+        </td>
+      </tr>
     </tbody>
-</table>
+  </table>
+</div>
+<div *ngIf="message != null" style="font-size: 24px; height: 20%; text-align: center;">
+  {{message}}
+</div>
+<div class="text-center">
+  <button class="btn btn-secondary text-white bg-dark" (click)="nextpage()" *ngIf="!endData">Następna</button>
+  <button class="btn btn-secondary text-white bg-dark" (click)="previouspage()">Poprzednia</button>
+</div>

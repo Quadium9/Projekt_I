@@ -12,26 +12,25 @@ let x = 1
 export class UserComponent implements OnInit {
 
   userData !: any;
-  OBJ = "rules";
   endData: boolean = false;
   message: string = null;
 
-  constructor(private api: ApiService, private tokenStorage:TokenStorageService) { }
+  constructor(private api: ApiService, private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
     x = 1
-    if(this.tokenStorage.getToken() == null){
+    if (this.tokenStorage.getToken() == null) {
       window.location.replace("/login-system")
-    }else{
+    } else {
       this.getUser()
     }
   }
 
-  getUser(){
+  getUser() {
     this.api.getAllUser(this.tokenStorage.getUser()[0].username, 1).subscribe(res => {
-      if (res.result){
+      if (res.result) {
         alert(res.message);
-      }else {
+      } else {
         this.userData = res;
       }
     })
@@ -68,36 +67,31 @@ export class UserComponent implements OnInit {
     })
   }
 
-  userToAdmin(row:any){
-    this.api.userToAdmin(row, this.tokenStorage.getUser()[0].username).subscribe(res =>{
+  userToAdmin(row: any) {
+    this.api.userToAdmin(row, this.tokenStorage.getUser()[0].username).subscribe(res => {
       alert(res.message)
       this.getUser()
     })
   }
 
-  adminToUser(row:any){
-    this.api.adminToUser(row, this.tokenStorage.getUser()[0].username).subscribe(res =>{
+  adminToUser(row: any) {
+    this.api.adminToUser(row, this.tokenStorage.getUser()[0].username).subscribe(res => {
       alert(res.message)
       this.getUser()
     })
   }
 
-  searchStar() {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("inputName");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("table");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[0];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
+  searchUser(name) {
+    if (name == "") {
+      alert("Proszę wpisać nazwę użytkownika");
+    } else {
+      this.api.getUserByName(name, this.tokenStorage.getUser()[0].username).subscribe(res => {
+        if (res.result) {
+          this.message = res.message;
         } else {
-          tr[i].style.display = "none";
+          this.userData = res;
         }
-      }
+      })
     }
   }
 }
