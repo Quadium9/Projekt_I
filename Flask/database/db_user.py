@@ -18,7 +18,11 @@ class DbUser(DB):
             raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def get_query(self):
-        pass
+        try:
+            return self.util.get_session().query(User)
+        except Response:
+            self.util.session_rollback()
+            raise Response('Server has found an error in database', 500, mimetype='application/json')
 
     def add_entity(self):
         try:

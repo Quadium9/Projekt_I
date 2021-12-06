@@ -19,7 +19,7 @@ export class ApiService {
   url_get_form_list_YES = "http://127.0.0.1:5000/form-list-admin-YES/";
   url_delete_star = "http://127.0.0.1:5000/delete-star/";
   url_confirm_star = "http://127.0.0.1:5000/confirmed-star/";
-  url_get_all_user = "http://127.0.0.1:5000/get-all-user";
+  url_get_all_user = "http://127.0.0.1:5000/get-all-user/";
   url_admin_to_user = "http://127.0.0.1:5000/admin-to-user/";
   url_user_to_admin = "http://127.0.0.1:5000/user-to-admin/";
   url_edit_star = "http://127.0.0.1:5000/edit-star";
@@ -58,8 +58,8 @@ export class ApiService {
       return res;
     }))
   }
-  getAllUser() {
-    return this.httpclient.get(this.url_get_all_user).pipe(map((res: any) => {
+  getAllUser(data: string, nrpage: number) {
+    return this.httpclient.get(this.url_get_all_user + data + '/' + nrpage).pipe(map((res: any) => {
       return res;
     }))
   }

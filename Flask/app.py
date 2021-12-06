@@ -241,14 +241,23 @@ def admin_to_user(username):
         return jsonify({'result': False, 'message': 'Niepoprawne dane'})
 
 
-@app.route('/get-all-user', methods=['GET'])
+@app.route('/get-all-user/<username>/<nrpage>', methods=['GET'])
 @cross_origin()
-def get_all_user():
+def get_all_user(username, nrpage):
     try:
         if request.method == 'GET':
-            user = DbUser().get_all()
+            trueadmin = DbUser().get_one_by_name(username)
+            if trueadmin.rules != 'administrator':
+                return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
+            query = DBStars().get_query()
+            if int(nrpage) <= 0:
+                return jsonify({'result': False, 'message': "Numer strony nie może być ujemny"})
+            items = query.limit(10).offset((int(nrpage) - 1) * 10).all()
             j = []
-            for u in user:
+            for ut in items:
+                u = DbUser().get(ut.id)
+                if u is None:
+                    return jsonify(j)
                 j.append({
                     'id': str(u.id),
                     'username': str(u.login),
