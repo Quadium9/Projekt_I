@@ -13,21 +13,21 @@ export class ApiService {
 
   constructor(private httpclient: HttpClient) { }
 
-  url_add_star = "http://127.0.0.1:5000/add_new_star/";
-  url_get_Star_by_name = "http://127.0.0.1:5000/get_star_by_name/";
-  url_get_form_list_NO = "http://127.0.0.1:5000/form-list-admin-NO/";
-  url_get_form_list_YES = "http://127.0.0.1:5000/form-list-admin-YES/";
-  url_delete_star = "http://127.0.0.1:5000/delete-star/";
-  url_confirm_star = "http://127.0.0.1:5000/confirmed-star/";
-  url_get_all_user = "http://127.0.0.1:5000/get-all-user/";
-  url_admin_to_user = "http://127.0.0.1:5000/admin-to-user/";
-  url_user_to_admin = "http://127.0.0.1:5000/user-to-admin/";
-  url_edit_star = "http://127.0.0.1:5000/edit-star";
-  url_all_constellations = "http://127.0.0.1:5000/all-constellations";
-  url_update_user = "http://127.0.0.1:5000/update-user";
-  url_constellation_image = "http://127.0.0.1:5000/constellation_image/";
-  url_get_star_by_constellation = "http://127.0.0.1:5000/get_star_by_constellation/";
-  url_get_user_by_name = "http://127.0.0.1:5000/get-user-by-name/";
+  url_add_star = "http://127.0.0.1:5000/star/dd_new_star/";
+  url_get_Star_by_name = "http://127.0.0.1:5000/star/get_star_by_name/";
+  url_get_form_list_NO = "http://127.0.0.1:5000/star/form-list-admin-NO/";
+  url_get_form_list_YES = "http://127.0.0.1:5000/star/form-list-admin-YES/";
+  url_delete_star = "http://127.0.0.1:5000/star/delete-star/";
+  url_confirm_star = "http://127.0.0.1:5000/star/confirmed-star/";
+  url_get_all_user = "http://127.0.0.1:5000/user/get-all-user/";
+  url_admin_to_user = "http://127.0.0.1:5000/user/admin-to-user/";
+  url_user_to_admin = "http://127.0.0.1:5000/user/user-to-admin/";
+  url_edit_star = "http://127.0.0.1:5000/star/edit-star";
+  url_all_constellations = "http://127.0.0.1:5000/constellation/all-constellations";
+  url_update_user = "http://127.0.0.1:5000/user/update-user";
+  url_constellation_image = "http://127.0.0.1:5000/constellation/constellation_image/";
+  url_get_star_by_constellation = "http://127.0.0.1:5000/star/get_star_by_constellation/";
+  url_get_user_by_name = "http://127.0.0.1:5000/user/get-user-by-name/";
 
 
   getUserByName(username:string, loged:string){

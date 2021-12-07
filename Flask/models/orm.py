@@ -102,4 +102,4 @@ class User(Base):
 
     def __repr__(self):
         return str(self.id) + ', ' + str(self.name) + ', ' + str(self.surname) + ', ' + str(self.login) + ', ' + \
-               str(self.password) + ', ' + str(self.email) + ', ' + str(self.rules)
+               str(self.password) + ', ' + str(self.email) + ', ' + str(self.rules) + ', ' + self.level
