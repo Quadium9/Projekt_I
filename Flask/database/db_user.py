@@ -69,8 +69,10 @@ class DbUser(DB):
                     return True
             if option == 'levelup':
                 self.util.get_session().query(User).filter(User.id == ids['id']).update({
-                    User.level
-                })
+                    User.star_number: int(ids['star_number'])
+                }, synchronize_session=False)
+                self.util.get_session().commit()
+                return True
             return False
         except Response:
             self.util.session_rollback()

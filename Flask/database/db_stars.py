@@ -34,11 +34,14 @@ class DBStars(DB):
                     validation.validationNone(self.stars.declinationh) and \
                     validation.validationNone(self.stars.declinationm) and \
                     validation.validationNone(self.stars.declinations):
-                if validation.validate_text(self.stars.mass) and \
-                        validation.validate_text(self.stars.brightness) and \
-                        validation.validate_text(self.stars.distance) and \
-                        validation.validate_text(self.stars.radial_speed):
-                    self.util.get_session().add(self.stars)
+                self.util.get_session().add(self.stars)
+                if validation.validate_text(self.stars.name) and \
+                        validation.validate_text(self.stars.rectascensionh) and \
+                        validation.validate_text(self.stars.rectascensionm) and \
+                        validation.validate_text(self.stars.rectascensions) and \
+                        validation.validate_text(self.stars.declinationh) and \
+                        validation.validate_text(self.stars.declinationm) and \
+                        validation.validate_text(self.stars.declinations):
                     self.util.get_session().commit()
                     return self.stars
                 raise Exceptions.ExceptionNotNumber

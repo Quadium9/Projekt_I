@@ -10,7 +10,7 @@ export class StarModel{
     radial_speed: string = '';
     distance: string = '';
     brightness: string = '';
-    star_type: string = 'Unknown';
+    star_type: string = '';
     mass: string = '';
     greek_symbol: string = '';
     constellation: string = '';

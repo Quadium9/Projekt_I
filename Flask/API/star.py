@@ -1,9 +1,11 @@
 import flask
+import sqlalchemy
 from flask import jsonify, request, Blueprint
 from database.db_stars import DBStars, Stars
 from flask_cors import cross_origin
 from database.db_user import DbUser
 from database.db_constelations import DBConstellations
+from common import stars_type
 
 field = Blueprint('/star', __name__)
 
@@ -16,11 +18,11 @@ def delete_star(username):
             trueadmin = DbUser().get_one_by_name(username)
             if trueadmin.rules != 'administrator':
                 return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
-
             tmp = flask.request.json
-            star = DBStars().delete_id(tmp['id'])
-            if star:
-                return jsonify({'result': True, 'message': "Usunięto gwiazdę " + tmp['name']})
+            if DBStars().delete_id(tmp['id']):
+                ids = {'id': trueadmin.id, 'star_number': int(trueadmin.star_number) - 1}
+                if DbUser().update_entity(ids, 'levelup'):
+                    return jsonify({'result': True, 'message': "Usunięto gwiazdę " + tmp['name']})
             return jsonify({'result': False, 'message': "Błąd usuwania gwiazdy"})
     except AttributeError:
         return jsonify({'result': False, 'message': "Błąd usuwania gwiazdy"})
@@ -70,9 +72,10 @@ def confirmed_star(id, username):
             trueadmin = DbUser().get_one_by_name(username)
             if trueadmin.rules != 'administrator':
                 return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
-
             if DBStars().update_entity(id, "confirm"):
-                return jsonify({'result': True, 'message': 'Gwiazda została potwierdzona'})
+                ids = {'id': trueadmin.id, 'star_number': int(trueadmin.star_number) + 1}
+                if DbUser().update_entity(ids, 'levelup'):
+                    return jsonify({'result': True, 'message': 'Gwiazda została potwierdzona'})
             return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
 
     except AttributeError:
@@ -216,17 +219,29 @@ def add_new_star(username):
             star.declinations = tmp['declinations']
             star.constelation_id = cons.id
             star.discaverer_id = tmp['discavererid']
+            if tmp['star_type'] is None:
+                tmp['star_type'] = stars_type.StarsType['unknown']
             star.star_type = tmp['star_type']
+            if tmp['radial_speed'] is None:
+                tmp['radial_speed'] = stars_type.StarsType['unknown']
             star.radial_speed = tmp['radial_speed']
+            if tmp['distance'] is None:
+                tmp['distance'] = stars_type.StarsType['unknown']
             star.distance = tmp['distance']
+            if tmp['brightness'] is None:
+                tmp['brightness'] = stars_type.StarsType['unknown']
             star.brightness = tmp['brightness']
+            if tmp['mass'] is None:
+                tmp['mass'] = stars_type.StarsType['unknown']
             star.mass = tmp['mass']
-            star.greek_symboxl = None
+            star.greek_symbol = ''
             star.confirmed = "NO"
             DBStars(star).add_entity()
             return jsonify({'result': True, 'message': "Wysłano formularz"})
     except AttributeError:
         return jsonify({'result': False, 'message': "Podany gwiazdozbiór nie istnieje w bazie"})
+    except sqlalchemy.exc.IntegrityError:
+        return jsonify({'result': False, 'message': "Podana nazwa gwiazdy istnieje w bazie. Proszę wybrać inną nazwę."})
 
 
 @field.route('/get_star_by_name/<star_name>', methods=['GET'])

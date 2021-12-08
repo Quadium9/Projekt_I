@@ -13,7 +13,7 @@ export class ApiService {
 
   constructor(private httpclient: HttpClient) { }
 
-  url_add_star = "http://127.0.0.1:5000/star/dd_new_star/";
+  url_add_star = "http://127.0.0.1:5000/star/add_new_star/";
   url_get_Star_by_name = "http://127.0.0.1:5000/star/get_star_by_name/";
   url_get_form_list_NO = "http://127.0.0.1:5000/star/form-list-admin-NO/";
   url_get_form_list_YES = "http://127.0.0.1:5000/star/form-list-admin-YES/";

@@ -23,7 +23,7 @@
                     </tr>
                     <tr>
                         <td>Deklinacja</td>
-                        <td>{{declinationh}} <sup>h</sup> {{declinationm}} <sup>m</sup> {{declinations}} <sup>s</sup>
+                        <td>{{declinationh}}<sup>h</sup> {{declinationm}}<sup>m</sup> {{declinations}}<sup>s</sup>
                         </td>
                     </tr>
                     <tr>
@@ -44,16 +44,17 @@
                     </tr>
                     <tr>
                         <td>Jasność</td>
-                        <td>{{brightness}} L<sub>☉</sub></td>
-
+                        <td *ngIf='brightness == "Nieznana"'>{{brightness}}</td>
+                        <td *ngIf='brightness != "Nieznana"'>{{brightness}} L<sub>☉</sub></td>
                     </tr>
-                    <tr>
+                    <tr *ngIf='starsymbol != ""'>
                         <td>Symbol gwiazdy</td>
-                        <td id="starsymbol"></td>
+                        <td>{{starsymbol}}</td>
                     </tr>
                     <tr>
                         <td>Masa</td>
-                        <td>{{mass}} M<sub>☉</sub></td>
+                        <td *ngIf='mass == "Nieznana"'>{{mass}}</td>
+                        <td *ngIf='mass != "Nieznana"'>{{mass}} M<sub>☉</sub></td>
                     </tr>
                     <tr>
                         <td>Prędkość radialna</td>

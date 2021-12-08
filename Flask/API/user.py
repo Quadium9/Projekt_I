@@ -1,6 +1,5 @@
 import common.encryption as enc
 import common.validation as val
-import common.stars_type as st
 import flask
 import sqlalchemy.exc
 from flask import jsonify, request, Blueprint
@@ -33,7 +32,7 @@ def get_user_by_name(name, loged):
                 'firstname': u.name,
                 'lastname': u.surname,
                 'email': u.email,
-                'level': u.level,
+                'star_number': u.star_number,
                 'rules': u.rules
             })
         return jsonify(j)
@@ -120,8 +119,8 @@ def get_all_user(username, nrpage):
                     'firstname': str(u.name),
                     'lastname': str(u.surname),
                     'email': str(u.email),
-                    'level': u.level,
-                    'rules': str(u.rules)
+                    'rules': str(u.rules),
+                    'star_number': u.star_number
                 })
             return jsonify(j)
         return jsonify({'result': False, 'message': "Błąd pobierania"})
@@ -146,7 +145,8 @@ def user_login():
                     'username': str(user.login),
                     'password': str(user.password),
                     'email': str(user.email),
-                    'rules': str(user.rules)
+                    'rules': str(user.rules),
+                    'star_number': user.star_number
                 })
                 return jsonify(j)
             else:
@@ -179,7 +179,7 @@ def register_user():
             password = enc.createhash(str(tmp['password']))
             user.password = str(password)
             user.email = tmp['email']
-            user.level = st.StarsType.hypergiants.value
+            user.star_number = 0
             user.rules = 'użytkownik'
             new_user = DbUser(user).add_entity()
             j = ({'id': new_user})

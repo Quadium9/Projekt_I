@@ -83,7 +83,7 @@ export class FormComponent implements OnInit {
     if (this.formValue.value.inputconstellation == null || this.formValue.value.inputconstellation == "Podaj nazwę gwiazdozbioru") {
       this.cosntellationNull = false;
     }
-    if (this.formValue.value.inputrecth == 24 && this.formValue.value.inputrectm > 0 || this.formValue.value.inputrects > 0){
+    if (this.formValue.value.inputrecth == 24 && (this.formValue.value.inputrectm > 0 || this.formValue.value.inputrects > 0)){
       this.recError = false;
     }
     if (this.formValue.value.inputrecth > 24 || this.formValue.value.inputrectm > 60 || this.formValue.value.inputrects > 60){
@@ -98,10 +98,10 @@ export class FormComponent implements OnInit {
     if (this.formValue.value.inputdeclh < (-90) || this.formValue.value.inputdeclm < (-60) || this.formValue.value.inputdecls < (-60)) {
       this.decError = false;
     }
-    if (this.formValue.value.inputdeclh == (-90) && this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0) {
+    if (this.formValue.value.inputdeclh == (-90) && (this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0)) {
       this.decError = false;
     }
-    if (this.formValue.value.inputdeclh == 90 && this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0) {
+    if (this.formValue.value.inputdeclh == 90 && (this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0)) {
       this.decError = false;
     }
     if (this.cosntellationNull && this.nameNull && this.decNull && this.recNull) {

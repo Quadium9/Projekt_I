@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
       window.location.replace("/login-system")
     }
     this.currentUser = this.token.getUser()[0];
+    console.log(this.currentUser)
   }
 
   upclick() {

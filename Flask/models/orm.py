@@ -99,7 +99,8 @@ class User(Base):
     password = Column('password', String(100), nullable=False)
     email = Column('email', String(100), nullable=False)
     rules = Column('rules', String(20), nullable=False)
+    star_number = Column('star_number', Integer, nullable=False)
 
     def __repr__(self):
         return str(self.id) + ', ' + str(self.name) + ', ' + str(self.surname) + ', ' + str(self.login) + ', ' + \
-               str(self.password) + ', ' + str(self.email) + ', ' + str(self.rules) + ', ' + self.level
+               str(self.password) + ', ' + str(self.email) + ', ' + str(self.rules) + ', ' + self.star_number

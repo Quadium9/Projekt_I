@@ -10,7 +10,10 @@
   <p>
     <strong>Email:</strong> {{currentUser.email}}
   </p>
-  <strong>Rola:</strong> {{currentUser.rules}}
+  <p>
+    <strong>Rola:</strong> {{currentUser.rules}}
+  </p>
+  <strong>Liczba odkrytych gwiazd:</strong> {{currentUser.star_number}}
   <div class="my-4" style="width: 100%;">
     <button type="button" class="btn btn-secondary text-white bg-dark" (click)="upclick()">Edytuj dane
       logowania</button>
@@ -19,7 +22,8 @@
   <form (ngSubmit)="updateuser(username.value, password.value)" *ngIf="click">
     <div class="group p-2">
       <label for="username">Nazwa użytkownika</label>
-      <input type="text" class="form-control" id="username" name="username" required maxlength="30" placeholder="Nazwa użytkownika" #username/>
+      <input type="text" class="form-control" id="username" name="username" required maxlength="30"
+        placeholder="Nazwa użytkownika" #username />
     </div>
     <div class="alert-danger bg-danger rounded-pill" *ngIf="error" id="error">
       <div *ngIf="username.required">
@@ -31,7 +35,8 @@
     </div>
     <div class="form-group p-2">
       <label for="passwordold">Stare hasło</label>
-      <input type="password" class="form-control" required maxlength="40" minlength="8" placeholder="Hasło" #passwordold />
+      <input type="password" class="form-control" required maxlength="40" minlength="8" placeholder="Hasło"
+        #passwordold />
     </div>
     <div class="alert-danger bg-danger rounded-pill" *ngIf="error" id="error">
       <div *ngIf="passwordold.required">
@@ -46,7 +51,8 @@
     </div>
     <div class="form-group p-2" style="margin-top: -16px;">
       <label for="passwordnew">Nowe hasło</label>
-      <input type="password" class="form-control" required maxlength="40" minlength="8" placeholder="Hasło" #passwordnew />
+      <input type="password" class="form-control" required maxlength="40" minlength="8" placeholder="Hasło"
+        #passwordnew />
     </div>
     <div class="alert-danger bg-danger rounded-pill" *ngIf="error" id="error">
       <div *ngIf="passwordnew.required">

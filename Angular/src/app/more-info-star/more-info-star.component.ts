@@ -21,6 +21,7 @@ export class MoreInfoStarComponent implements OnInit {
   declinationm: string;
   declinations: string;
   mass: string;
+  starsymbol: string;
 
 
   ngOnInit(): void {
@@ -32,10 +33,19 @@ export class MoreInfoStarComponent implements OnInit {
     this.declinationm = this.cookieService.get("STAR-declinationm")
     this.declinations = this.cookieService.get("STAR-declinations")
     document.getElementById("stardiscaverer").textContent = this.cookieService.get("STAR-discaverer_name") + " " + this.cookieService.get("STAR-discaverer_lastname");
-    document.getElementById("stardistance").textContent = this.cookieService.get("STAR-distance") + " l.y.";
-    document.getElementById("starsymbol").textContent = this.cookieService.get("STAR-greek_symbol");
+    if (this.cookieService.get("STAR-distance") == 'Nieznana') {
+      document.getElementById("stardistance").textContent = this.cookieService.get("STAR-distance");
+    } else {
+      document.getElementById("stardistance").textContent = this.cookieService.get("STAR-distance") + " l.y.";
+    }
+    this.starsymbol = this.cookieService.get("STAR-greek_symbol");
+    console.log(this.starsymbol)
     this.mass = this.cookieService.get("STAR-mass");
-    document.getElementById("starspeed").textContent = this.cookieService.get("STAR-radial_speed") + " km/s";
+    if (this.cookieService.get("STAR-radial_speed") == 'Nieznana') {
+      document.getElementById("starspeed").textContent = this.cookieService.get("STAR-radial_speed");
+    } else {
+      document.getElementById("starspeed").textContent = this.cookieService.get("STAR-radial_speed") + " km/s";
+    }
     document.getElementById("starrectascension").textContent = this.cookieService.get("STAR-rectascensionh") + "° " + this.cookieService.get("STAR-rectascensionm") + "′ " + this.cookieService.get("STAR-rectascensions") + "″";
     document.getElementById("startype").textContent = this.cookieService.get("STAR-star_type");
     document.getElementById("num").textContent = "0%";
