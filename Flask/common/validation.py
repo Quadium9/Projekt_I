@@ -1,14 +1,21 @@
 import re
 
+import Exceptions.Exceptions
+
 
 def validate_text(value):
-    return not str(value).isalpha()
-
-
-def onechar_text(value):
-    if len(value) == 1:
+    regex = r'[0-9]+'
+    if re.match(regex, str(value)):
         return True
-    return False
+    else:
+        raise Exceptions.Exceptions.ExceptionNotNumber
+
+
+def integer_number(value):
+    if isinstance(value, int):
+        return True
+    else:
+        return False
 
 
 def password_validation(value):

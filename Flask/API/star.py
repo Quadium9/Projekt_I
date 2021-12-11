@@ -1,6 +1,9 @@
 import flask
 import sqlalchemy
 from flask import jsonify, request, Blueprint
+import common.validation as val
+import Exceptions.Exceptions
+import common.validation
 from database.db_stars import DBStars, Stars
 from flask_cors import cross_origin
 from database.db_user import DbUser
@@ -187,18 +190,28 @@ def add_new_star(username):
     try:
         if request.method == 'POST':
             trueadmin = DbUser().get_one_by_name(username)
-            if trueadmin.rules != 'administrator':
+            if trueadmin is None:
                 return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
             tmp = flask.request.json
             star = Stars()
             cons = DBConstellations().get_one_by_name(tmp['constellation'])
             star.name = tmp['name']
+
             # None values
             if tmp['rectascensionh'] is None or tmp['rectascensionm'] is None or tmp['rectascensions'] is None:
                 return jsonify({'result': False, 'message': "Rektascencja jest wymagana"})
             if tmp['declinationh'] is None or tmp['declinationm'] is None or tmp['declinations'] is None:
                 return jsonify({'result': False, 'message': "Deklinacja jest wymagana"})
-            # Limited values
+
+            # Integer integrity
+            if not (val.integer_number(tmp['rectascensionh']) and val.integer_number(tmp['rectascensionm'])):
+                return jsonify(
+                    {'result': False, 'message': "Rektascencja może posiadać część ułamkową tylko dla sekund"})
+            if not (val.integer_number(tmp['declinationh']) and val.integer_number(tmp['declinationm'])):
+                return jsonify(
+                    {'result': False, 'message': "Deklinacja może posiadać część ułamkową tylko dla sekund kątowytch"})
+
+            # Compartment
             if tmp['rectascensionh'] == 24 and tmp['rectascensionm'] != 0 and tmp['rectascensions'] != 0:
                 return jsonify({'result': False, 'message': "Rektascencja nie może przyjąć podanych wartości"})
             if tmp['declinationh'] == 90 and tmp['declinationm'] != 0 and tmp['declinations'] > 60:
@@ -219,6 +232,22 @@ def add_new_star(username):
             star.declinations = tmp['declinations']
             star.constelation_id = cons.id
             star.discaverer_id = tmp['discavererid']
+
+            # Check number integrity
+            if val.validationNone(tmp['radial_speed']):
+                if not val.validate_text(tmp['radial_speed']):
+                    raise Exceptions.Exceptions.ExceptionNotNumber
+            if val.validationNone(tmp['distance']):
+                if not val.validate_text(tmp['distance']):
+                    raise Exceptions.Exceptions.ExceptionNotNumber
+            if val.validationNone(tmp['brightness']):
+                if not val.validate_text(tmp['brightness']):
+                    raise Exceptions.Exceptions.ExceptionNotNumber
+            if val.validationNone(tmp['mass']):
+                if not val.validate_text(tmp['mass']):
+                    raise Exceptions.Exceptions.ExceptionNotNumber
+
+            # Check None value
             if tmp['star_type'] is None:
                 tmp['star_type'] = stars_type.StarsType['unknown']
             star.star_type = tmp['star_type']
@@ -242,6 +271,8 @@ def add_new_star(username):
         return jsonify({'result': False, 'message': "Podany gwiazdozbiór nie istnieje w bazie"})
     except sqlalchemy.exc.IntegrityError:
         return jsonify({'result': False, 'message': "Podana nazwa gwiazdy istnieje w bazie. Proszę wybrać inną nazwę."})
+    except Exceptions.Exceptions.ExceptionNotNumber:
+        return jsonify({'result': False, 'message': "Paramtery gwiazdy muszą być cyframi"})
 
 
 @field.route('/get_star_by_name/<star_name>', methods=['GET'])

@@ -40,7 +40,7 @@ export class FormComponent implements OnInit {
       inputdeclm: null,
       inputdecls: null,
       inputconstellation: null,
-      inputtype: ['Unknown'],
+      inputtype: ['Nieznana'],
       inputspeed: [''],
       inputdistance: [''],
       inputbrightness: [''],

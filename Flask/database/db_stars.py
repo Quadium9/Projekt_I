@@ -35,8 +35,7 @@ class DBStars(DB):
                     validation.validationNone(self.stars.declinationm) and \
                     validation.validationNone(self.stars.declinations):
                 self.util.get_session().add(self.stars)
-                if validation.validate_text(self.stars.name) and \
-                        validation.validate_text(self.stars.rectascensionh) and \
+                if validation.validate_text(self.stars.rectascensionh) and \
                         validation.validate_text(self.stars.rectascensionm) and \
                         validation.validate_text(self.stars.rectascensions) and \
                         validation.validate_text(self.stars.declinationh) and \
