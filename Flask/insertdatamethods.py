@@ -1,10 +1,7 @@
-import base64
-import io
 from database.db_constelations import DBConstellations, Constellations
-from database.db_stars import DBStars, Stars
+from database.db_stars import Stars
 import pandas as pd
 import common.cardinal_direction as cd
-from PIL import Image
 
 
 def importconstelations():
@@ -53,12 +50,3 @@ def importstar():
             res = DBConstellations(star).add_entity()
             print(res)
             i = i + 1
-
-
-def picture():
-    image = open('pict.jpeg', 'rb')
-    image_read = image.read()
-    image_base64 = base64.encodebytes(image_read)
-    print(str(image_base64))
-
-picture()

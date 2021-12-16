@@ -3,7 +3,6 @@ import sqlalchemy
 from flask import jsonify, request, Blueprint
 import common.validation as val
 import Exceptions.Exceptions
-import common.validation
 from database.db_stars import DBStars, Stars
 from flask_cors import cross_origin
 from database.db_user import DbUser

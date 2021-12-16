@@ -8,7 +8,7 @@ def validate_text(value):
     if re.match(regex, str(value)):
         return True
     else:
-        raise Exceptions.Exceptions.ExceptionNotNumber
+        return False
 
 
 def integer_number(value):

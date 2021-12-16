@@ -45,7 +45,11 @@ def get_user_by_name(name, loged):
 def update_user():
     try:
         tmp = flask.request.json
-        user = DbUser().get_one_by_name(tmp["username"])
+        user = DbUser().get(tmp["id"])
+        sUser = DbUser().get_one_by_name(tmp['username'])
+        if sUser is not None:
+            if sUser.login == tmp['username']:
+                return jsonify({'result': False, 'message': 'Użytkownik o podanej nazwie już istnieje'})
         if enc.comparepassword(str(tmp["passwordold"]), user.password):
             new_pass = enc.createhash(str(tmp["passwordnew"]))
             user = DbUser().update_entity(new_pass, 'change')

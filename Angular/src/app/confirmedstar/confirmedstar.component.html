@@ -1,5 +1,5 @@
 <div class="m-3">
-  <input type="text" id="inputName" #value placeholder="Przeszukaj listę po nazwie" style="width: 100%;"
+  <input type="text" id="inputName" #value placeholder="Przeszukaj listę według nazwy" style="width: 100%;"
     (keyup.enter)="searchStar(value.value)">
   <div style="text-align: center;" class="m-3">
     <button type="button" class="btn btn-secondary text-white bg-dark" (click)="searchStar(value.value)" style="width: 200px;">Szukaj</button>
@@ -24,7 +24,7 @@
         <td>{{row.constellation_name}}</td>
         <td>{{row.star_type}}</td>
         <td>{{row.rectascensionh}}° {{row.rectascensionm}}′ {{row.rectascensions}}″</td>
-        <td>{{row.declinationh}}h {{row.declinationm}}m {{row.declinations}}s</td>
+        <td>{{row.declinationh}}<sup>h</sup> {{row.declinationm}}<sup>m</sup> {{row.declinations}}<sup>s</sup></td>
         <td style="max-height: fit-content; text-align: center;"><button type="button"
             class="btn btn-secondary text-white bg-dark" (click)="moreInfo(row)">Szczegóły</button></td>
         <td style="max-height: fit-content;"><button type="button" class="btn btn-secondary text-white bg-dark"

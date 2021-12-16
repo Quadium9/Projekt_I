@@ -17,11 +17,11 @@ class Stars(Base):
     declinationm = Column('declinationm', Integer, nullable=False)
     declinations = Column('declinations', Float, nullable=False)
     confirmed = Column('confirmed', String(3), nullable=False)
-    radial_speed = Column('radial_speed', String(20), nullable=True)
-    distance = Column('distance', String(20), nullable=True)
-    brightness = Column('brightness', String(20), nullable=True)
+    radial_speed = Column('radial_speed', Float, nullable=True)
+    distance = Column('distance', Float, nullable=True)
+    brightness = Column('brightness', Float, nullable=True)
     star_type = Column('star_type', String(50), nullable=True)
-    mass = Column('mass', String(20), nullable=True)
+    mass = Column('mass', Float, nullable=True)
     greek_symbol = Column('greek_symbols', String(1), nullable=True)
 
     constelation_id = Column('constellation_id', Integer,
