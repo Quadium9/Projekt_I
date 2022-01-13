@@ -10,5 +10,7 @@ StarsType = {
     'whitedwarf': 'Biały Karzeł',
     'browndwarf': 'Brązowy Karzeł',
     'binarystar': 'Gwiazda Binarna',
+    'yellowdwarf': 'Żółty Karzeł',
+    'redgiant': 'Czerwony Olbrzym',
     'unknown': 'Nieznana'
 }
