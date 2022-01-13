@@ -41,7 +41,7 @@ def constellation_image(constellation_id):
             number_of_star = number_of_star + 1
     j = ({
         'id': c.id,
-        'picture': str(c.name + c.picture),
+        'picture': str(c.picture),
         'star_number': number_of_star
     })
     return jsonify(j)
