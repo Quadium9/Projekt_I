@@ -30,23 +30,44 @@ def importstar():
         i = 0
 
         while i < file.Name.size:
-            star = Stars()
-            star.name = file.Name[i]
-            star.rectascensionh = file.Rectascensionh[i]
-            star.rectascensionm = file.Rectascensionm[i]
-            star.rectascensions = file.Rectascensions[i]
-            star.declinationh = file.Declinationh[i]
-            star.declinationm = file.Declinationm[i]
-            star.declinations = file.Declinations[i]
-            star.radial_speed = file.RadialSpeed[i]
-            star.distance = file.Distance[i]
-            star.brightness = file.Brightness[i]
-            star.star_type = file.StarType[i]
-            star.mass = file.Mass[i]
-            star.greek_symbol = file.GreekSymbol[i]
-            star.confirmed = 'YES'
-            cons = DBConstellations().get_one_by_name(file.Constellation[i])
-            star.constellation = cons
-            res = DBConstellations(star).add_entity()
-            print(res)
-            i = i + 1
+            try:
+                star = Stars()
+                star.name = file.Name[i]
+                star.rectascensionh = file.Rectascensionh[i]
+                star.rectascensionm = file.Rectascensionm[i]
+                star.rectascensions = file.Rectascensions[i]
+                star.declinationh = file.Declinationh[i]
+                star.declinationm = file.Declinationm[i]
+                star.declinations = file.Declinations[i]
+                if file.RadialSpeed[i] == 'None':
+                    star.radial_speed = None
+                else:
+                    star.radial_speed = file.RadialSpeed[i]
+                if file.Distance[i] == 'None':
+                    star.distance = None
+                else:
+                    star.distance = file.Distance[i]
+                if file.Brightness[i] == 'None':
+                    star.brightness = None
+                else:
+                    star.brightness = file.Brightness[i]
+                if file.Mass[i] == 'None':
+                    star.mass = None
+                else:
+                    star.mass = file.Mass[i]
+                if file.GreekSymbol[i] == 'None':
+                    star.greek_symbol = ''
+                else:
+                    star.greek_symbol = file.GreekSymbol[i].strip()
+                star.star_type = file.StarType[i]
+                star.confirmed = 'YES'
+                cons = DBConstellations().get_one_by_name(file.Constellation[i])
+                star.constellation = cons
+                res = DBConstellations(star).add_entity()
+                print(res)
+                i = i + 1
+            except:
+                i = i + 1
+
+
+importstar()
