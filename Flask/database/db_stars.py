@@ -79,6 +79,18 @@ class DBStars(DB):
                     if validation.validationNone([ids['name'], ids['rectascensionh'], ids['rectascensionm'],
                                                   ids['rectascensions'], ids['declinationh'], ids['constellation'],
                                                   ids['declinationm'], ids['declinations']]):
+                        if ids['radial_speed'] != 'None':
+                            self.util.get_session().query(Stars).filter(Stars.id == ids['id']). \
+                                update({Stars.radial_speed: ids['radial_speed']}, synchronize_session=False)
+                        if ids['distance'] != 'None':
+                            self.util.get_session().query(Stars).filter(Stars.id == ids['id']). \
+                                update({Stars.radial_speed: ids['distance']}, synchronize_session=False)
+                        if ids['brightness'] != 'None':
+                            self.util.get_session().query(Stars).filter(Stars.id == ids['id']). \
+                                update({Stars.radial_speed: ids['brightness']}, synchronize_session=False)
+                        if ids['mass'] != 'None':
+                            self.util.get_session().query(Stars).filter(Stars.id == ids['id']). \
+                                update({Stars.radial_speed: ids['mass']}, synchronize_session=False)
                         self.util.get_session().query(Stars).filter(Stars.id == ids['id']). \
                             update({Stars.name: ids['name'],
                                     Stars.rectascensionh: ids['rectascensionh'],
@@ -89,10 +101,10 @@ class DBStars(DB):
                                     Stars.declinations: ids['declinations'],
                                     Stars.constelation_id: ids['constellation'],
                                     Stars.star_type: ids['star_type'],
-                                    Stars.radial_speed: ids['radial_speed'],
-                                    Stars.distance: ids['distance'],
-                                    Stars.brightness: ids['brightness'],
-                                    Stars.mass: ids['mass'],
+                                    # Stars.radial_speed: ids['radial_speed'],
+                                    # Stars.distance: ids['distance'],
+                                    # Stars.brightness: ids['brightness'],
+                                    # Stars.mass: ids['mass'],
                                     }, synchronize_session=False)
                         self.util.get_session().commit()
                         return True

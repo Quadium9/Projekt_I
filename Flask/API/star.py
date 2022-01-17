@@ -39,25 +39,35 @@ def edit_star():
         if trueadmin.rules != 'administrator':
             return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
         # None values
-        if tmp['rectascensionh'] is None or tmp['rectascensionm'] is None or tmp['rectascensions'] is None:
+        if float(tmp['rectascensionh']) is None or float(tmp['rectascensionm']) is None or float(tmp['rectascensions']) is None:
             return jsonify({'result': False, 'message': "Rektascencja jest wymagana"})
-        if tmp['declinationh'] is None or tmp['declinationm'] is None or tmp['declinations'] is None:
+        if float(tmp['declinationh']) is None or float(tmp['declinationm']) is None or float(tmp['declinations']) is None:
             return jsonify({'result': False, 'message': "Deklinacja jest wymagana"})
         # Limited values
-        if tmp['rectascensionh'] == 24 and tmp['rectascensionm'] != 0 and tmp['rectascensions'] != 0:
+        if float(tmp['rectascensionh']) == 24 and float(tmp['rectascensionm']) != 0 and float(tmp['rectascensions']) != 0:
             return jsonify({'result': False, 'message': "Rektascencja nie może przyjąć podanych wartości"})
-        if tmp['declinationh'] == 90 and tmp['declinationm'] != 0 and tmp['declinations'] > 60:
+        if float(tmp['declinationh']) == 90 and float(tmp['declinationm']) != 0 and float(tmp['declinations']) > 60:
             return jsonify({'result': False, 'message': "Deklinacja nie może przyjąć podanych wartości"})
-        if tmp['rectascensionh'] > 24 or tmp['rectascensionm'] > 60 or tmp['rectascensions'] > 60:
+        if float(tmp['rectascensionh']) > 24 or float(tmp['rectascensionm']) > 60 or float(tmp['rectascensions']) > 60:
             return jsonify({'result': False, 'message': "Rektascencja ma nieprawidłowe wartości"})
-        if tmp['rectascensionh'] < 0 or tmp['rectascensionm'] < 0 or tmp['rectascensions'] < 0:
+        if float(tmp['rectascensionh']) < 0 or float(tmp['rectascensionm']) < 0 or float(tmp['rectascensions']) < 0:
             return jsonify({'result': False, 'message': "Rektascencja ma nieprawidłowe wartości"})
-        if tmp['declinationh'] > 90 or tmp['declinationm'] > 60 or tmp['declinations'] > 60:
+        if float(tmp['declinationh']) > 90 or float(tmp['declinationm']) > 60 or float(tmp['declinations']) > 60:
             return jsonify({'result': False, 'message': "Deklinacja ma nieprawidłowe wartości"})
-        if tmp['declinationh'] < -90 or tmp['declinationm'] < -60 or tmp['declinations'] < -60:
+        if float(tmp['declinationh']) < -90 or float(tmp['declinationm']) < -60 or float(tmp['declinations']) < -60:
             return jsonify({'result': False, 'message': "Deklinacja ma nieprawidłowe wartości"})
         cons = DBConstellations().get_one_by_name(tmp['constellation'])
         tmp['constellation'] = cons.id
+        if tmp['star_type'] is None:
+            tmp['star_type'] = stars_type.StarsType['unknown']
+        if tmp['radial_speed'] == '':
+            tmp['radial_speed'] = None
+        if tmp['distance'] == '':
+            tmp['distance'] = None
+        if tmp['brightness'] == '':
+            tmp['brightness'] = None
+        if tmp['mass'] == '':
+            tmp['mass'] = None
         star = DBStars().update_entity(tmp, "edit")
         if star:
             return jsonify({'result': True, 'message': 'Dane gwiazdy zostały zmienione'})
@@ -75,7 +85,9 @@ def confirmed_star(id, username):
             if trueadmin.rules != 'administrator':
                 return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
             if DBStars().update_entity(id, "confirm"):
-                ids = {'id': trueadmin.id, 'star_number': int(trueadmin.star_number) + 1}
+                ss = DBStars().get(id)
+                idd = DbUser().get(ss.discaverer.id)
+                ids = {'id': idd.id, 'star_number': int(idd.star_number) + 1}
                 if DbUser().update_entity(ids, 'levelup'):
                     return jsonify({'result': True, 'message': 'Gwiazda została potwierdzona'})
             return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
@@ -92,12 +104,9 @@ def form_list_admin_NO(username, nrpage):
             trueadmin = DbUser().get_one_by_name(username)
             if trueadmin.rules != 'administrator':
                 return jsonify({'result': False, 'message': 'Nie posiadasz uprawnień'})
-            query = DBStars().get_query()
-            if int(nrpage) <= 0:
-                return jsonify({'result': False, 'message': "Numer strony nie może być ujemny"})
-            items = query.limit(25).offset((int(nrpage) - 1) * 25).all()
+            query = DBStars().get_query().filter(Stars.confirmed == "NO").all()
             j = []
-            for st in items:
+            for st in query:
                 s = DBStars().get(st.id)
                 if s is None:
                     return jsonify(j)
@@ -126,7 +135,10 @@ def form_list_admin_NO(username, nrpage):
                               'discaverer_name': disn,
                               'discaverer_lastname': disl,
                               'constellation_name': str(s.constellation.name),
+                              'picture': str(s.constellation.picture),
                               })
+                    if len(j) > 25:
+                        break
             return jsonify(j)
     except TypeError:
         return jsonify({'result': False, 'message': "Błąd pobierania"})
@@ -174,6 +186,7 @@ def form_list_admin_YES(username, nrpage):
                               'discaverer_name': disn,
                               'discaverer_lastname': disl,
                               'constellation_name': str(s.constellation.name),
+                              'picture': str(s.constellation.picture),
                               })
             return jsonify(j)
         return jsonify({'result': False, 'message': "Błąd pobierania"})
@@ -194,6 +207,7 @@ def add_new_star(username):
             tmp = flask.request.json
             star = Stars()
             cons = DBConstellations().get_one_by_name(tmp['constellation'])
+            print(tmp)
             star.name = tmp['name']
 
             # None values
@@ -250,18 +264,22 @@ def add_new_star(username):
             if tmp['star_type'] is None:
                 tmp['star_type'] = stars_type.StarsType['unknown']
             star.star_type = tmp['star_type']
-            if tmp['radial_speed'] is None:
-                tmp['radial_speed'] = stars_type.StarsType['unknown']
-            star.radial_speed = tmp['radial_speed']
-            if tmp['distance'] is None:
-                tmp['distance'] = stars_type.StarsType['unknown']
-            star.distance = tmp['distance']
-            if tmp['brightness'] is None:
-                tmp['brightness'] = stars_type.StarsType['unknown']
-            star.brightness = tmp['brightness']
-            if tmp['mass'] is None:
-                tmp['mass'] = stars_type.StarsType['unknown']
-            star.mass = tmp['mass']
+            if tmp['radial_speed'] == '':
+                star.radial_speed = None
+            else:
+                star.radial_speed = float(tmp['radial_speed'])
+            if tmp['distance'] == '':
+                star.distance = None
+            else:
+                star.distance = float(tmp['distance'])
+            if tmp['brightness'] == '':
+                star.brightness = None
+            else:
+                star.brightness = float(tmp['brightness'])
+            if tmp['mass'] == '':
+                star.mass = None
+            else:
+                star.mass = float(tmp['mass'])
             star.greek_symbol = ''
             star.confirmed = "NO"
             DBStars(star).add_entity()
@@ -303,7 +321,7 @@ def get_star_by_name(star_name):
                               'discaverer_name': "Nie przypisano",
                               'discaverer_lastname': "",
                               'constellation_name': str(s.constellation.name),
-                              'picture': str(s.constellation.name + s.constellation.picture),
+                              'picture': str(s.constellation.picture),
                               })
                 else:
                     j.append({'id': str(s.id),
@@ -324,7 +342,7 @@ def get_star_by_name(star_name):
                               'discaverer_name': s.discaverer.name,
                               'discaverer_lastname': s.discaverer.surname,
                               'constellation_name': s.constellation.name,
-                              'picture': str(s.constellation.name + s.constellation.picture),
+                              'picture': str(s.constellation.picture),
                               })
             if len(j) >= 25:
                 break

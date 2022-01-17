@@ -44,6 +44,7 @@ export class EditFormComponent implements OnInit {
   }
 
   createfrom() {
+    console.log(this.api.STAR)
     this.formValue = this.formBuilder.group({
       inputname: this.api.STAR.name,
       inputrecth: this.api.STAR.rectascensionh,
@@ -59,8 +60,8 @@ export class EditFormComponent implements OnInit {
       inputbrightness: this.api.STAR.brightness,
       inputmass: this.api.STAR.mass
     })
-    this.firstname = this.tokenStorage.getUser()[0].firstname;
-    this.lastname = this.tokenStorage.getUser()[0].lastname;
+    this.firstname = this.api.STAR.discaverer_name
+    this.lastname = this.api.STAR.discaverer_lastname
   }
 
   postStarDetails() {
@@ -99,25 +100,25 @@ export class EditFormComponent implements OnInit {
     if (this.formValue.value.inputconstellation == null || this.formValue.value.inputconstellation == "Podaj nazwę gwiazdozbioru") {
       this.cosntellationNull = false;
     }
-    if (this.formValue.value.inputrecth == 24 && this.formValue.value.inputrectm > 0 || this.formValue.value.inputrects > 0) {
+    if (this.formValue.value.inputrecth == 24 && (this.formValue.value.inputrectm > 0 || this.formValue.value.inputrects > 0)){
       this.recError = false;
     }
-    if (this.formValue.value.inputrecth > 24 || this.formValue.value.inputrectm > 60 || this.formValue.value.inputrects > 60) {
+    if (this.formValue.value.inputrecth > 24 || this.formValue.value.inputrectm > 60 || this.formValue.value.inputrects > 60){
       this.recError = false;
     }
-    if (this.formValue.value.inputrecth < 0 || this.formValue.value.inputrectm < 0 || this.formValue.value.inputrects < 0) {
+    if (this.formValue.value.inputrecth < 0 || this.formValue.value.inputrectm < 0 || this.formValue.value.inputrects < 0){
       this.recError = false;
     }
     if (this.formValue.value.inputdeclh > 90 || this.formValue.value.inputdeclm > 60 || this.formValue.value.inputdecls > 60) {
       this.decError = false;
-    }
+    } 
     if (this.formValue.value.inputdeclh < (-90) || this.formValue.value.inputdeclm < (-60) || this.formValue.value.inputdecls < (-60)) {
       this.decError = false;
     }
-    if (this.formValue.value.inputdeclh == (-90) && this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0) {
+    if (this.formValue.value.inputdeclh == (-90) && (this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0)) {
       this.decError = false;
     }
-    if (this.formValue.value.inputdeclh == 90 && this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0) {
+    if (this.formValue.value.inputdeclh == 90 && (this.formValue.value.inputdeclm > 0 || this.formValue.value.inputdecls > 0)) {
       this.decError = false;
     }
     if (this.cosntellationNull && this.nameNull && this.decNull && this.recNull) {

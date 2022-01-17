@@ -35,8 +35,4 @@
 <div *ngIf="message != null" style="font-size: 24px; height: 20%; text-align: center;">
   {{message}}
 </div>
-<div *ngIf="starData != null" class="text-center">
-  <button class="btn btn-secondary text-white bg-dark" (click)="nextpage()"
-    *ngIf="!endData && starData != null">Następna</button>
-  <button class="btn btn-secondary text-white bg-dark" (click)="previouspage()">Poprzednia</button>
-</div>
+

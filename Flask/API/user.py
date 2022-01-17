@@ -75,7 +75,7 @@ def user_to_admin(username):
             tmp['rules'] = 'administrator'
             user = DbUser().update_entity(tmp, 'rules')
             if user:
-                return jsonify({'result': True, 'message': "Użytkownik " + tmp['username'] + " został administratorem"})
+                return jsonify({'result': True, 'message': "Użytkownik " + tmp['firstname'] + ' ' + tmp['lastname'] + " został administratorem"})
         return jsonify({'result': False, 'message': 'Błąd zmiany uprawnień'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Niepoprawne dane'})
@@ -94,7 +94,7 @@ def admin_to_user(username):
             user = DbUser().update_entity(tmp, 'rules')
             if user:
                 return jsonify(
-                    {'result': True, 'message': "Administrator " + tmp['username'] + " został użytkownikiem"})
+                    {'result': True, 'message': "Administrator " + tmp['firstname'] + ' ' + tmp['lastname'] + " został użytkownikiem"})
         return jsonify({'result': False, 'message': 'Błąd zmiany uprawnień'})
     except AttributeError:
         return jsonify({'result': False, 'message': 'Niepoprawne dane'})
