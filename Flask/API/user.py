@@ -52,7 +52,8 @@ def update_user():
                 return jsonify({'result': False, 'message': 'Użytkownik o podanej nazwie już istnieje'})
         if enc.comparepassword(str(tmp["passwordold"]), user.password):
             new_pass = enc.createhash(str(tmp["passwordnew"]))
-            user = DbUser().update_entity(new_pass, 'change')
+            tmp['passwordnew'] = new_pass
+            user = DbUser().update_entity(tmp, 'change')
             if user:
                 return jsonify({'result': True, 'message': 'Dane logowania zostały zmienione'})
             else:

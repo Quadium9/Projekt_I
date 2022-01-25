@@ -59,14 +59,12 @@ class DbUser(DB):
                 self.util.get_session().commit()
                 return True
             if option == 'change':
-                if cv.validationNone(str(ids['username'])) and cv.validationNone(str(ids['passwordnew'])) \
-                        and len(str(ids['passwordnew'])) >= 8:
-                    self.util.get_session().query(User).filter(User.id == ids['id']).update({
-                        User.login: ids['username'],
-                        User.password: ids['passwordnew']
-                    }, synchronize_session=False)
-                    self.util.get_session().commit()
-                    return True
+                self.util.get_session().query(User).filter(User.id == ids['id']).update({
+                    User.login: ids['username'],
+                    User.password: str(ids['passwordnew'])
+                }, synchronize_session=False)
+                self.util.get_session().commit()
+                return True
             if option == 'levelup':
                 self.util.get_session().query(User).filter(User.id == ids['id']).update({
                     User.star_number: int(ids['star_number'])
